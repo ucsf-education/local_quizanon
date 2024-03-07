@@ -295,7 +295,53 @@ class quizanon_grading_report extends quiz_grading_report {
     public function print_header_and_tabs($cm, $course, $quiz, $reportmode = 'overview') {
         global $PAGE;
         $this->renderer = $PAGE->get_renderer('quiz_grading');
-        parent::print_header_and_tabs($cm, $course, $quiz, $reportmode);
+        $this->printanon_header_and_tabs($cm, $course, $quiz, $reportmode);
     }
 
+     /**
+     * Initialise some parts of $PAGE and start output.
+     *
+     * @param stdClass $cm the course_module information.
+     * @param stdClass $course the course settings.
+     * @param stdClass $quiz the quiz settings.
+     * @param string $reportmode the report name.
+     */
+    public function printanon_header_and_tabs($cm, $course, $quiz, $reportmode = 'overview') {
+        global $PAGE, $OUTPUT, $CFG;
+        
+        // Print the page header.
+        $PAGE->set_title($quiz->name);
+        $PAGE->set_heading($course->fullname);
+        echo $OUTPUT->header();
+        $context = context_module::instance($cm->id);
+        if (!$PAGE->has_secondary_navigation()) {
+            echo $OUTPUT->heading(format_string($quiz->name, true, ['context' => $context]));
+        }
+        $context = $PAGE->context;
+        $cmid = $PAGE->cm->id;
+        if (has_any_capability(['mod/quiz:viewreports', 'mod/quiz:grade'], $context)) {
+            require_once($CFG->dirroot . '/mod/quiz/report/reportlib.php');
+            $reportlist = quiz_report_list($context);
+            $sesskey = sesskey();
+            $baseurl = new \moodle_url('/course/jumpto.php');
+            $baseurl->params(['sesskey' => $sesskey]);
+            $options = [];
+            foreach ($reportlist as $report) {
+                $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $report . '/report.php');
+                if ($anonreportexists) {
+                    $url = new \moodle_url('/local/quizanon/report.php', ['id' => $cmid, 'mode' => $report]);
+                } else {
+                    $url = new \moodle_url('/mod/quiz/report.php', ['id' => $cmid, 'mode' => $report]);
+                }
+                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_'.$report);
+            }
+            $select = new single_select($baseurl, 'jump', $options, $reportmode, null, 'quiz-report-select');
+            $select->method = 'post';
+            echo $OUTPUT->render($select);
+        }
+        if (!empty($CFG->enableplagiarism)) {
+            require_once($CFG->libdir . '/plagiarismlib.php');
+            echo plagiarism_update_status($course, $cm);
+        }
+    }
 }
