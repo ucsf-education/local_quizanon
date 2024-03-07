@@ -16,6 +16,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_table.php');
+require_once($CFG->dirroot . '/local/quizanon/lib.php');
+
 use mod_quiz\quiz_attempt;
 
 /**
@@ -121,5 +123,15 @@ class quizanon_overview_table extends quiz_overview_table {
                 'userid' => $attempt->userid]);
         }
         return $output;
+    }
+
+    /**
+     * Generate unique code for the user and the quiz.
+     *
+     * @param stdClass $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
+    public function col_usercode($attempt) {
+        return local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
     }
 }

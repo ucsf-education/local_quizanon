@@ -26,6 +26,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
+require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
@@ -77,6 +78,11 @@ if ($attemptobj->is_own_attempt()) {
 
 // Prepare summary informat about this question attempt.
 $summarydata = [];
+
+$summarydata['user'] = [
+    'title'   => get_string('usercode', 'local_quizanon'),
+    'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+];
 
 // Quiz name.
 $summarydata['quizname'] = [

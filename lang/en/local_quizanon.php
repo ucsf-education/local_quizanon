@@ -25,3 +25,4 @@
 
 $string['pluginname'] = 'Quiz Anonymizer';
 $string['privacy:metadata'] = 'Quiz Anonymizer plugin does not store any personal data.';
+$string['usercode'] = 'User code';

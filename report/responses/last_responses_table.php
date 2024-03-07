@@ -17,6 +17,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_quiz\quiz_attempt;
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
+require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
 /**
  * This is a table subclass for displaying the quiz responses report.
@@ -104,5 +105,15 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
                 'userid' => $attempt->userid]);
         }
         return $output;
+    }
+
+    /**
+     * Generate the display of the user's picture column.
+     *
+     * @param stdClass $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
+    public function col_usercode($attempt) {
+        return local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
     }
 }

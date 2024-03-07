@@ -42,3 +42,12 @@ function local_quizanon_extend_navigation_course(navigation_node $navigation) {
         redirect($moodleurl);
     }
 }
+
+function local_anonquiz_generate_usercode($userid, $quizid) {
+    $hash = sha1($userid . $quizid);
+    $extractletters = preg_replace('/[^a-zA-Z]/', '', $hash);
+    $extractnumbers = preg_replace('/[^0-9]/', '', $hash);
+    $usercode = substr($extractletters, 0, 3) . substr($extractnumbers, 0, 3);
+    $codeupper = strtoupper($usercode);
+    return $codeupper;
+}

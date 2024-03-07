@@ -30,6 +30,7 @@ use mod_quiz\output\renderer;
 use mod_quiz\quiz_attempt;
 
 require_once(__DIR__ . '/../../config.php');
+require_once($CFG->dirroot . '/local/quizanon/lib.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/mod/quiz/report/reportlib.php');
 
@@ -66,6 +67,14 @@ $accessmanager = $attemptobj->get_access_manager(time());
 $accessmanager->setup_attempt_page($PAGE);
 
 $options = $attemptobj->get_display_options(true);
+$oldquestionlink = $options->questionreviewlink;
+$questionparams = $oldquestionlink->params();
+$newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+$oldcommentlink = $options->manualcommentlink;
+$commentparams = $oldcommentlink->params();
+$newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
+$options->questionreviewlink = $newquestionlink;
+$options->manualcommentlink = $newcommentlink;
 
 // Check permissions - warning there is similar code in reviewquestion.php and
 // quiz_attempt::check_file_access. If you change on, change them all.
@@ -141,7 +150,10 @@ if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $U
     $student = $DB->get_record('user', ['id' => $attemptobj->get_userid()]);
     $userpicture = new user_picture($student);
     $userpicture->courseid = $attemptobj->get_courseid();
-
+    $summarydata['user'] = [
+        'title'   => 'User code',
+        'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $quiz->id)
+    ];
 }
 
 if ($attemptobj->has_capability('mod/quiz:viewreports')) {

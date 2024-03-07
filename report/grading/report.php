@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/quizanon/report/grading/gradingsettings_form.php');
 require_once($CFG->dirroot . '/mod/quiz/report/grading/report.php');
+require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
 /**
  * Quiz report to help teachers manually grade questions that need it.
@@ -335,13 +336,45 @@ class quizanon_grading_report extends quiz_grading_report {
                 }
                 $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_'.$report);
             }
-            $select = new single_select($baseurl, 'jump', $options, $reportmode, null, 'quiz-report-select');
+            $selected = new \moodle_url('/local/quizanon/report.php', ['id' => $cmid, 'mode' => $reportmode]);
+            $select = new single_select($baseurl, 'jump', $options, $selected->out_as_local_url(false), null, 'quiz-report-select');
             $select->method = 'post';
+            $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
         if (!empty($CFG->enableplagiarism)) {
             require_once($CFG->libdir . '/plagiarismlib.php');
             echo plagiarism_update_status($course, $cm);
         }
+    }
+
+     /**
+     * Get question heading.
+     *
+     * @param stdClass $attempt An instance of quiz_attempt.
+     * @param bool $shownames True to show the student first/lastnames.
+     * @param bool $showcustomfields Whether custom field values should be shown.
+     * @return string The string text for the question heading.
+     */
+    protected function get_question_heading(stdClass $attempt, bool $shownames, bool $showcustomfields): string {
+        global $DB;
+        $a = new stdClass();
+        $a->attempt = $attempt->attempt;
+        $a->fullname = local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
+
+        $customfields = [];
+        foreach ($this->extrauserfields as $field) {
+            if (strval($attempt->{$field}) !== '') {
+                $customfields[] = s($attempt->{$field});
+            }
+        }
+
+        $a->customfields = implode(', ', $customfields);
+
+        if ($showcustomfields) {
+            return get_string('gradingattemptwithcustomfields', 'quiz_grading', $a);
+        } else {
+            return get_string('gradingattempt', 'quiz_grading', $a);
+        } 
     }
 }

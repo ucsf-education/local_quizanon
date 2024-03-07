@@ -144,7 +144,8 @@ class quizanon_responses_report extends quiz_responses_report {
                 $headers[] = $table->checkbox_col_header($columnname);
             }
 
-            // $this->add_user_columns($table, $columns, $headers);
+            $columns[] = 'usercode';
+            $headers[] = get_string('usercode', 'local_quizanon');
             $this->add_state_column($columns, $headers);
 
             if ($table->is_downloading()) {
@@ -238,6 +239,7 @@ class quizanon_responses_report extends quiz_responses_report {
             $selected = new \moodle_url('/local/quizanon/report.php', ['id' => $cmid, 'mode' => $reportmode]);
             $select = new single_select($baseurl, 'jump', $options, $selected->out_as_local_url(false), null, 'quiz-report-select');
             $select->method = 'post';
+            $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
         if (!empty($CFG->enableplagiarism)) {

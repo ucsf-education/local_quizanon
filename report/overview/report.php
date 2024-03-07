@@ -170,7 +170,8 @@ class quizanon_overview_report extends quiz_overview_report {
                 $headers[] = $table->checkbox_col_header($columnname);
             }
 
-            // $this->add_user_columns($table, $columns, $headers); Here I can Add the header and column for the user.
+            $columns[] = 'usercode';
+            $headers[] = get_string('usercode', 'local_quizanon');
             $this->add_state_column($columns, $headers);
             $this->add_time_columns($columns, $headers);
 
@@ -284,6 +285,7 @@ class quizanon_overview_report extends quiz_overview_report {
             }
             $select = new single_select($baseurl, 'jump', $options, $reportmode, null, 'quiz-report-select');
             $select->method = 'post';
+            $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
         if (!empty($CFG->enableplagiarism)) {
