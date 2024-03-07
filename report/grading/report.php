@@ -308,7 +308,7 @@ class quizanon_grading_report extends quiz_grading_report {
      */
     public function printanon_header_and_tabs($cm, $course, $quiz, $reportmode = 'overview') {
         global $PAGE, $OUTPUT, $CFG;
-        
+
         // Print the page header.
         $PAGE->set_title($quiz->name);
         $PAGE->set_heading($course->fullname);
