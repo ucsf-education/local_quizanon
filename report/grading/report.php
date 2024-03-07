@@ -298,7 +298,7 @@ class quizanon_grading_report extends quiz_grading_report {
         $this->printanon_header_and_tabs($cm, $course, $quiz, $reportmode);
     }
 
-     /**
+    /**
      * Initialise some parts of $PAGE and start output.
      *
      * @param stdClass $cm the course_module information.

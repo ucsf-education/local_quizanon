@@ -58,15 +58,11 @@ class quizanon_overview_table extends quiz_overview_table {
             $oldsumgrade = 0;
             foreach ($this->questions as $question) {
                 if (isset($this->regradedqs[$attempt->usageid][$question->slot])) {
-                    $newsumgrade += $this->regradedqs[$attempt->usageid]
-                        [$question->slot]->newfraction * $question->maxmark;
-                    $oldsumgrade += $this->regradedqs[$attempt->usageid]
-                        [$question->slot]->oldfraction * $question->maxmark;
+                    $newsumgrade += $this->regradedqs[$attempt->usageid][$question->slot]->newfraction * $question->maxmark;
+                    $oldsumgrade += $this->regradedqs[$attempt->usageid][$question->slot]->oldfraction * $question->maxmark;
                 } else {
-                    $newsumgrade += $this->lateststeps[$attempt->usageid]
-                        [$question->slot]->fraction * $question->maxmark;
-                    $oldsumgrade += $this->lateststeps[$attempt->usageid]
-                        [$question->slot]->fraction * $question->maxmark;
+                    $newsumgrade += $this->lateststeps[$attempt->usageid][$question->slot]->fraction * $question->maxmark;
+                    $oldsumgrade += $this->lateststeps[$attempt->usageid][$question->slot]->fraction * $question->maxmark;
                 }
             }
             $newsumgrade = quiz_rescale_grade($newsumgrade, $this->quiz);

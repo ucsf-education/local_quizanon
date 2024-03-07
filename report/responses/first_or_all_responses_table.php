@@ -22,11 +22,10 @@
  * @author    Jamie Pratt <me@jamiep.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/quizanon/report/responses/last_responses_table.php');
 use mod_quiz\quiz_attempt;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * This is a table subclass for displaying the quiz responses report, showing first or all tries.
