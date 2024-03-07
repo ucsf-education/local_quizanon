@@ -23,5 +23,4 @@ require_once($CFG->dirroot . '/mod/quiz/report/responses/responses_form.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_settings_form extends quiz_responses_settings_form {
-
 }

@@ -141,7 +141,7 @@ if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $U
     $student = $DB->get_record('user', ['id' => $attemptobj->get_userid()]);
     $userpicture = new user_picture($student);
     $userpicture->courseid = $attemptobj->get_courseid();
-   
+
 }
 
 if ($attemptobj->has_capability('mod/quiz:viewreports')) {
@@ -190,7 +190,7 @@ if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades
 
     if ($attempt->state != quiz_attempt::FINISHED) {
         // Cannot display grade.
-
+        $empty = true;
     } else if (is_null($grade)) {
         $summarydata['grade'] = [
             'title'   => get_string('grade', 'quiz'),

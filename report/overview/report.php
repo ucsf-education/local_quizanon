@@ -21,13 +21,14 @@
  * @copyright 1999 onwards Martin Dougiamas and others {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
  require_once($CFG->dirroot . '/mod/quiz/report/overview/report.php');
  require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_form.php');
  require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_table.php');
  require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_options.php');
 
- /**
+/**
  * Quiz report subclass for the overview (grades) report.
  *
  * @copyright 1999 onwards Martin Dougiamas and others {@link http://moodle.com}
@@ -116,7 +117,7 @@ class quizanon_overview_report extends quiz_overview_report {
                     $regradesneeded = $this->count_question_attempts_needing_regrade(
                             $quiz, $groupstudentsjoins);
                     if ($currentgroup) {
-                        $a= new \stdClass();
+                        $a = new \stdClass();
                         $a->groupname = format_string(groups_get_group_name($currentgroup), true, [
                             'context' => $this->context,
                         ]);
@@ -169,7 +170,7 @@ class quizanon_overview_report extends quiz_overview_report {
                 $headers[] = $table->checkbox_col_header($columnname);
             }
 
-            //$this->add_user_columns($table, $columns, $headers); Here I can Add the header and column for the user.
+            // $this->add_user_columns($table, $columns, $headers); Here I can Add the header and column for the user.
             $this->add_state_column($columns, $headers);
             $this->add_time_columns($columns, $headers);
 
@@ -244,7 +245,7 @@ class quizanon_overview_report extends quiz_overview_report {
                 ['id' => $this->context->instanceid, 'mode' => $this->mode]);
     }
 
-     /**
+    /**
      * Initialise some parts of $PAGE and start output.
      *
      * @param stdClass $cm the course_module information.
@@ -254,7 +255,7 @@ class quizanon_overview_report extends quiz_overview_report {
      */
     public function print_header_and_tabs($cm, $course, $quiz, $reportmode = 'overview') {
         global $PAGE, $OUTPUT, $CFG;
-        
+
         // Print the page header.
         $PAGE->set_title($quiz->name);
         $PAGE->set_heading($course->fullname);

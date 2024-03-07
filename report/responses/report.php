@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_quiz\local\reports\attempts_report;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/responses/report.php');
@@ -146,7 +144,7 @@ class quizanon_responses_report extends quiz_responses_report {
                 $headers[] = $table->checkbox_col_header($columnname);
             }
 
-            //$this->add_user_columns($table, $columns, $headers);
+            // $this->add_user_columns($table, $columns, $headers);
             $this->add_state_column($columns, $headers);
 
             if ($table->is_downloading()) {
@@ -191,7 +189,7 @@ class quizanon_responses_report extends quiz_responses_report {
         return true;
     }
 
-     /**
+    /**
      * Get the base URL for this report.
      * @return moodle_url the URL.
      */
@@ -200,7 +198,7 @@ class quizanon_responses_report extends quiz_responses_report {
                 ['id' => $this->context->instanceid, 'mode' => $this->mode]);
     }
 
-     /**
+    /**
      * Initialise some parts of $PAGE and start output.
      *
      * @param stdClass $cm the course_module information.
@@ -210,7 +208,7 @@ class quizanon_responses_report extends quiz_responses_report {
      */
     public function print_header_and_tabs($cm, $course, $quiz, $reportmode = 'responses') {
         global $PAGE, $OUTPUT, $CFG;
-        
+
         // Print the page header.
         $PAGE->set_title($quiz->name);
         $PAGE->set_heading($course->fullname);

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
 
 use mod_quiz\quiz_attempt;
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
@@ -40,7 +41,7 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
         return $gradehtml;
     }
 
-     /**
+    /**
      * Generate the display of the user's full name column.
      *
      * @param stdClass $attempt the table row being output.
@@ -57,7 +58,7 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
                 get_string('reviewattempt', 'quiz'), ['class' => 'reviewlink']);
     }
 
-     /**
+    /**
      * Make a link to review an individual question in a popup window.
      *
      * @param string $data HTML fragment. The text to make into the link.

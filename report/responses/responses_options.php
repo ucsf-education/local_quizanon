@@ -23,7 +23,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/responses/responses_options.php')
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_options extends quiz_responses_options {
-     /**
+    /**
      * Get the URL to show the report with these options.
      * @return moodle_url the URL.
      */

@@ -275,7 +275,7 @@ class quizanon_grading_report extends quiz_grading_report {
         );
     }
 
-   /**
+    /**
      * Get the base URL for this report.
      * @return moodle_url the URL.
      */

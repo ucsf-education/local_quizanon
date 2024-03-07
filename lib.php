@@ -32,7 +32,7 @@ function local_quizanon_extend_navigation_course(navigation_node $navigation) {
 
     $mode = !empty($urlparams['mode']) ? $urlparams['mode'] : '';
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');
-    
+
     if ($pagename == 'mod-quiz-report' && $anonreportexists) {
         $moodleurl = new moodle_url('/local/quizanon/report.php', $urlparams);
         redirect($moodleurl);
@@ -42,4 +42,3 @@ function local_quizanon_extend_navigation_course(navigation_node $navigation) {
         redirect($moodleurl);
     }
 }
-

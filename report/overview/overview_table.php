@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_table.php');
 use mod_quiz\quiz_attempt;
@@ -58,14 +59,14 @@ class quizanon_overview_table extends quiz_overview_table {
             foreach ($this->questions as $question) {
                 if (isset($this->regradedqs[$attempt->usageid][$question->slot])) {
                     $newsumgrade += $this->regradedqs[$attempt->usageid]
-                            [$question->slot]->newfraction * $question->maxmark;
+                        [$question->slot]->newfraction * $question->maxmark;
                     $oldsumgrade += $this->regradedqs[$attempt->usageid]
-                            [$question->slot]->oldfraction * $question->maxmark;
+                        [$question->slot]->oldfraction * $question->maxmark;
                 } else {
                     $newsumgrade += $this->lateststeps[$attempt->usageid]
-                            [$question->slot]->fraction * $question->maxmark;
+                        [$question->slot]->fraction * $question->maxmark;
                     $oldsumgrade += $this->lateststeps[$attempt->usageid]
-                            [$question->slot]->fraction * $question->maxmark;
+                        [$question->slot]->fraction * $question->maxmark;
                 }
             }
             $newsumgrade = quiz_rescale_grade($newsumgrade, $this->quiz);
