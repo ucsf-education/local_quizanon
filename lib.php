@@ -22,7 +22,6 @@
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -34,6 +33,18 @@ function local_quizanon_extend_navigation_course(navigation_node $navigation) {
     global $CFG, $PAGE, $COURSE, $DB;
     $pagename = $PAGE->pagetype;
     $urlparams = $PAGE->url->params();
+    $quizanonenabled = get_config('local_quizanon', 'enablequizanon');
+    if (!$quizanonenabled) {
+        if ($pagename == 'local-quizanon-report') {
+            $moodleurl = new moodle_url('/mod/quiz/report.php', $urlparams);
+            redirect($moodleurl);
+        }
+        if ($pagename == 'local-quizanon-review') {
+            $moodleurl = new moodle_url('/mod/quiz/review.php', $urlparams);
+            redirect($moodleurl);
+        }
+        return;
+    }
 
     $mode = !empty($urlparams['mode']) ? $urlparams['mode'] : '';
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');

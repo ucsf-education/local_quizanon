@@ -22,9 +22,13 @@
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
     $pluginname = get_string('pluginname', 'local_quizanon');
+
+    $settings = new admin_settingpage('local_quizanon', $pluginname);
+    $settings->add(new admin_setting_configcheckbox('local_quizanon/enablequizanon',
+        get_string('enablequizanon', 'local_quizanon'), get_string('enablequizanon_desc', 'local_quizanon'), 0));
+    $ADMIN->add('localplugins', $settings);
 }
