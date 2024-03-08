@@ -36,7 +36,7 @@ class quizanon_grading_report extends quiz_grading_report {
 
     /**
      * Display the report.
-     * 
+     *
      * @param stdClass $quiz the quiz object.
      * @param stdClass $cm the course_module object.
      * @param stdClass $course the course object.
@@ -384,6 +384,6 @@ class quizanon_grading_report extends quiz_grading_report {
             return get_string('gradingattemptwithcustomfields', 'quiz_grading', $a);
         } else {
             return get_string('gradingattempt', 'quiz_grading', $a);
-        } 
+        }
     }
 }

@@ -46,7 +46,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
 
     /**
      * Load the extra data for the table.
-     * 
+     *
      * @param stdClass $tablerow Row data.
      * @param string $slot Slot number.
      * @param string $field Field name.
@@ -240,7 +240,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
 
     /**
      * Render the checkbox column.
-     * 
+     *
      * @param stdClass $tablerow the table row being output.
      * @return string HTML content to go inside the td.
      */
@@ -287,7 +287,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
 
     /**
      * Render the state column.
-     * 
+     *
      * @param stdClass $tablerow the table row being output.
      * @return string HTML content to go inside the td.
      */
@@ -306,7 +306,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
 
     /**
      * Get the class for the row.
-     * 
+     *
      * @param stdClass $tablerow the table row being output.
      * @return string The class for the row.
      */
@@ -320,7 +320,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
 
     /**
      * Make a link to review an individual question in a popup window.
-     * 
+     *
      * @param string $data HTML fragment. The text to make into the link.
      * @param stdClass $tablerow data for the row of the table being output.
      * @param int $slot the number used to identify this question within this usage.
