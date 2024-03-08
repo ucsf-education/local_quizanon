@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page allows the teacher to enter a manual grade for a particular question.
- * This page is expected to only be used in a popup window.
+ * Soft fork of mod/quiz/comment.php to anonymize the user's name.
  *
  * @package    local_quizanon
  * @copyright  2024 Moodle US

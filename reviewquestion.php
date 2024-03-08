@@ -15,15 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page prints a review of a particular question attempt.
- * This page is expected to only be used in a popup window.
+ * Soft fork of mod/quizanon/reviewquestion.php to anonymize the user's name.
  *
- * @package   mod_quiz
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');

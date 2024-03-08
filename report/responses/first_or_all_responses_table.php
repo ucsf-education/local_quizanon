@@ -310,7 +310,6 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
      * @param stdClass $tablerow the table row being output.
      * @return string The class for the row.
      */
-
     public function get_row_class($tablerow) {
         if ($this->options->whichtries == question_attempt::ALL_TRIES && $tablerow->lasttryforallparts) {
             return 'lastrowforattempt';
