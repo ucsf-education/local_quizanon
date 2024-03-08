@@ -31,7 +31,7 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
 
     /**
      * Render the grade column.
-     * 
+     *
      * @param stdClass $attempt the table row being output.
      * @return string HTML content to go inside the td.
      */
