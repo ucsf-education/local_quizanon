@@ -17,7 +17,7 @@
 /**
  * local_anonquiz redirect to quiz report with anonymous user.
  *
- * @package    local_anonquiz
+ * @package    local_quizanon
  * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,6 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Extend navigation with the local plugin's items.
+ *
+ * @param navigation_node $navigation The navigation node to extend.
+ */
 function local_quizanon_extend_navigation_course(navigation_node $navigation) {
     global $CFG, $PAGE, $COURSE, $DB;
     $pagename = $PAGE->pagetype;
@@ -43,6 +48,13 @@ function local_quizanon_extend_navigation_course(navigation_node $navigation) {
     }
 }
 
+/**
+ * Generate a usercode to anonymize the user.
+ *
+ * @param int $userid
+ * @param int $quizid
+ * @return string
+ */
 function local_anonquiz_generate_usercode($userid, $quizid) {
     $hash = sha1($userid . $quizid);
     $extractletters = preg_replace('/[^a-zA-Z]/', '', $hash);

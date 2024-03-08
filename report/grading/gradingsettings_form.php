@@ -15,27 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the setting form for the quiz grading report.
+ * This file defines the setting form for the quiz anon grading report.
  *
- * @package   quiz_grading
- * @copyright 2010 Tim Hunt
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * Quiz grading report settings form.
+ * Quiz anon grading report settings form.
  *
- * @copyright 2010 Tim Hunt
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_grading_settings_form extends moodleform {
 
     /**
-     * quiz_grading_settings_form constructor.
+     * This is quizanon_grading_settings_form constructor.
      *
      * @param array $hidden Array of options form.
      * @param stdClass $counts object that stores the number of each type of attempt.
@@ -54,6 +56,9 @@ class quizanon_grading_settings_form extends moodleform {
         parent::__construct($CFG->wwwroot . '/local/quizanon/report.php');
     }
 
+    /**
+     * This function defines the form.
+     */
     protected function definition() {
         $mform = $this->_form;
 

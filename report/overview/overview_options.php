@@ -17,10 +17,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_options.php');
 
 /**
- * Quiz overview report settings form.
+ * Quiz anon overview report settings form.
  *
- * @copyright 2008 Jamie Pratt
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_overview_options extends quiz_overview_options {
     /**

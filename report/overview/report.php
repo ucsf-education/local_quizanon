@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the quiz overview report class.
+ * This file defines the quizanon overview report class.
  *
- * @package   quiz_overview
- * @copyright 1999 onwards Martin Dougiamas and others {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +32,21 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Quiz report subclass for the overview (grades) report.
  *
- * @copyright 1999 onwards Martin Dougiamas and others {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_overview_report extends quiz_overview_report {
 
+    /**
+     * Display the report.
+     *
+     * @param stdClass $quiz the quiz settings.
+     * @param stdClass $cm the course_module information.
+     * @param stdClass $course the course settings.
+     * @return bool success or failure.
+     */
     public function display($quiz, $cm, $course) {
         global $DB, $PAGE;
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(

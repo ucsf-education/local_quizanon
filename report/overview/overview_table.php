@@ -23,8 +23,10 @@ use mod_quiz\quiz_attempt;
 /**
  * This is a table subclass for displaying the quiz grades report.
  *
- * @copyright 2008 Jamie Pratt
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_overview_table extends quiz_overview_table {
 
@@ -45,6 +47,12 @@ class quizanon_overview_table extends quiz_overview_table {
                 get_string('reviewattempt', 'quiz'), ['class' => 'reviewlink']);
     }
 
+    /**
+     * Generate the display of the grade column.
+     *
+     * @param stdClass $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
     public function col_sumgrades($attempt) {
         if ($attempt->state != quiz_attempt::FINISHED) {
             return '-';

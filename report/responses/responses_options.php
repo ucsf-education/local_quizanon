@@ -17,10 +17,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/quiz/report/responses/responses_options.php');
 
 /**
- * Class to store the options for a {@link quiz_responses_report}.
+ * Class to store the options for a  quizanon_responses_report.
  *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_options extends quiz_responses_options {
     /**

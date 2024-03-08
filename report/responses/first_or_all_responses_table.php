@@ -17,10 +17,10 @@
 /**
  * This file defines the quiz responses table for showing first or all tries at a question.
  *
- * @package   quiz_responses
- * @copyright 2014 The Open University
- * @author    Jamie Pratt <me@jamiep.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,10 +30,10 @@ use mod_quiz\quiz_attempt;
 /**
  * This is a table subclass for displaying the quiz responses report, showing first or all tries.
  *
- * @package   quiz_responses
- * @copyright 2014 The Open University
- * @author    Jamie Pratt <me@jamiep.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_first_or_all_responses_table extends quizanon_last_responses_table {
 
@@ -44,6 +44,14 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
      */
     protected $questionusagesbyactivity;
 
+    /**
+     * Load the extra data for the table.
+     * 
+     * @param stdClass $tablerow Row data.
+     * @param string $slot Slot number.
+     * @param string $field Field name.
+     * @return mixed The value for the field.
+     */
     protected function field_from_extra_data($tablerow, $slot, $field) {
         $questionattempt = $this->get_question_attempt($tablerow->usageid, $slot);
         switch($field) {
@@ -58,7 +66,11 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         }
     }
 
-
+    /**
+     * Load the extra data for the table.
+     *
+     * @return void
+     */
     protected function load_extra_data() {
         if (count($this->rawdata) === 0) {
             return;
@@ -226,6 +238,12 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         return $qa->get_steps_with_submitted_response_iterator()->step_no_for_try($tryno);
     }
 
+    /**
+     * Render the checkbox column.
+     * 
+     * @param stdClass $tablerow the table row being output.
+     * @return string HTML content to go inside the td.
+     */
     public function col_checkbox($tablerow) {
         if ($tablerow->try != 1) {
             return '';
@@ -267,6 +285,12 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         }
     }
 
+    /**
+     * Render the state column.
+     * 
+     * @param stdClass $tablerow the table row being output.
+     * @return string HTML content to go inside the td.
+     */
     public function col_state($tablerow) {
         if ($tablerow->try == 0) {
             // We are showing a user without a quiz attempt.
@@ -280,6 +304,13 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         }
     }
 
+    /**
+     * Get the class for the row.
+     * 
+     * @param stdClass $tablerow the table row being output.
+     * @return string The class for the row.
+     */
+
     public function get_row_class($tablerow) {
         if ($this->options->whichtries == question_attempt::ALL_TRIES && $tablerow->lasttryforallparts) {
             return 'lastrowforattempt';
@@ -288,6 +319,14 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         }
     }
 
+    /**
+     * Make a link to review an individual question in a popup window.
+     * 
+     * @param string $data HTML fragment. The text to make into the link.
+     * @param stdClass $tablerow data for the row of the table being output.
+     * @param int $slot the number used to identify this question within this usage.
+     * @return string HTML content to go inside the td.
+     */
     public function make_review_link($data, $tablerow, $slot) {
         if ($this->slot_state($tablerow, $slot) === null) {
             return $data;
@@ -296,5 +335,3 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
         }
     }
 }
-
-

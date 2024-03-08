@@ -27,11 +27,20 @@ require_once($CFG->dirroot . '/local/quizanon/lib.php');
  * - List question that might need manual grading (or optionally all questions).
  * - Provide an efficient UI to grade all attempts at a particular question.
  *
- * @copyright 2006 Gustav Delius
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_grading_report extends quiz_grading_report {
 
+    /**
+     * Display the report.
+     * 
+     * @param stdClass $quiz the quiz object.
+     * @param stdClass $cm the course_module object.
+     * @param stdClass $course the course object.
+     */
     public function display($quiz, $cm, $course) {
 
         $this->quiz = $quiz;
@@ -348,7 +357,7 @@ class quizanon_grading_report extends quiz_grading_report {
         }
     }
 
-     /**
+    /**
      * Get question heading.
      *
      * @param stdClass $attempt An instance of quiz_attempt.

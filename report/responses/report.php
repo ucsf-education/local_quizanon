@@ -17,9 +17,10 @@
 /**
  * This file defines the quiz responses report class.
  *
- * @package   quiz_responses
- * @copyright 2006 Jean-Michel Vedrine
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -41,11 +42,21 @@ require_once($CFG->dirroot . '/local/quizanon/report/responses/responses_options
  * Like the overview report, there are options for showing students with/without
  * attempts, and for deleting selected attempts.
  *
- * @copyright 1999 onwards Martin Dougiamas and others {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_report extends quiz_responses_report {
 
+    /**
+     * This function displays the quiz responses report.
+     *
+     * @param stdClass $quiz the quiz settings.
+     * @param stdClass $cm the course_module information.
+     * @param stdClass $course the course settings.
+     * @return bool true if the report was displayed, false if not.
+     */
     public function display($quiz, $cm, $course) {
         global $OUTPUT, $DB;
 

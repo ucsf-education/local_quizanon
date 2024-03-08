@@ -20,13 +20,21 @@ require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.ph
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
 /**
- * This is a table subclass for displaying the quiz responses report.
+ * This is a table subclass for displaying the quiz anon responses report.
  *
- * @copyright 2008 Jean-Michel Vedrine
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_last_responses_table extends quiz_last_responses_table {
 
+    /**
+     * Render the grade column.
+     * 
+     * @param stdClass $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
     public function col_sumgrades($attempt) {
         if ($attempt->state != quiz_attempt::FINISHED) {
             return '-';

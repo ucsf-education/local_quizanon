@@ -17,10 +17,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/quiz/report/responses/responses_form.php');
 
 /**
- * Quiz responses report settings form.
+ * Quiz anon responses report settings form.
  *
- * @copyright 2008 Jean-Michel Vedrine
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_quizanon
+ * @copyright  2024 Moodle US
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_settings_form extends quiz_responses_settings_form {
 }
