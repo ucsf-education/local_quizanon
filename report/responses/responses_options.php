@@ -13,22 +13,23 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot . '/mod/quiz/report/responses/responses_options.php');
 
 /**
- * Seetting for the quizanon plugin.
+ * Class to store the options for a  quizanon_responses_report.
  *
  * @package    local_quizanon
- * @copyright  Moodle US
+ * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die;
-
-if ($hassiteconfig) {
-    $pluginname = get_string('pluginname', 'local_quizanon');
-
-    $settings = new admin_settingpage('local_quizanon', $pluginname);
-    $settings->add(new admin_setting_configcheckbox('local_quizanon/enablequizanon',
-        get_string('enablequizanon', 'local_quizanon'), get_string('enablequizanon_desc', 'local_quizanon'), 0));
-    $ADMIN->add('localplugins', $settings);
+class quizanon_responses_options extends quiz_responses_options {
+    /**
+     * Get the URL to show the report with these options.
+     * @return moodle_url the URL.
+     */
+    public function get_url() {
+        return new moodle_url('/local/quizanon/report.php', $this->get_url_params());
+    }
 }

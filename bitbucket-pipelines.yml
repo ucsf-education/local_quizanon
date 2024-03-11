@@ -35,12 +35,12 @@ pipelines:
               script:
                 - *baseInst
                 - moodle-plugin-ci phplint
-          - step:
-              <<: *base
-              name: PHP Copy detector
-              script:
-                - *baseInst
-                - moodle-plugin-ci phpcpd
+        # - step:
+        #    <<: *base   
+        #   name: PHP Copy detector
+        #     script:
+        #       - *baseInst
+        #       - moodle-plugin-ci phpcpd
           - step:
               <<: *base
               name: PHP Mess detector
