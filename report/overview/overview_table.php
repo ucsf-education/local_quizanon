@@ -18,8 +18,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_table.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
-use mod_quiz\quiz_attempt;
-
 /**
  * This is a table subclass for displaying the quiz grades report.
  *
@@ -54,7 +52,7 @@ class quizanon_overview_table extends quiz_overview_table {
      * @return string HTML content to go inside the td.
      */
     public function col_sumgrades($attempt) {
-        if ($attempt->state != quiz_attempt::FINISHED) {
+        if ($attempt->state != 'finished') {
             return '-';
         }
 
