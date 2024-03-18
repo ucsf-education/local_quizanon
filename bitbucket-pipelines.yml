@@ -89,11 +89,10 @@ pipelines:
               script:
                 - *baseInst
                 - moodle-plugin-ci phpunit
-          # Commented out Behat because there are no Behat tests in this project yet.
-          # - step:
-          #     <<: *base
-          #     name: Behat
-          #     script:
-          #       - *baseInst
-          #       - preset-start-behat
-          #       - moodle-plugin-ci behat
+          - step:
+              <<: *base
+              name: Behat
+              script:
+                - *baseInst
+                - preset-start-behat
+                - moodle-plugin-ci behat

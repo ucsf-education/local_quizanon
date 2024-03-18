@@ -15,37 +15,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local quizanon test class.
+ * Steps definitions related to local_quizanon.
  *
  * @package    local_quizanon
- * @copyright  Moodle US
+ * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_quizanon;
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../../../../question/tests/behat/behat_question_base.php');
 
 /**
- * Tests the local_quizanon plugin.
+ * Steps definitions related to mod_quiz.
+ *
  * @package    local_quizanon
- * @copyright  Moodle US
+ * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_quizanon_test extends \advanced_testcase {
+class behat_local_quizanon extends behat_question_base {
 
     /**
-     * Test setup
+     * Enable quizanon plugin.
+     *
+     * @Given Quizanon plugin is enabled
      */
-    protected function setUp(): void {
-        $this->resetAfterTest();
+    public function quizanonpluginisenabled() {
+        set_config('enablequizanon', 1, 'local_quizanon');
     }
 
     /**
-     * Test template for local_quizanon plugin.
+     * Disable quizanon plugin.
+     *
+     * @Given Quizanon plugin is disabled
      */
-    public function test_template() {
+    public function quizanonpluginisdisabled() {
+        set_config('enablequizanon', 0, 'local_quizanon');
     }
 }
