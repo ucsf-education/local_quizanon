@@ -54,7 +54,7 @@ $options = $attemptobj->get_display_options(true);
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('reviewofquestion', 'quiz', [
         'question' => format_string($attemptobj->get_question_name($slot)),
-        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => fullname($student)]));
+        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => get_string('anonuser', 'local_quizanon')]));
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $output = $PAGE->get_renderer('mod_quiz');
 
