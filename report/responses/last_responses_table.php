@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-use mod_quiz\quiz_attempt;
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
+require_once($CFG->dirroot . '/mod/quiz/attemptlib.php');
 
 /**
  * This is a table subclass for displaying the quiz anon responses report.
