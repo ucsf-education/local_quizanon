@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/quizanon/report/responses/last_responses_table.php');
-use mod_quiz\quiz_attempt;
+use quiz_attempt;
 
 /**
  * This is a table subclass for displaying the quiz responses report, showing first or all tries.
