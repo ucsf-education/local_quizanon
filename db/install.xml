@@ -17,7 +17,7 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="quizid" TYPE="foreign" FIELDS="quizid" REFTABLE="quiz" REFFIELDS="id"/>
-        <KEY NAME="usermodified" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="usermodified" TYPE="foreign" FIELDS="usermodified" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="local_quizanon_usercodes" COMMENT="Store the config for quizanon">
@@ -36,7 +36,6 @@
         <KEY NAME="quizid" TYPE="foreign" FIELDS="quizid" REFTABLE="quiz" REFFIELDS="id"/>
         <KEY NAME="quizuser" TYPE="unique" FIELDS="quizid,userid"/>
         <KEY NAME="quizusercode" TYPE="unique" FIELDS="quizid,code,userid"/>
-        
       </KEYS>
     </TABLE>
   </TABLES>
