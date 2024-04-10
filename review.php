@@ -150,7 +150,7 @@ if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $U
     $userpicture->courseid = $attemptobj->get_courseid();
     $summarydata['user'] = [
         'title'   => 'User code',
-        'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $quiz->id)
+        'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $quiz->id)
     ];
 }
 
