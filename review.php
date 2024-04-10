@@ -73,8 +73,7 @@ if (!empty($oldquestionlink)) {
 }
 
 $oldcommentlink = $options->manualcommentlink;
-if (empty($oldcommentlink)) {
-    $oldcommentlink = new moodle_url('/mod/quiz/comment.php');
+if (!empty($oldcommentlink)) {
     $commentparams = $oldcommentlink->params();
     $newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
     $options->manualcommentlink = $newcommentlink;

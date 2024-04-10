@@ -26,7 +26,7 @@
 /**
  * Verify if the user has the role to access the quiz report or redirect to the local plugin.
  */
-function local_quizanon_before_http_headers() {
+function local_quizanon_before_standard_top_of_body_html() {
     global $CFG, $PAGE, $COURSE, $DB, $USER;
 
     $plugintype = $PAGE->cm->modname;
@@ -59,7 +59,6 @@ function local_quizanon_before_http_headers() {
             break;
         case 'mod-quiz-review':
             $url = '/local/quizanon/review.php';
-            $redirect = $redirect && $anonreportexists;
             break;
         case "mod-quiz-reviewquestion":
             $url = '/local/quizanon/reviewquestion.php';
