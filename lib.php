@@ -22,7 +22,6 @@
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Verify if the user has the role to access the quiz report or redirect to the local plugin.
@@ -100,7 +99,7 @@ function local_quizanon_before_http_headers() {
  * @param mod_quiz_mod_form $formwrapper
  * @param moodleform $mform
  */
-function local_quizanon_coursemodule_standard_elements($formwrapper, $mform){
+function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
     global $COURSE, $DB;
     if ($formwrapper instanceof mod_quiz_mod_form) {
         $cm = $formwrapper->get_coursemodule();
@@ -130,7 +129,7 @@ function local_quizanon_coursemodule_standard_elements($formwrapper, $mform){
  * @param stdClass $data
  * @return stdClass
  */
-function local_quizanon_coursemodule_edit_post_actions($data){
+function local_quizanon_coursemodule_edit_post_actions($data) {
     global $DB, $USER;
     $quizid = $data->coursemodule;
 

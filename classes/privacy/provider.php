@@ -25,8 +25,6 @@
 
 namespace local_quizanon\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for local_quizanon implementing null_provider.
  *

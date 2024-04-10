@@ -61,7 +61,7 @@ class quizanon extends base {
             'roles' => [
                 'type' => PARAM_TEXT,
                 'null' => NULL_NOT_ALLOWED,
-            ]   
+            ]
         );
     }
 }

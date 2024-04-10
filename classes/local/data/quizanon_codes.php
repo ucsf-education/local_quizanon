@@ -39,7 +39,6 @@ namespace local_quizanon\local\data;
  * @property   int $userid
  * @property   string $code
  */
- 
 class quizanon_codes extends base {
     /** Table name for the persistent. */
     const TABLE = 'local_quizanon_usercodes';
@@ -62,7 +61,7 @@ class quizanon_codes extends base {
             'code' => [
                 'type' => PARAM_ALPHANUM,
                 'null' => NULL_NOT_ALLOWED,
-            ]   
+            ]
         );
     }
 }

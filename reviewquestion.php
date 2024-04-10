@@ -127,7 +127,8 @@ $oldcommentlink = $displayoptions->manualcommentlink;
 if (!empty($oldcommentlink)) {
     $commentparams = $oldcommentlink->params();
     $newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
-    $displayoptions->manualcommentlink = $newcommentlink;}
+    $displayoptions->manualcommentlink = $newcommentlink;
+}
 
 echo $output->review_question_page($attemptobj, $slot, $seq,
         $displayoptions, $summarydata);
