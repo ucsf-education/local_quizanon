@@ -77,7 +77,7 @@ $summarydata['questionname'] = [
 
 // Process any data that was submitted.
 if (data_submitted() && confirm_sesskey()) {
-    if (optional_param('submit', false, PARAM_BOOL) && 
+    if (optional_param('submit', false, PARAM_BOOL) &&
         question_engine::is_manual_grade_in_range($attemptobj->get_uniqueid(), $slot)) {
         $transaction = $DB->start_delegated_transaction();
         $attemptobj->process_submitted_actions(time());
