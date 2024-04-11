@@ -39,20 +39,43 @@ require_once(__DIR__ . '/../../../../question/tests/behat/behat_question_base.ph
 class behat_local_quizanon extends behat_question_base {
 
     /**
-     * Enable quizanon plugin.
-     *
-     * @Given Quizanon plugin is enabled
+     * Enable quizanon on instance.
+     * 
+     * @Given /^Quizanon plugin is enabled for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)" and role "(?P<role>(?:[^"]|\\")*)"$/
+     * @param string $quizname
+     * @param string $role
      */
-    public function quizanonpluginisenabled() {
-        set_config('enablequizanon', 1, 'local_quizanon');
+    public function quizanonpluginisenabled($quizname, $role) {
+        global $DB;
+        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('quiz', $quiz->id);
+        $roles = [];
+        $getroleid = $DB->get_record('role', ['shortname' => $role]);
+        $roles[] = $getroleid->id;
+        $quizanon = new local_quizanon\local\data\quizanon();
+        $quizanon->set_many([
+            'quizid' => $cm->id,
+            'enable' => 1,
+            'roles' => json_encode($roles),
+        ]);
+        $quizanon->save();
     }
 
     /**
-     * Disable quizanon plugin.
+     * Disable quizanon on instance.
      *
-     * @Given Quizanon plugin is disabled
+     * @Given /^Quizanon plugin is disabled for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)"$/
+     * @param string $quizname
      */
-    public function quizanonpluginisdisabled() {
-        set_config('enablequizanon', 0, 'local_quizanon');
+    public function quizanonpluginisdisabled($quizname) {
+        global $DB;
+        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('quiz', $quiz->id);
+        if (!$quiz) {
+
+            if ($DB->record_exists('local_quizanon', ['quizid' => $cm->id])) {
+                $DB->delete_records('local_quizanon', ['quizid' => $cm->id]);
+            }
+        }
     }
 }

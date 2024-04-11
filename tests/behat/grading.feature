@@ -57,7 +57,7 @@ Feature: Basic use of the Manual grading anon report
     And quiz "Quiz 1" contains the following questions:
       | question         | page |
       | Short answer 001 | 1    |
-    And Quizanon plugin is enabled
+    And Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
 
   Scenario: Manual grading report without attempts
     When I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as "teacher1"

@@ -29,7 +29,9 @@
 function local_quizanon_before_standard_top_of_body_html() {
     global $CFG, $PAGE, $COURSE, $DB, $USER;
 
-    if (empty($PAGE->cm) || $$PAGE->cm->modname !== 'quiz') {
+    $pagename = $PAGE->pagetype;
+    $coursemodule = $PAGE->cm;
+    if (empty($coursemodule) || $coursemodule->modname !== 'quiz') {
         return;
     }
     $pagename = $PAGE->pagetype;
@@ -47,7 +49,6 @@ function local_quizanon_before_standard_top_of_body_html() {
             break;
         }
     }
-    
 
     $mode = !empty($urlparams['mode']) ? $urlparams['mode'] : '';
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');
