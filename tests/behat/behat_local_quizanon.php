@@ -40,7 +40,7 @@ class behat_local_quizanon extends behat_question_base {
 
     /**
      * Enable quizanon on instance.
-     * 
+     *
      * @Given /^Quizanon plugin is enabled for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)" and role "(?P<role>(?:[^"]|\\")*)"$/
      * @param string $quizname
      * @param string $role
