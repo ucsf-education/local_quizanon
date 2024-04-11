@@ -97,7 +97,7 @@ Feature: Basic use of the local_quizanon reports
     And I click on "grade" "link" in the "Essay" "table_row"
     Then I should see "Student1"
     And I should see "Student2"
-  
+
   @javascript
   Scenario: Teacher should see user's name in the grades report when set role is not editingteacher
     Given Quizanon plugin is enabled for quiz "Quiz 1" and role "teacher"
