@@ -15,33 +15,53 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for local_quizanon.
+ * Quiz anon Persistent Class.
+ *
+ * This class defines the persistent entity for the 'local_quizanon' table in Moodle.
+ * It encapsulates the logic for interacting with the table's data.
  *
  * @package    local_quizanon
- * @copyright  Moodle US
+ * @copyright  2024 Moodle
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_quizanon\privacy;
+namespace local_quizanon\local\data;
 
 /**
- * Privacy Subsystem for local_quizanon implementing null_provider.
+ * Quiz anon Persistent Entity Class.
  *
  * @package    local_quizanon
- * @copyright  Moodle US
+ * @copyright  2024 Moodle
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @property   int $quizid
+ * @property   bool $enable
+ * @property   string $roles
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class quizanon extends base {
+    /** Table name for the persistent. */
+    const TABLE = 'local_quizanon';
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Return the definition of the properties of this model.
      *
-     * @return  string
+     * @return array
      */
-    public static function get_reason() : string {
-        return 'privacy:metadata';
+    protected static function define_properties(): array {
+        return array(
+            'quizid' => [
+                'type' => PARAM_INT,
+                'null' => NULL_NOT_ALLOWED,
+            ],
+            'enable' => [
+                'type' => PARAM_BOOL,
+                'null' => NULL_NOT_ALLOWED,
+            ],
+            'roles' => [
+                'type' => PARAM_TEXT,
+                'null' => NULL_NOT_ALLOWED,
+            ]
+        );
     }
 }

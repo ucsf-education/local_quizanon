@@ -79,7 +79,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
 ];
 
 // Quiz name.
@@ -117,12 +117,18 @@ if ($timestamp) {
 }
 $displayoptions = $attemptobj->get_display_options(true);
 $oldquestionlink = $displayoptions->questionreviewlink;
-$questionparams = $oldquestionlink->params();
-$newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+if (!empty($oldquestionlink)) {
+    $questionparams = $oldquestionlink->params();
+    $newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+    $displayoptions->questionreviewlink = $newquestionlink;
+}
+
 $oldcommentlink = $displayoptions->manualcommentlink;
-$commentparams = $oldcommentlink->params();
-$newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
-$displayoptions->questionreviewlink = $newquestionlink;
-$displayoptions->manualcommentlink = $newcommentlink;
+if (!empty($oldcommentlink)) {
+    $commentparams = $oldcommentlink->params();
+    $newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
+    $displayoptions->manualcommentlink = $newcommentlink;
+}
+
 echo $output->review_question_page($attemptobj, $slot, $seq,
         $displayoptions, $summarydata);

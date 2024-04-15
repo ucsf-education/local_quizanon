@@ -31,7 +31,7 @@ Feature: Quiz anon regrade when not possible
     And user "student" has attempted "Quiz for testing regrading" with responses:
       | slot | response |
       |   1  | B        |
-    And Quizanon plugin is enabled
+    And Quizanon plugin is enabled for quiz "Quiz for testing regrading" and role "editingteacher"
 
   Scenario: Try a regrade after the question has been edited to have a different number of choices
     # Edit the question so that V2 has the fourth choice removed.
