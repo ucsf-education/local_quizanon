@@ -66,13 +66,18 @@ $accessmanager->setup_attempt_page($PAGE);
 
 $options = $attemptobj->get_display_options(true);
 $oldquestionlink = $options->questionreviewlink;
-$questionparams = $oldquestionlink->params();
-$newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+if (!empty($oldquestionlink)) {
+    $questionparams = $oldquestionlink->params();
+    $newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+    $options->questionreviewlink = $newquestionlink;
+}
+
 $oldcommentlink = $options->manualcommentlink;
-$commentparams = $oldcommentlink->params();
-$newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
-$options->questionreviewlink = $newquestionlink;
-$options->manualcommentlink = $newcommentlink;
+if (!empty($oldcommentlink)) {
+    $commentparams = $oldcommentlink->params();
+    $newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
+    $options->manualcommentlink = $newcommentlink;
+}
 
 // Check permissions - warning there is similar code in reviewquestion.php and
 // quiz_attempt::check_file_access. If you change on, change them all.
@@ -120,7 +125,7 @@ $PAGE->set_title($attemptobj->review_page_title($page, $showall));
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $PAGE->activityheader->disable();
 
-// Summary table start. ============================================================================
+// Summary table start.
 
 // Work out some time-related things.
 $attempt = $attemptobj->get_attempt();
@@ -150,7 +155,7 @@ if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $U
     $userpicture->courseid = $attemptobj->get_courseid();
     $summarydata['user'] = [
         'title'   => 'User code',
-        'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $quiz->id)
+        'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $quiz->id)
     ];
 }
 
@@ -252,7 +257,7 @@ if ($options->overallfeedback && $feedback) {
     ];
 }
 
-// Summary table end. ==============================================================================
+// Summary table end.
 
 if ($showall) {
     $slots = $attemptobj->get_slots();

@@ -122,6 +122,6 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
      * @return string HTML content to go inside the td.
      */
     public function col_usercode($attempt) {
-        return local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
+        return local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
     }
 }

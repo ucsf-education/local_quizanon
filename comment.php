@@ -60,7 +60,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
 ];
 
 // Quiz name.
@@ -77,7 +77,8 @@ $summarydata['questionname'] = [
 
 // Process any data that was submitted.
 if (data_submitted() && confirm_sesskey()) {
-    if (optional_param('submit', false, PARAM_BOOL) && question_engine::is_manual_grade_in_range($attemptobj->get_uniqueid(), $slot)) {
+    if (optional_param('submit', false, PARAM_BOOL) &&
+        question_engine::is_manual_grade_in_range($attemptobj->get_uniqueid(), $slot)) {
         $transaction = $DB->start_delegated_transaction();
         $attemptobj->process_submitted_actions(time());
         $transaction->allow_commit();

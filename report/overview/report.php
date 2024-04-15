@@ -304,4 +304,15 @@ class quizanon_overview_report extends quiz_overview_report {
             echo plagiarism_update_status($course, $cm);
         }
     }
+
+    /**
+     * Check necessary capabilities, and start the display of the regrade progress page.
+     * @param object $quiz the quiz settings.
+     * @param object $cm the cm object for the quiz.
+     */
+    protected function start_regrade($quiz, $cm) {
+        require_capability('mod/quiz:regrade', $this->context);
+        $course = get_course($cm->course);
+        $this->print_header_and_tabs($cm, $course, $quiz, $this->mode);
+    }
 }
