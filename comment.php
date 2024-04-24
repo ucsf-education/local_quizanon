@@ -45,12 +45,12 @@ if (!$attemptobj->is_finished()) {
 // Check login and permissions.
 require_login($attemptobj->get_course(), false, $attemptobj->get_cm());
 $attemptobj->require_capability('mod/quiz:grade');
-
+$usercode = local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid());
 // Print the page header.
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('manualgradequestion', 'quiz', [
         'question' => format_string($attemptobj->get_question_name($slot)),
-        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => local_anonquiz_get_usercode($attemptobj->get_userid()]));
+        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => $usercode]));
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $output = $PAGE->get_renderer('mod_quiz');
 echo $output->header();
@@ -60,7 +60,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => $usercode
 ];
 
 // Quiz name.
