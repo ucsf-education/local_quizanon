@@ -50,7 +50,7 @@ $attemptobj->require_capability('mod/quiz:grade');
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('manualgradequestion', 'quiz', [
         'question' => format_string($attemptobj->get_question_name($slot)),
-        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => fullname($student)]));
+        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => local_anonquiz_get_usercode($attemptobj->get_userid()]));
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $output = $PAGE->get_renderer('mod_quiz');
 echo $output->header();
