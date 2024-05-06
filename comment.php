@@ -108,7 +108,7 @@ echo $output->review_summary_table($summarydata, 0);
 
 // Print the comment form.
 echo '<form method="post" class="mform" id="manualgradingform" action="' .
-        $CFG->wwwroot . '/mod/quiz/comment.php">';
+        $CFG->wwwroot . '/local/quizanon/comment.php">';
 echo $attemptobj->render_question_for_commenting($slot);
 ?>
 <div>
