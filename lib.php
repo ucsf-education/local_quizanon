@@ -51,7 +51,7 @@ function local_quizanon_before_standard_top_of_body_html() {
 
     $mode = !empty($urlparams['mode']) ? $urlparams['mode'] : '';
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');
-    $redirect = !empty($quizanonenabled) && $userhasrole;
+    $redirect = !empty($quizanonenabled) && !$userhasrole;
     switch($pagename) {
         case 'mod-quiz-report':
             $url = '/local/quizanon/report.php';
@@ -68,19 +68,19 @@ function local_quizanon_before_standard_top_of_body_html() {
             break;
         case 'local-quizanon-report':
             $url = '/mod/quiz/report.php';
-            $redirect = empty($quizanonenabled) || !$userhasrole;
+            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case 'local-quizanon-review':
             $url = '/mod/quiz/review.php';
-            $redirect = empty($quizanonenabled) || !$userhasrole;
+            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case "local-quizanon-reviewquestion":
             $url = '/mod/quiz/reviewquestion.php';
-            $redirect = empty($quizanonenabled) || !$userhasrole;
+            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case "local-quizanon-comment":
             $url = '/mod/quiz/comment.php';
-            $redirect = empty($quizanonenabled) || !$userhasrole;
+            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         default:
             $redirect = false;
