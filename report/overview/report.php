@@ -53,8 +53,8 @@ class quizanon_overview_report extends quiz_overview_report {
                 'overview', 'quizanon_overview_settings_form', $quiz, $cm, $course);
 
         $options = new quizanon_overview_options('overview', $quiz, $cm, $course);
-        $studentsjoins->joins .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = $quiz->id";
-
+        $studentsjoins->joins .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
+        $studentsjoins->params['quizid2'] = $quiz->id;
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
 
@@ -212,7 +212,6 @@ class quizanon_overview_report extends quiz_overview_report {
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
             $table->sql->fields .= ', qan.code as usercode';
             $table->set_attribute('class', 'generaltable generalbox grades');
-            $table->useridfield = 'usercode';
             $table->out($options->pagesize, true);
         }
 
