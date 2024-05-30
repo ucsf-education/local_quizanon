@@ -42,7 +42,7 @@ Feature: Regrading quiz attempts using the Grades anon report
       | slot | response |
       | 1    | True     |
       | 2    | toad     |
-    And Quizanon plugin is enabled for quiz "Quiz for testing regrading" and role "editingteacher"
+    And Quizanon plugin is enabled for quiz "Quiz for testing regrading"
 
   Scenario: Regrade all attempts
     Given I am on the "Quiz for testing regrading" "quiz activity" page logged in as teacher
