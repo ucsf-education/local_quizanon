@@ -53,7 +53,6 @@ class quizanon_overview_report extends quiz_overview_report {
                 'overview', 'quizanon_overview_settings_form', $quiz, $cm, $course);
 
         $options = new quizanon_overview_options('overview', $quiz, $cm, $course);
-        
 
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);

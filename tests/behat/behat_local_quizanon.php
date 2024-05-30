@@ -60,7 +60,7 @@ class behat_local_quizanon extends behat_question_base {
 
     /**
      * Exclude role from quizanon on instance.
-     * 
+     *
      * @Given /^"(?P<role>(?:[^"]|\\")*)" is excluded from quizanon for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)"$/
      * @param string $role
      * @param string $quizname
