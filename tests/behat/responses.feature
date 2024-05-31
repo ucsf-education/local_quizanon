@@ -30,7 +30,7 @@ Feature: Basic use of the Responses quiz_anon report
     And quiz "Quiz 1" contains the following questions:
       | question | page | maxmark |
       | NQ       | 1    | 3.0     |
-    And Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    And Quizanon plugin is enabled for quiz "Quiz 1"
 
   @javascript
   Scenario: Report works when there are no attempts

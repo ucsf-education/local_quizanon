@@ -209,8 +209,10 @@ class quizanon_overview_report extends quiz_overview_report {
             }
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
+            $table->sql->from .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
+            $table->sql->params['quizid2'] = $quiz->id;
+            $table->sql->fields .= ', qan.code as usercode';
             $table->set_attribute('class', 'generaltable generalbox grades');
-
             $table->out($options->pagesize, true);
         }
 

@@ -62,7 +62,6 @@ class quizanon_responses_report extends quiz_responses_report {
 
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
                 'responses', 'quizanon_responses_settings_form', $quiz, $cm, $course);
-
         $options = new quizanon_responses_options('responses', $quiz, $cm, $course);
 
         if ($fromform = $this->form->get_data()) {
@@ -195,7 +194,9 @@ class quizanon_responses_report extends quiz_responses_report {
             $table->set_attribute('id', 'responses');
 
             $table->collapsible(true);
-
+            $table->sql->from .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
+            $table->sql->params['quizid2'] = $quiz->id;
+            $table->sql->fields .= ', qan.code as usercode';
             $table->out($options->pagesize, true);
         }
         return true;

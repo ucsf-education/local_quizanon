@@ -58,7 +58,7 @@ Feature: Basic use of the Grades quizanon report
       | slot | response |
       |   2  | True     |
       |   3  | True     |
-    And Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    And Quizanon plugin is enabled for quiz "Quiz 1"
 
   @javascript
   Scenario: Using the Grades report
