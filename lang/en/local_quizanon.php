@@ -25,9 +25,9 @@
 
 $string['pluginname'] = 'Quiz Anonymizer';
 $string['privacy:metadata'] = 'Quiz Anonymizer plugin does not store any personal data.';
-$string['usercode'] = 'User code';
+$string['usercode'] = 'Anonymous ID';
 $string['enablequizanon'] = 'Enable Quiz Anonymizer';
 $string['enablequizanon_desc'] = 'Enable the Quiz Anonymizer plugin to anonymize the quiz reports and reviews.';
 $string['anonuser'] = 'Anonymous user';
-$string['rolessetting'] = 'Roles that will see the anonymized user information';
+$string['rolessetting'] = 'Roles to whom the quiz anonymizer feature does not apply';
 $string['quizanonsettings'] = 'Quiz Anonymizer settings';

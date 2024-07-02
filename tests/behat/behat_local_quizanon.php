@@ -41,11 +41,31 @@ class behat_local_quizanon extends behat_question_base {
     /**
      * Enable quizanon on instance.
      *
-     * @Given /^Quizanon plugin is enabled for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)" and role "(?P<role>(?:[^"]|\\")*)"$/
+     * @Given /^Quizanon plugin is enabled for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)"$/
      * @param string $quizname
-     * @param string $role
      */
-    public function quizanonpluginisenabled($quizname, $role) {
+    public function quizanonpluginisenable($quizname) {
+        global $DB;
+        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('quiz', $quiz->id);
+        $roles = [];
+        $quizanon = new local_quizanon\local\data\quizanon();
+        $quizanon->set_many([
+            'quizid' => $cm->id,
+            'enable' => 1,
+            'roles' => json_encode($roles),
+        ]);
+        $quizanon->save();
+    }
+
+    /**
+     * Exclude role from quizanon on instance.
+     *
+     * @Given /^"(?P<role>(?:[^"]|\\")*)" is excluded from quizanon for quiz "(?P<quiz_name_string>(?:[^"]|\\")*)"$/
+     * @param string $role
+     * @param string $quizname
+     */
+    public function roleisexcludedfromquizanon($role, $quizname) {
         global $DB;
         $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
