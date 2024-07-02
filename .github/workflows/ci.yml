@@ -11,3 +11,4 @@ jobs:
     with:
       disable_release : true
       disable_phpcpd: true # Code is based in Quiz core code.
+      disable_phpunit: true # Code is based in Quiz core code.
