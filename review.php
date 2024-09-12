@@ -23,14 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_quiz\output\navigation_panel_review;
 use mod_quiz\output\renderer;
 
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/mod/quiz/report/reportlib.php');
-require_once($CFG->dirroot . '/mod/quiz/attemptlib.php');
 
 $attemptid = required_param('attempt', PARAM_INT);
 $page      = optional_param('page', 0, PARAM_INT);
@@ -132,7 +130,7 @@ $attempt = $attemptobj->get_attempt();
 $quiz = $attemptobj->get_quiz();
 $overtime = 0;
 
-if ($attempt->state == quiz_attempt::FINISHED) {
+if ($attempt->state == mod_quiz\quiz_attempt::FINISHED) {
     if ($timetaken = ($attempt->timefinish - $attempt->timestart)) {
         if ($quiz->timelimit && $timetaken > ($quiz->timelimit + 60)) {
             $overtime = $timetaken - $quiz->timelimit;
@@ -178,10 +176,10 @@ $summarydata['startedon'] = [
 
 $summarydata['state'] = [
     'title'   => get_string('attemptstate', 'quiz'),
-    'content' => quiz_attempt::state_name($attempt->state),
+    'content' => mod_quiz\quiz_attempt::state_name($attempt->state),
 ];
 
-if ($attempt->state == quiz_attempt::FINISHED) {
+if ($attempt->state == mod_quiz\quiz_attempt::FINISHED) {
     $summarydata['completedon'] = [
         'title'   => get_string('completedon', 'quiz'),
         'content' => userdate($attempt->timefinish),
@@ -203,7 +201,7 @@ if (!empty($overtime)) {
 $grade = quiz_rescale_grade($attempt->sumgrades, $quiz, false);
 if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades($quiz)) {
 
-    if ($attempt->state != quiz_attempt::FINISHED) {
+    if ($attempt->state != mod_quiz\quiz_attempt::FINISHED) {
         // Cannot display grade.
         $empty = true;
     } else if (is_null($grade)) {
@@ -271,7 +269,7 @@ if ($showall) {
 $output = $PAGE->get_renderer('mod_quiz');
 
 // Arrange for the navigation to be displayed.
-$navbc = $attemptobj->get_navigation_panel($output, 'quiz_review_nav_panel', $page, $showall);
+$navbc = $attemptobj->get_navigation_panel($output, 'mod_quiz\output\navigation_panel_review', $page, $showall);
 $regions = $PAGE->blocks->get_regions();
 $PAGE->blocks->add_fake_block($navbc, reset($regions));
 

@@ -17,7 +17,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
-require_once($CFG->dirroot . '/mod/quiz/attemptlib.php');
 
 /**
  * This is a table subclass for displaying the quiz anon responses report.
@@ -36,7 +35,7 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
      * @return string HTML content to go inside the td.
      */
     public function col_sumgrades($attempt) {
-        if ($attempt->state != quiz_attempt::FINISHED) {
+        if ($attempt->state != mod_quiz\quiz_attempt::FINISHED) {
             return '-';
         }
 
