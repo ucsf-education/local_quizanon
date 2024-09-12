@@ -7,7 +7,7 @@ image:
 definitions:
   installscript: &baseInst
                    echo "Checking out Moodle Workplace\n" ;
-                   set-sshkey "$REPOKEY" && moodle-plugin-ci -vv install --branch='WORKPLACE_401_LATEST' --repo="$REPOSITORY" ;
+                   set-sshkey "$REPOKEY" && moodle-plugin-ci -vv install --branch='WORKPLACE_403_LATEST' --repo="$REPOSITORY" ;
   steps:
     - step: &base
         name: 'Workplace 4.1, PHP 7.4 and MariaDB 10.6'
