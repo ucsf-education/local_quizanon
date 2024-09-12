@@ -10,7 +10,7 @@ definitions:
                    set-sshkey "$REPOKEY" && moodle-plugin-ci -vv install --branch='WORKPLACE_403_LATEST' --repo="$REPOSITORY" ;
   steps:
     - step: &base
-        name: 'Workplace 4.1, PHP 7.4 and MariaDB 10.6'
+        name: 'Workplace 4.3, PHP 8.1 and MariaDB 10.6'
         caches:
           - npm
           - composer
@@ -33,6 +33,7 @@ pipelines:
               <<: *base
               name: PHP Lint
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci phplint
         # - step:
@@ -45,54 +46,63 @@ pipelines:
               <<: *base
               name: PHP Mess detector
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci phpmd
           - step:
               <<: *base
               name: PHP Code checker
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci codechecker
           - step:
               <<: *base
               name: PHP Validate
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci validate
           - step:
               <<: *base
               name: PHP Savepoints
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci savepoints
           - step:
               <<: *base
               name: PHP Mustache
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci mustache
           - step:
               <<: *base
               name: PHP Grunt
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci grunt
           - step:
               <<: *base
               name: PHP Doc
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci phpdoc
           - step:
               <<: *base
               name: PHPUnit
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - moodle-plugin-ci phpunit
           - step:
               <<: *base
               name: Behat
               script:
+                - setphpversion 8.1
                 - *baseInst
                 - preset-start-behat
                 - moodle-plugin-ci behat
