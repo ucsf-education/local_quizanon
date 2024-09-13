@@ -131,15 +131,15 @@ Feature: Basic use of the Manual grading anon report
     And I click on "update grades" "link" in the "Short answer 001" "table_row"
     When I set the following fields to these values:
       | Questions per page | 0 |
-    Then I should see "You must enter a number that is greater than 0."
+    Then I should see "You must enter a whole number that is greater than 0."
     And I set the following fields to these values:
       | Questions per page | -1 |
     And I press "Change options"
-    And I should see "You must enter a number that is greater than 0."
+    And I should see "You must enter a whole number that is greater than 0."
     And I set the following fields to these values:
       | Questions per page | abc |
     And I press "Change options"
-    And I should see "You must enter a number that is greater than 0."
+    And I should see "You must enter a whole number that is greater than 0."
     And I set the following fields to these values:
       | Questions per page | 1 |
     And I press "Change options"
@@ -178,19 +178,19 @@ Feature: Basic use of the Manual grading anon report
     And I log out
     When I am on the "Quiz 2" "mod_quiz > View" page logged in as "student1"
     And I press "Attempt quiz"
-    And I set the field with xpath "//*[contains(concat(' ', @class, ' '), ' editor_atto_content ')]" to "This is my attempt 1"
+    And I set the field "Answer text Question 1" to "This is my attempt 1"
     And I follow "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I click on "Finish review" "link"
     And I press "Re-attempt quiz"
-    And I set the field with xpath "//*[contains(concat(' ', @class, ' '), ' editor_atto_content ')]" to "This is my attempt 2"
+    And I set the field "Answer text Question 1" to "This is my attempt 2"
     And I follow "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I click on "Finish review" "link"
     And I press "Re-attempt quiz"
-    And I set the field with xpath "//*[contains(concat(' ', @class, ' '), ' editor_atto_content ')]" to "This is my attempt 3"
+    And I set the field "Answer text Question 1" to "This is my attempt 3"
     And I follow "Finish attempt ..."
     And I press "Submit all and finish"
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"

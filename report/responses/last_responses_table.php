@@ -123,4 +123,22 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
     public function col_usercode($attempt) {
         return local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
     }
+
+        /**
+     * This function is not part of the public api.
+     */
+    function print_initials_bar() {
+        global $OUTPUT;
+
+        $ifirst = $this->get_initial_first();
+
+        if (is_null($ifirst)) {
+            $ifirst = '';
+        }
+
+        if ((!empty($ifirst) || !empty($ilast) || $this->use_initials)) {
+            $prefixfirst = $this->request[TABLE_VAR_IFIRST];
+            echo $OUTPUT->initials_bar($ifirst, 'firstinitial', get_string('usercode', 'local_quizanon'), $prefixfirst, $this->baseurl);
+        }
+    }
 }
