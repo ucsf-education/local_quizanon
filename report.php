@@ -101,8 +101,8 @@ $params = [
     'context' => $context,
     'other' => [
         'quizid' => $quiz->id,
-        'reportname' => $mode
-    ]
+        'reportname' => $mode,
+    ],
 ];
 $event = \mod_quiz\event\report_viewed::create($params);
 $event->add_record_snapshot('course', $course);

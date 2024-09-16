@@ -197,8 +197,10 @@ class quizanon_responses_report extends quiz_responses_report {
             $table->sql->params['quizid2'] = $quiz->id;
             $table->sql->fields .= ', qan.code as usercode';
             $ifirst = optional_param('tifirst', '', PARAM_TEXT);
-            $table->sql->where .= ' AND qan.code LIKE :ifirst';
-            $table->sql->params['ifirst'] = $ifirst . '%';
+            if (!empty($ifirst)) {
+                $table->sql->where .= ' AND qan.code LIKE :ifirst';
+                $table->sql->params['ifirst'] = $ifirst . '%';
+            }
             $table->out($options->pagesize, true);
         }
         return true;
@@ -268,7 +270,7 @@ class quizanon_responses_report extends quiz_responses_report {
      * @param array $columns the list of columns. Added to.
      * @param array $headers the columns headings. Added to.
      */
-    public function quizanon_add_user_columns($table, &$columns, &$headers) {   
+    public function quizanon_add_user_columns($table, &$columns, &$headers) {
         $columns[] = 'usercode';
         $headers[] = get_string('usercode', 'local_quizanon');
     }

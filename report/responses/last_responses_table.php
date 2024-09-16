@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
@@ -124,10 +125,10 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
         return local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
     }
 
-        /**
+    /**
      * This function is not part of the public api.
      */
-    function print_initials_bar() {
+    public function print_initials_bar() {
         global $OUTPUT;
 
         $ifirst = $this->get_initial_first();

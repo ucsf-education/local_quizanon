@@ -135,7 +135,7 @@ function local_quizanon_coursemodule_edit_post_actions($data) {
     $arraydata = [
         'quizid' => $data->coursemodule,
         'enable' => !empty($data->anonenable) ? 1 : 0,
-        'roles' => !empty($data->anonroles) ? json_encode($data->anonroles) : ''
+        'roles' => !empty($data->anonroles) ? json_encode($data->anonroles) : '',
     ];
     $exists = $DB->get_record('local_quizanon', ['quizid' => $quizid]);
     $recordid = !empty($exists->id) ? $exists->id : 0;
@@ -169,7 +169,7 @@ function local_anonquiz_get_usercode($userid, $quizid) {
         $recordarray = [
             'userid' => $userid,
             'quizid' => $quizid,
-            'code' => $usercode
+            'code' => $usercode,
         ];
         $record->set_many($recordarray);
         $record->save();

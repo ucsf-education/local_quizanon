@@ -79,7 +79,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid()),
 ];
 
 // Quiz name.

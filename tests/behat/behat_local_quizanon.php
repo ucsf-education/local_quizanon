@@ -49,7 +49,8 @@ class behat_local_quizanon extends behat_question_base {
         $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
         $roles = [];
-        $quizanon = new local_quizanon\local\data\quizanon();
+        $record = $DB->get_record('local_quizanon', ['quizid' => $cm->id]);
+        $quizanon = new local_quizanon\local\data\quizanon($record->id);
         $quizanon->set_many([
             'quizid' => $cm->id,
             'enable' => 1,
@@ -72,7 +73,8 @@ class behat_local_quizanon extends behat_question_base {
         $roles = [];
         $getroleid = $DB->get_record('role', ['shortname' => $role]);
         $roles[] = $getroleid->id;
-        $quizanon = new local_quizanon\local\data\quizanon();
+        $record = $DB->get_record('local_quizanon', ['quizid' => $cm->id]);
+        $quizanon = new local_quizanon\local\data\quizanon($record->id);
         $quizanon->set_many([
             'quizid' => $cm->id,
             'enable' => 1,

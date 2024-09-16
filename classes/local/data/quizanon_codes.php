@@ -61,7 +61,7 @@ class quizanon_codes extends base {
             'code' => [
                 'type' => PARAM_ALPHANUM,
                 'null' => NULL_NOT_ALLOWED,
-            ]
+            ],
         );
     }
 }

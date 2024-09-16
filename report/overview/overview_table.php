@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_table.php');
@@ -127,7 +128,7 @@ class quizanon_overview_table extends quiz_overview_table {
     /**
      * This function is not part of the public api.
      */
-    function print_initials_bar() {
+    public function print_initials_bar() {
         global $OUTPUT;
 
         $ifirst = $this->get_initial_first();

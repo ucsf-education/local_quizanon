@@ -212,8 +212,10 @@ class quizanon_overview_report extends quiz_overview_report {
             $table->sql->params['quizid2'] = $quiz->id;
             $table->sql->fields .= ', qan.code as usercode';
             $ifirst = optional_param('tifirst', '', PARAM_TEXT);
-            $table->sql->where .= ' AND qan.code LIKE :ifirst';
-            $table->sql->params['ifirst'] = $ifirst . '%';
+            if (!empty($ifirst)) {
+                $table->sql->where .= ' AND qan.code LIKE :ifirst';
+                $table->sql->params['ifirst'] = $ifirst . '%';
+            }
             $table->set_attribute('class', 'generaltable generalbox grades');
             $table->out($options->pagesize, true);
         }

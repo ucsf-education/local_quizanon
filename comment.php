@@ -60,7 +60,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => $usercode
+    'content' => $usercode,
 ];
 
 // Quiz name.
@@ -91,8 +91,8 @@ if (data_submitted() && confirm_sesskey()) {
             'other' => [
                 'quizid' => $attemptobj->get_quizid(),
                 'attemptid' => $attemptobj->get_attemptid(),
-                'slot' => $slot
-            ]
+                'slot' => $slot,
+            ],
         ];
         $event = \mod_quiz\event\question_manually_graded::create($params);
         $event->trigger();

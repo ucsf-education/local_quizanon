@@ -270,7 +270,7 @@ class quizanon_grading_report extends quiz_grading_report {
         $hiddeninputs = [
                 'qubaids' => $qubaidlist,
                 'slots' => $slot,
-                'sesskey' => sesskey()
+                'sesskey' => sesskey(),
         ];
 
         echo $this->renderer->render_grading_interface(
