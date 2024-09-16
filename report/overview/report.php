@@ -328,7 +328,7 @@ class quizanon_overview_report extends quiz_overview_report {
      * @param array $columns the list of columns. Added to.
      * @param array $headers the columns headings. Added to.
      */
-    public function quizanon_add_user_columns($table, &$columns, &$headers) {   
+    public function quizanon_add_user_columns($table, &$columns, &$headers) {
         $columns[] = 'usercode';
         $headers[] = get_string('usercode', 'local_quizanon');
     }

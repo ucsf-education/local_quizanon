@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Soft fork of mod/quizanon/reviewquestion.php to anonymize the user's name.
+ * Soft fork of mod_quiz reviewquestion.php to anonymize the user's name.
  *
  * @package    local_quizanon
  * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
