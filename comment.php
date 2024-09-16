@@ -110,15 +110,14 @@ echo $output->review_summary_table($summarydata, 0);
 echo '<form method="post" class="mform" id="manualgradingform" action="' .
         $CFG->wwwroot . '/local/quizanon/comment.php">';
 echo $attemptobj->render_question_for_commenting($slot);
-?>
 // @codingStandardsIgnoreStart
+?>
 <div>
     <input type="hidden" name="attempt" value="<?php echo $attemptobj->get_attemptid(); ?>" />
     <input type="hidden" name="slot" value="<?php echo $slot; ?>" />
     <input type="hidden" name="slots" value="<?php echo $slot; ?>" />
     <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>" />
 </div>
-// @codingStandardsIgnoreEnd
 <fieldset class="hidden">
     <div>
         <div class="fitem fitem_actionbuttons fitem_fsubmit mt-3">
@@ -130,6 +129,7 @@ echo $attemptobj->render_question_for_commenting($slot);
     </div>
 </fieldset>
 <?php
+// @codingStandardsIgnoreEnd
 echo '</form>';
 $PAGE->requires->js_init_call('M.mod_quiz.init_comment_popup', null, false, quiz_get_js_module());
 
