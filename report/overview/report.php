@@ -180,9 +180,8 @@ class quizanon_overview_report extends quiz_overview_report {
                 $columns[] = $columnname;
                 $headers[] = $table->checkbox_col_header($columnname);
             }
+            $this->quizanon_add_user_columns($table, $columns, $headers);
 
-            $columns[] = 'usercode';
-            $headers[] = get_string('usercode', 'local_quizanon');
             $this->add_state_column($columns, $headers);
             $this->add_time_columns($columns, $headers);
 
@@ -209,8 +208,15 @@ class quizanon_overview_report extends quiz_overview_report {
             }
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
+            $table->sql->from .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
+            $table->sql->params['quizid2'] = $quiz->id;
+            $table->sql->fields .= ', qan.code as usercode';
+            $ifirst = optional_param('tifirst', '', PARAM_TEXT);
+            if (!empty($ifirst)) {
+                $table->sql->where .= ' AND qan.code LIKE :ifirst';
+                $table->sql->params['ifirst'] = $ifirst . '%';
+            }
             $table->set_attribute('class', 'generaltable generalbox grades');
-
             $table->out($options->pagesize, true);
         }
 
@@ -303,5 +309,27 @@ class quizanon_overview_report extends quiz_overview_report {
             require_once($CFG->libdir . '/plagiarismlib.php');
             echo plagiarism_update_status($course, $cm);
         }
+    }
+
+    /**
+     * Check necessary capabilities, and start the display of the regrade progress page.
+     * @param object $quiz the quiz settings.
+     * @param object $cm the cm object for the quiz.
+     */
+    protected function start_regrade($quiz, $cm) {
+        require_capability('mod/quiz:regrade', $this->context);
+        $course = get_course($cm->course);
+        $this->print_header_and_tabs($cm, $course, $quiz, $this->mode);
+    }
+
+    /**
+     * Add all the user-related columns to the $columns and $headers arrays.
+     * @param table_sql $table the table being constructed.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     */
+    public function quizanon_add_user_columns($table, &$columns, &$headers) {
+        $columns[] = 'usercode';
+        $headers[] = get_string('usercode', 'local_quizanon');
     }
 }
