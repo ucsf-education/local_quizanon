@@ -7,7 +7,7 @@ image:
 definitions:
   installscript: &baseInst
                    echo "Checking out Moodle Workplace\n" ;
-                   setphpversion 8.1
+                   setphpversion 8.1 ;
                    set-sshkey "$REPOKEY" && moodle-plugin-ci -vv install --branch='WORKPLACE_403_LATEST' --repo="$REPOSITORY" ;
   steps:
     - step: &base
