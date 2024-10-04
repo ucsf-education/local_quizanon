@@ -94,7 +94,7 @@ class quizanon_grading_report extends quiz_grading_report {
             $customfields[] = $field;
         }
         // Validate order.
-        $orderoptions = array_merge(['random', 'date', 'usercode','studentfirstname', 'studentlastname'], $customfields);
+        $orderoptions = array_merge(['random', 'date', 'usercode', 'studentfirstname', 'studentlastname'], $customfields);
         if (!in_array($order, $orderoptions)) {
             $order = self::DEFAULT_ORDER;
         } else if (!$shownames && ($order == 'studentfirstname' || $order == 'studentlastname')) {
@@ -294,9 +294,9 @@ class quizanon_grading_report extends quiz_grading_report {
      * $limitnum. A special value 'random' can be passed as $orderby, in which case
      * $limitfrom is ignored.
      *
+     * @param string $summarystate 'all', 'needsgrading', 'autograded' or 'manuallygraded'.
      * @param int $slot The slot for the questions you want to konw about.
      * @param int $questionid (optional) Only return attempts that were of this specific question.
-     * @param string $summarystate 'all', 'needsgrading', 'autograded' or 'manuallygraded'.
      * @param string $orderby 'random', 'date', 'student' or 'idnumber'.
      * @param int $page implements paging of the results.
      *      Ignored if $orderby = random or $pagesize is null.
