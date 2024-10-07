@@ -14,11 +14,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Dynamic forms examples
+ * Search anon user by code.
  *
- * @module     local_altai/event_crud
- * @copyright  2023 Moodle
- * @author     David Castro <david.castro@moodle.com>
+ * @module     local_quizanon/searchanon
+ * @copyright  2024 Moodle US.
+ * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import Templates from 'core/templates';
