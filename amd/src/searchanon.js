@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import Templates from 'core/templates';
+import {get_string as getString} from 'core/str';
 
 export const init = () => {
     var searchInput = document.getElementById('id_anonsearch');
@@ -37,16 +38,16 @@ export const init = () => {
                 newSearchInput.innerHTML = html;
                 searchButton = document.getElementById('searchbutton-anon');
                 inputElement = document.getElementById('searchinput-anon');
-                searchButton.addEventListener('click', function() {
+                searchButton.addEventListener('click', async function() {
                     usercode = inputElement.value;
                     let errorcontainer = document.getElementById('error-search-anon');
                     if (!usercode) {
-                        errorcontainer.innerHTML = 'El campo no puede estar vacío';
+                        errorcontainer.innerHTML = await getString('searchinputempty', 'local_quizanon');
                         errorcontainer.attributes.removeNamedItem('hidden');
                         return;
                     }
                     if (!/^[a-z0-9]{6}$/i.test(usercode)) {
-                        errorcontainer.innerHTML = 'El código debe tener 6 caracteres y solo puede contener letras y números';
+                        errorcontainer.innerHTML = await getString('searchinputinvalid', 'local_quizanon');
                         errorcontainer.attributes.removeNamedItem('hidden');
                         return;
                     }
@@ -59,7 +60,7 @@ export const init = () => {
                             userElement.style.backgroundColor = '';
                         }, 2000);
                     } else {
-                        errorcontainer.innerHTML = 'No se ha encontrado ningún usuario con ese código';
+                        errorcontainer.innerHTML =  await getString('searchinputnotfound', 'local_quizanon');
                         errorcontainer.attributes.removeNamedItem('hidden');
                     }
                 });
