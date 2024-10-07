@@ -34,4 +34,4 @@ $string['quizanonsettings'] = 'Quiz Anonymizer settings';
 $string['searchanonymousid'] = 'Search by anonymous ID';
 $string['searchinputinvalid'] = 'Anonymous ID is invalid, should be 6 characters long and only contain letters and numbers';
 $string['searchinputempty'] = 'Anonymous ID is empty';
-$string['searchinputnotfound'] = 'No user found with this anonymous ID';
+$string['searchinputnotfound'] = 'Anonymous ID not found please input a correct anonymous ID or increase the number of questions per page (Second setting under "Options")';
