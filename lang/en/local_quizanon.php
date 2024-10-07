@@ -31,3 +31,4 @@ $string['enablequizanon_desc'] = 'Enable the Quiz Anonymizer plugin to anonymize
 $string['anonuser'] = 'Anonymous user';
 $string['rolessetting'] = 'Roles to whom the quiz anonymizer feature does not apply';
 $string['quizanonsettings'] = 'Quiz Anonymizer settings';
+$string['searchanonymousid'] = 'Search by anonymous ID';

@@ -184,6 +184,7 @@ class quizanon_grading_report extends quiz_grading_report {
      */
     protected function display_grading_interface($slot, $questionid, $grade,
             $pagesize, $page, $shownames, $showcustomfields, $order, $counts) {
+        global $PAGE;
 
         if ($pagesize * $page >= $counts->$grade) {
             $page = 0;
@@ -283,6 +284,7 @@ class quizanon_grading_report extends quiz_grading_report {
                 $hiddeninputs,
                 $gradequestioncontent
         );
+        $PAGE->requires->js_call_amd('local_quizanon/searchanon', 'init', []);
     }
 
     /**
