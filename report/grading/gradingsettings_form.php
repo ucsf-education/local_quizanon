@@ -86,6 +86,7 @@ class quizanon_grading_settings_form extends moodleform {
         $orderoptions = [
             'random' => get_string('random', 'quiz_grading'),
             'date' => get_string('date'),
+            'usercode' => get_string('usercode', 'local_quizanon'),
         ];
         if ($this->shownames) {
             $orderoptions['studentfirstname'] = get_string('firstname');
