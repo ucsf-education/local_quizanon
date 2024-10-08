@@ -38,17 +38,27 @@ export const init = () => {
                 newSearchInput.innerHTML = html;
                 searchButton = document.getElementById('searchbutton-anon');
                 inputElement = document.getElementById('searchinput-anon');
+                inputElement.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        document.getElementById('searchbutton-anon').click();
+                    }
+                });
                 searchButton.addEventListener('click', async function() {
                     usercode = inputElement.value;
                     let errorcontainer = document.getElementById('error-search-anon');
                     if (!usercode) {
                         errorcontainer.innerHTML = await getString('searchinputempty', 'local_quizanon');
-                        errorcontainer.attributes.removeNamedItem('hidden');
+                        if (errorcontainer.attributes.getNamedItem('hidden')) {
+                            errorcontainer.attributes.removeNamedItem('hidden');
+                        }
                         return;
                     }
                     if (!/^[a-z0-9]{6}$/i.test(usercode)) {
                         errorcontainer.innerHTML = await getString('searchinputinvalid', 'local_quizanon');
-                        errorcontainer.attributes.removeNamedItem('hidden');
+                        if (errorcontainer.attributes.getNamedItem('hidden')) {
+                            errorcontainer.attributes.removeNamedItem('hidden');
+                        }
                         return;
                     }
                     let userElement = Array.from(document.querySelectorAll('h4')).find(el => el.textContent.includes(usercode));
@@ -61,7 +71,9 @@ export const init = () => {
                         }, 2000);
                     } else {
                         errorcontainer.innerHTML =  await getString('searchinputnotfound', 'local_quizanon');
-                        errorcontainer.attributes.removeNamedItem('hidden');
+                        if (errorcontainer.attributes.getNamedItem('hidden')) {
+                            errorcontainer.attributes.removeNamedItem('hidden');
+                        }
                     }
                 });
         });
