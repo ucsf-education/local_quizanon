@@ -102,7 +102,9 @@ function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
     global $COURSE, $DB;
     if ($formwrapper instanceof mod_quiz_mod_form) {
         $cm = $formwrapper->get_coursemodule();
-        $record = $DB->get_record('local_quizanon', ['quizid' => $cm->id]);
+        if (!empty($cm->id)) {
+            $record = $DB->get_record('local_quizanon', ['quizid' => $cm->id]);
+        }
         $anonenable = !empty($record->enable) ? 1 : 0;
         $anonroles = !empty($record->roles) ? json_decode($record->roles) : [];
 
