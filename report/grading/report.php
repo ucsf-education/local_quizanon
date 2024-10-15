@@ -94,7 +94,7 @@ class quizanon_grading_report extends quiz_grading_report {
             $customfields[] = $field;
         }
         // Validate order.
-        $orderoptions = array_merge(['random', 'date', 'studentfirstname', 'studentlastname'], $customfields);
+        $orderoptions = array_merge(['random', 'date', 'usercode', 'studentfirstname', 'studentlastname'], $customfields);
         if (!in_array($order, $orderoptions)) {
             $order = self::DEFAULT_ORDER;
         } else if (!$shownames && ($order == 'studentfirstname' || $order == 'studentlastname')) {
@@ -184,6 +184,7 @@ class quizanon_grading_report extends quiz_grading_report {
      */
     protected function display_grading_interface($slot, $questionid, $grade,
             $pagesize, $page, $shownames, $showcustomfields, $order, $counts) {
+        global $PAGE;
 
         if ($pagesize * $page >= $counts->$grade) {
             $page = 0;
@@ -270,7 +271,7 @@ class quizanon_grading_report extends quiz_grading_report {
         $hiddeninputs = [
                 'qubaids' => $qubaidlist,
                 'slots' => $slot,
-                'sesskey' => sesskey()
+                'sesskey' => sesskey(),
         ];
 
         echo $this->renderer->render_grading_interface(
@@ -283,6 +284,62 @@ class quizanon_grading_report extends quiz_grading_report {
                 $hiddeninputs,
                 $gradequestioncontent
         );
+        $PAGE->requires->js_call_amd('local_quizanon/searchanon', 'init', []);
+    }
+
+    /**
+     * Get a list of usage ids where the question with slot $slot, and optionally
+     * also with question id $questionid, is in summary state $summarystate. Also
+     * return the total count of such states.
+     *
+     * Only a subset of the ids can be returned by using $orderby, $limitfrom and
+     * $limitnum. A special value 'random' can be passed as $orderby, in which case
+     * $limitfrom is ignored.
+     *
+     * @param string $summarystate 'all', 'needsgrading', 'autograded' or 'manuallygraded'.
+     * @param int $slot The slot for the questions you want to konw about.
+     * @param int $questionid (optional) Only return attempts that were of this specific question.
+     * @param string $orderby 'random', 'date', 'student' or 'idnumber'.
+     * @param int $page implements paging of the results.
+     *      Ignored if $orderby = random or $pagesize is null.
+     * @param int $pagesize implements paging of the results. null = all.
+     * @return array with two elements, an array of usage ids, and a count of the total number.
+     */
+    protected function get_usage_ids_where_question_in_state($summarystate, $slot,
+            $questionid = null, $orderby = 'random', $page = 0, $pagesize = null) {
+        $dm = new question_engine_data_mapper();
+        $extraselect = '';
+        if ($pagesize && $orderby != 'random') {
+            $limitfrom = $page * $pagesize;
+        } else {
+            $limitfrom = 0;
+        }
+
+        $qubaids = $this->get_qubaids_condition();
+
+        $params = [];
+        $userfieldsapi = \core_user\fields::for_identity($this->context)->with_name();
+        $userfieldssql = $userfieldsapi->get_sql('u', true, '', 'userid', true);
+        $params = array_merge($params, $userfieldssql->params);
+        foreach ($userfieldsapi->get_required_fields([\core_user\fields::PURPOSE_IDENTITY]) as $field) {
+            $customfields[] = $field;
+        }
+        if ($orderby === 'date') {
+            list($statetest, $params) = $dm->in_summary_state_test(
+                    'manuallygraded', false, 'mangrstate');
+            $extraselect = "(
+                    SELECT MAX(sortqas.timecreated)
+                    FROM {question_attempt_steps} sortqas
+                    WHERE sortqas.questionattemptid = qa.id
+                        AND sortqas.state $statetest
+                    ) as tcreated";
+            $orderby = "tcreated";
+        } else if ($orderby === 'usercode') {
+            $qubaids->from .= " JOIN {local_quizanon_usercodes} lqau ON lqau.userid = quiza.userid";
+            $orderby = 'lqau.code';
+        }
+        return $dm->load_questions_usages_where_question_in_state($qubaids, $summarystate,
+                $slot, $questionid, $orderby, $params, $limitfrom, $pagesize, $extraselect);
     }
 
     /**
@@ -369,7 +426,7 @@ class quizanon_grading_report extends quiz_grading_report {
         global $DB;
         $a = new stdClass();
         $a->attempt = $attempt->attempt;
-        $a->fullname = local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
+        $a->fullname = local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
 
         $customfields = [];
         foreach ($this->extrauserfields as $field) {

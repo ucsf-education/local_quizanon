@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Soft fork of mod/quizanon/reviewquestion.php to anonymize the user's name.
+ * Soft fork of mod_quiz reviewquestion.php to anonymize the user's name.
  *
  * @package    local_quizanon
  * @copyright  2024 Moodle US
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
@@ -59,7 +60,7 @@ $PAGE->set_heading($attemptobj->get_course()->fullname);
 $output = $PAGE->get_renderer('mod_quiz');
 
 // Check permissions - warning there is similar code in review.php and
-// quiz_attempt::check_file_access. If you change on, change them all.
+// 'mod_quiz\quiz_attempt::check_file_access. If you change on, change them all.
 if ($attemptobj->is_own_attempt()) {
     if (!$attemptobj->is_finished()) {
         echo $output->review_question_not_allowed($attemptobj, get_string('cannotreviewopen', 'quiz'));
@@ -79,7 +80,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid()),
 ];
 
 // Quiz name.
@@ -117,12 +118,18 @@ if ($timestamp) {
 }
 $displayoptions = $attemptobj->get_display_options(true);
 $oldquestionlink = $displayoptions->questionreviewlink;
-$questionparams = $oldquestionlink->params();
-$newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+if (!empty($oldquestionlink)) {
+    $questionparams = $oldquestionlink->params();
+    $newquestionlink = new moodle_url('/local/quizanon/reviewquestion.php', $questionparams);
+    $displayoptions->questionreviewlink = $newquestionlink;
+}
+
 $oldcommentlink = $displayoptions->manualcommentlink;
-$commentparams = $oldcommentlink->params();
-$newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
-$displayoptions->questionreviewlink = $newquestionlink;
-$displayoptions->manualcommentlink = $newcommentlink;
+if (!empty($oldcommentlink)) {
+    $commentparams = $oldcommentlink->params();
+    $newcommentlink = new moodle_url('/local/quizanon/comment.php', $commentparams);
+    $displayoptions->manualcommentlink = $newcommentlink;
+}
+
 echo $output->review_question_page($attemptobj, $slot, $seq,
         $displayoptions, $summarydata);

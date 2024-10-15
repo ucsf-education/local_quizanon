@@ -100,7 +100,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
                 $newtablerow = clone($attempt);
                 $newtablerow->lasttryforallparts = ($try == $maxtriesinanyslot);
                 if ($try !== $maxtriesinanyslot) {
-                    $newtablerow->state = quiz_attempt::IN_PROGRESS;
+                    $newtablerow->state = mod_quiz\quiz_attempt::IN_PROGRESS;
                 }
                 $newtablerow->try = $try;
                 $newrawdata[] = $newtablerow;

@@ -45,12 +45,12 @@ if (!$attemptobj->is_finished()) {
 // Check login and permissions.
 require_login($attemptobj->get_course(), false, $attemptobj->get_cm());
 $attemptobj->require_capability('mod/quiz:grade');
-
+$usercode = local_anonquiz_get_usercode($attemptobj->get_userid(), $attemptobj->get_quizid());
 // Print the page header.
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('manualgradequestion', 'quiz', [
         'question' => format_string($attemptobj->get_question_name($slot)),
-        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => fullname($student)]));
+        'quiz' => format_string($attemptobj->get_quiz_name()), 'user' => $usercode]));
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 $output = $PAGE->get_renderer('mod_quiz');
 echo $output->header();
@@ -60,7 +60,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => local_anonquiz_generate_usercode($attemptobj->get_userid(), $attemptobj->get_quizid())
+    'content' => $usercode,
 ];
 
 // Quiz name.
@@ -77,7 +77,8 @@ $summarydata['questionname'] = [
 
 // Process any data that was submitted.
 if (data_submitted() && confirm_sesskey()) {
-    if (optional_param('submit', false, PARAM_BOOL) && question_engine::is_manual_grade_in_range($attemptobj->get_uniqueid(), $slot)) {
+    if (optional_param('submit', false, PARAM_BOOL) &&
+        question_engine::is_manual_grade_in_range($attemptobj->get_uniqueid(), $slot)) {
         $transaction = $DB->start_delegated_transaction();
         $attemptobj->process_submitted_actions(time());
         $transaction->allow_commit();
@@ -90,8 +91,8 @@ if (data_submitted() && confirm_sesskey()) {
             'other' => [
                 'quizid' => $attemptobj->get_quizid(),
                 'attemptid' => $attemptobj->get_attemptid(),
-                'slot' => $slot
-            ]
+                'slot' => $slot,
+            ],
         ];
         $event = \mod_quiz\event\question_manually_graded::create($params);
         $event->trigger();
@@ -107,8 +108,9 @@ echo $output->review_summary_table($summarydata, 0);
 
 // Print the comment form.
 echo '<form method="post" class="mform" id="manualgradingform" action="' .
-        $CFG->wwwroot . '/mod/quiz/comment.php">';
+        $CFG->wwwroot . '/local/quizanon/comment.php">';
 echo $attemptobj->render_question_for_commenting($slot);
+// @codingStandardsIgnoreStart
 ?>
 <div>
     <input type="hidden" name="attempt" value="<?php echo $attemptobj->get_attemptid(); ?>" />
@@ -127,6 +129,7 @@ echo $attemptobj->render_question_for_commenting($slot);
     </div>
 </fieldset>
 <?php
+// @codingStandardsIgnoreEnd
 echo '</form>';
 $PAGE->requires->js_init_call('M.mod_quiz.init_comment_popup', null, false, quiz_get_js_module());
 

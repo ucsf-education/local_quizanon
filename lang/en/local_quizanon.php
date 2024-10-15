@@ -25,7 +25,13 @@
 
 $string['pluginname'] = 'Quiz Anonymizer';
 $string['privacy:metadata'] = 'Quiz Anonymizer plugin does not store any personal data.';
-$string['usercode'] = 'User code';
+$string['usercode'] = 'Anonymous ID';
 $string['enablequizanon'] = 'Enable Quiz Anonymizer';
 $string['enablequizanon_desc'] = 'Enable the Quiz Anonymizer plugin to anonymize the quiz reports and reviews.';
 $string['anonuser'] = 'Anonymous user';
+$string['rolessetting'] = 'Roles to whom the quiz anonymizer feature does not apply';
+$string['quizanonsettings'] = 'Quiz Anonymizer settings';
+$string['searchanonymousid'] = 'Search by anonymous ID';
+$string['searchinputinvalid'] = 'Anonymous ID is invalid, should be 6 characters long and only contain letters and numbers';
+$string['searchinputempty'] = 'Anonymous ID is empty';
+$string['searchinputnotfound'] = 'Anonymous ID not found please input a correct anonymous ID or increase the number of questions per page (Second setting under "Options")';

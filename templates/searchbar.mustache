@@ -1,0 +1,38 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_quizanon/searchbar
+
+    This template will render a search bar.
+
+    Example context (json):
+    {
+    }
+
+}}
+<div style="display:contents;">
+    <div class="input-group" style="width: fit-content;">
+        <input type="text" id="searchinput-anon" class="form-control" maxlength="6" placeholder="{{#str}} search {{/str}}" aria-label="{{#str}} search {{/str}}" name="hook" data-region="input" autocomplete="off">
+        <div class="input-group-append" style="border: none;">
+            <div id="searchbutton-anon" class="btn btn-primary" style="border: none;">
+                <i class="icon fa fa-search fa-fw" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} search {{/str}}</span>
+            </div>
+        </div>
+    </div>
+    <div id="error-search-anon" class="alert alert-danger mt-2" role="alert" hidden="hidden"></div>
+</div>

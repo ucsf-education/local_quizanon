@@ -85,7 +85,8 @@ class quizanon_grading_settings_form extends moodleform {
 
         $orderoptions = [
             'random' => get_string('random', 'quiz_grading'),
-            'date' => get_string('date')
+            'date' => get_string('date'),
+            'usercode' => get_string('usercode', 'local_quizanon'),
         ];
         if ($this->shownames) {
             $orderoptions['studentfirstname'] = get_string('firstname');
@@ -111,5 +112,9 @@ class quizanon_grading_settings_form extends moodleform {
         }
 
         $mform->addElement('submit', 'submitbutton', get_string('changeoptions', 'quiz_grading'));
+
+        $mform->addElement('header', 'searchoption', get_string('search'));
+        $mform->addElement('text', 'anonsearch', get_string('searchanonymousid', 'local_quizanon'), ['size' => 6, 'maxlength' => 6]);
+        $mform->setType('anonsearch', PARAM_ALPHANUM);
     }
 }

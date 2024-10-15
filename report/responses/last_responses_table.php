@@ -13,9 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
-use mod_quiz\quiz_attempt;
 require_once($CFG->dirroot . '/mod/quiz/report/responses/last_responses_table.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
@@ -36,7 +36,7 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
      * @return string HTML content to go inside the td.
      */
     public function col_sumgrades($attempt) {
-        if ($attempt->state != quiz_attempt::FINISHED) {
+        if ($attempt->state != mod_quiz\quiz_attempt::FINISHED) {
             return '-';
         }
 
@@ -122,6 +122,24 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
      * @return string HTML content to go inside the td.
      */
     public function col_usercode($attempt) {
-        return local_anonquiz_generate_usercode($attempt->userid, $this->quiz->id);
+        return local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
+    }
+
+    /**
+     * This function is not part of the public api.
+     */
+    public function print_initials_bar() {
+        global $OUTPUT;
+
+        $ifirst = $this->get_initial_first();
+
+        if (is_null($ifirst)) {
+            $ifirst = '';
+        }
+
+        if ((!empty($ifirst) || !empty($ilast) || $this->use_initials)) {
+            $prefixfirst = $this->request[TABLE_VAR_IFIRST];
+            echo $OUTPUT->initials_bar($ifirst, 'firstinitial', get_string('usercode', 'local_quizanon'), $prefixfirst, $this->baseurl);
+        }
     }
 }
