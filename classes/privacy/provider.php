@@ -24,7 +24,6 @@
  */
 
 namespace local_quizanon\privacy;
-use core_privacy\local\metadata\collection;
 
 /**
  * Privacy Subsystem for local_quizanon implementing null_provider.
@@ -34,24 +33,15 @@ use core_privacy\local\metadata\collection;
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider, \core_privacy\local\request\data_provider {
+class provider implements \core_privacy\local\metadata\null_provider {
 
     /**
-     * Returns information about the user data stored in this component.
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
      *
-     * @param  collection $collection A list of information about this component
-     * @return collection The collection object filled out with information about this component.
+     * @return  string
      */
-    public static function get_metadata(collection $collection): collection {
-
-        $collection->add_database_table(
-            'local_quizanon_usercodes',
-             [
-                'userid' => 'privacy:metadata:usercodes:userid',
-             ],
-            'privacy:metadata:local_quizanon_usercodes'
-        );
-
-        return $collection;
+    public static function get_reason(): string {
+        return 'privacy:metadata';
     }
 }

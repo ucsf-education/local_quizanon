@@ -81,20 +81,5 @@ function xmldb_local_quizanon_upgrade(int $oldversion) {
         upgrade_plugin_savepoint(true, 2024040900, 'local', 'quizanon');
     }
 
-    if ($oldversion < 2024120400) {
-        // Table local_quizanon to be modified.
-        $table = new xmldb_table('local_quizanon');
-        // Index to be dropped.
-        $index = new xmldb_index('usermodified', XMLDB_INDEX_NOTUNIQUE, ['usermodified']);
-
-        // Conditionally launch drop index for local_quizanon.
-        if ($dbman->index_exists($table, $index)) {
-            $dbman->drop_index($table, $index);
-        }
-
-        // Quizanon savepoint reached.
-        upgrade_plugin_savepoint(true, 2024120400, 'local', 'quizanon');
-    }
-
     return true;
 }
