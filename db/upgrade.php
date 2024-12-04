@@ -88,7 +88,7 @@ function xmldb_local_quizanon_upgrade(int $oldversion) {
         $index = new xmldb_index('usermodified', XMLDB_INDEX_NOTUNIQUE, ['usermodified']);
 
         // Conditionally launch drop index for local_quizanon.
-        if ($dbman->table_exists($table) && $dbman->index_exists($table, $index)) { 
+        if ($dbman->table_exists($table) && $dbman->index_exists($table, $index)) {
             $dbman->drop_index($table, $index);
         }
 
