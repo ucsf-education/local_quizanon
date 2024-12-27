@@ -46,7 +46,7 @@ class behat_local_quizanon extends behat_question_base {
      */
     public function quizanonpluginisenable($quizname) {
         global $DB;
-        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $quiz = $DB->get_record('quiz', ['name' => $quizname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
         $roles = [];
         $record = $DB->get_record('local_quizanon', ['quizid' => $cm->id]);
@@ -68,7 +68,7 @@ class behat_local_quizanon extends behat_question_base {
      */
     public function roleisexcludedfromquizanon($role, $quizname) {
         global $DB;
-        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $quiz = $DB->get_record('quiz', ['name' => $quizname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
         $roles = [];
         $getroleid = $DB->get_record('role', ['shortname' => $role]);
@@ -91,7 +91,7 @@ class behat_local_quizanon extends behat_question_base {
      */
     public function quizanonpluginisdisabled($quizname) {
         global $DB;
-        $quiz = $DB->get_record('quiz', array('name' => $quizname), '*', MUST_EXIST);
+        $quiz = $DB->get_record('quiz', ['name' => $quizname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
         if (!$quiz) {
 

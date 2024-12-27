@@ -139,7 +139,12 @@ class quizanon_overview_table extends quiz_overview_table {
 
         if ((!empty($ifirst) || !empty($ilast) || $this->use_initials)) {
             $prefixfirst = $this->request[TABLE_VAR_IFIRST];
-            echo $OUTPUT->initials_bar($ifirst, 'firstinitial', get_string('usercode', 'local_quizanon'), $prefixfirst, $this->baseurl);
+            echo $OUTPUT->initials_bar(
+                $ifirst,
+                'firstinitial',
+                get_string('usercode', 'local_quizanon'),
+                $prefixfirst,
+                $this->baseurl);
         }
     }
 }

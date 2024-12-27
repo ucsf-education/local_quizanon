@@ -36,18 +36,18 @@ if ($id) {
     if (!$cm = get_coursemodule_from_id('quiz', $id)) {
         throw new \moodle_exception('invalidcoursemodule');
     }
-    if (!$course = $DB->get_record('course', array('id' => $cm->course))) {
+    if (!$course = $DB->get_record('course', ['id' => $cm->course])) {
         throw new \moodle_exception('coursemisconf');
     }
-    if (!$quiz = $DB->get_record('quiz', array('id' => $cm->instance))) {
+    if (!$quiz = $DB->get_record('quiz', ['id' => $cm->instance])) {
         throw new \moodle_exception('invalidcoursemodule');
     }
 
 } else {
-    if (!$quiz = $DB->get_record('quiz', array('id' => $q))) {
+    if (!$quiz = $DB->get_record('quiz', ['id' => $q]))) {
         throw new \moodle_exception('invalidquizid', 'quiz');
     }
-    if (!$course = $DB->get_record('course', array('id' => $quiz->course))) {
+    if (!$course = $DB->get_record('course', ['id' => $quiz->course])) {
         throw new \moodle_exception('invalidcourseid');
     }
     if (!$cm = get_coursemodule_from_instance("quiz", $quiz->id, $course->id)) {
