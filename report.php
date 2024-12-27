@@ -44,7 +44,7 @@ if ($id) {
     }
 
 } else {
-    if (!$quiz = $DB->get_record('quiz', ['id' => $q]))) {
+    if (!$quiz = $DB->get_record('quiz', ['id' => $q])) {
         throw new \moodle_exception('invalidquizid', 'quiz');
     }
     if (!$course = $DB->get_record('course', ['id' => $quiz->course])) {
