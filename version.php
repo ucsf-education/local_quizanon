@@ -30,4 +30,4 @@ $plugin->requires  = 2022112800; // Requires this Moodle version.
 $plugin->component = 'local_quizanon'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0.0';
-$plugin->supported = [401, 401];
+$plugin->supported = [401, 404];
