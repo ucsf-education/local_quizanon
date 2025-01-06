@@ -36,22 +36,22 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class quizanon_grading_settings_form extends moodleform {
 
-    /** Whether to include automatically graded attempts. */
+    /** @var bool Whether to include automatically graded attempts. */
     protected bool $includeauto;
 
-    /** Hidden form options. */
+    /** @var array Hidden form options. */
     protected array $hidden;
 
-    /** Counts of each type of quiz attempt. */
+    /** @var stdClass Counts of each type of quiz attempt. */
     protected stdClass $counts;
 
-    /** Whether student names are displayed. */
+    /** @var bool Whether student names are displayed. */
     protected bool $shownames;
 
-    /** Whether custom field values are displayed. */
+    /** @var bool Whether custom field values are displayed. */
     protected bool $showcustomfields;
 
-    /** Context for the settings form. */
+    /** @var stdClass Context for the settings form. */
     protected stdClass $context;
 
     /**

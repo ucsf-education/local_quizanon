@@ -49,7 +49,7 @@ class quizanon_codes extends base {
      * @return array
      */
     protected static function define_properties(): array {
-        return array(
+        return [
             'quizid' => [
                 'type' => PARAM_INT,
                 'null' => NULL_NOT_ALLOWED,
@@ -62,6 +62,6 @@ class quizanon_codes extends base {
                 'type' => PARAM_ALPHANUM,
                 'null' => NULL_NOT_ALLOWED,
             ],
-        );
+        ];
     }
 }
