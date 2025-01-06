@@ -185,7 +185,7 @@ if ($attempt->state == mod_quiz\quiz_attempt::FINISHED) {
         'content' => userdate($attempt->timefinish),
     ];
     $summarydata['timetaken'] = [
-        'title'   => get_string('timetaken', 'quiz'),
+        'title'   => get_string('attemptduration', 'quiz'),
         'content' => $timetaken,
     ];
 }
@@ -206,7 +206,7 @@ if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades
         $empty = true;
     } else if (is_null($grade)) {
         $summarydata['grade'] = [
-            'title'   => get_string('grade', 'quiz'),
+            'title'   => get_string('gradenoun'),
             'content' => quiz_format_grade($quiz, $grade),
         ];
 
@@ -237,7 +237,7 @@ if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades
             $formattedgrade = get_string('outof', 'quiz', $a);
         }
         $summarydata['grade'] = [
-            'title'   => get_string('grade', 'quiz'),
+            'title'   => get_string('gradenoun'),
             'content' => $formattedgrade,
         ];
     }
