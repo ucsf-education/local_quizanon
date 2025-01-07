@@ -144,7 +144,7 @@ if ($attempt->state == mod_quiz\quiz_attempt::FINISHED) {
     $timetaken = get_string('unfinished', 'quiz');
 }
 
-// Prepare summary informat about the whole attempt.
+// Prepare summary information about the whole attempt.
 $summarydata = [];
 if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $USER->id) {
     // If showuserpicture is true, the picture is shown elsewhere, so don't repeat it.
@@ -273,7 +273,10 @@ $navbc = $attemptobj->get_navigation_panel($output, 'mod_quiz\output\navigation_
 $regions = $PAGE->blocks->get_regions();
 $PAGE->blocks->add_fake_block($navbc, reset($regions));
 
-echo $output->review_page($attemptobj, $slots, $page, $showall, $lastpage, $options, $summarydata);
+/** @var mod_quiz\output\attempt_summary_information summary information about the attempt. */
+$attemptsummarydata = mod_quiz\output\attempt_summary_information::create_from_legacy_array($summarydata);
+
+echo $output->review_page($attemptobj, $slots, $page, $showall, $lastpage, $options, $attemptsummarydata);
 
 // Trigger an event for this review.
 $attemptobj->fire_attempt_reviewed_event();
