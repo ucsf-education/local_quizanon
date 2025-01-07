@@ -273,10 +273,9 @@ $navbc = $attemptobj->get_navigation_panel($output, 'mod_quiz\output\navigation_
 $regions = $PAGE->blocks->get_regions();
 $PAGE->blocks->add_fake_block($navbc, reset($regions));
 
-/**
- * @var mod_quiz\output\attempt_summary_information 
- * This is a new object for summary information about the attempt that will replace the old array.
- */
+
+ // @var mod_quiz\output\attempt_summary_information
+ // This is a new object for summary information about the attempt that will replace the old array.
 $attemptsummarydata = mod_quiz\output\attempt_summary_information::create_from_legacy_array($summarydata);
 
 echo $output->review_page($attemptobj, $slots, $page, $showall, $lastpage, $options, $attemptsummarydata);
