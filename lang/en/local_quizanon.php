@@ -23,18 +23,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['anonuser'] = 'Anonymous user';
+$string['enablequizanon'] = 'Enable Quiz Anonymizer';
+$string['enablequizanon_desc'] = 'Enable the Quiz Anonymizer plugin to anonymize the quiz reports and reviews.';
 $string['pluginname'] = 'Quiz Anonymizer';
 $string['privacy:metadata'] = 'Quiz Anonymizer plugin does not store any personal data.';
 $string['privacy:metadata:local_quizanon_usercodes'] = 'Table to store the user anonymous codes for the quiz anonymizer plugin.';
-$string['privacy:metadata:usercodes:userid'] = 'User ID';
 $string['privacy:metadata:usercodes:usercode'] = 'User Anonymous ID (random code), one for each userid/quizid pair.';
-$string['usercode'] = 'Anonymous ID';
-$string['enablequizanon'] = 'Enable Quiz Anonymizer';
-$string['enablequizanon_desc'] = 'Enable the Quiz Anonymizer plugin to anonymize the quiz reports and reviews.';
-$string['anonuser'] = 'Anonymous user';
-$string['rolessetting'] = 'Roles to whom the quiz anonymizer feature does not apply';
+$string['privacy:metadata:usercodes:userid'] = 'User ID';
 $string['quizanonsettings'] = 'Quiz Anonymizer settings';
+$string['rolessetting'] = 'Roles to whom the quiz anonymizer feature does not apply';
 $string['searchanonymousid'] = 'Search by anonymous ID';
-$string['searchinputinvalid'] = 'The Anonymous ID must be six characters long and contain only letters and numbers. Please double-check and try again.';
 $string['searchinputempty'] = 'Anonymous ID is empty';
+$string['searchinputinvalid'] = 'The Anonymous ID must be six characters long and contain only letters and numbers. Please double-check and try again.';
 $string['searchinputnotfound'] = 'We couldn\'t find the Anonymous ID. Please double-check the ID or try increasing the number of questions per page (second setting under \'Options\' on this page).';
+$string['usercode'] = 'Anonymous ID';
