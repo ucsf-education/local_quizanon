@@ -27,6 +27,8 @@ namespace local_quizanon;
 
 use core\hook\output\before_standard_top_of_body_html_generation;
 
+defined('MOODLE_INTERNAL') || die;
+
 require_once(__DIR__ . '/../lib.php');
 
 /**
@@ -46,7 +48,6 @@ class hook_callbacks {
      * @param \core\hook\output\before_standard_top_of_body_html_generation $hook
      */
     public static function before_standard_top_of_body_html(before_standard_top_of_body_html_generation $hook): void {
-        
         if (during_initial_install() || !get_config('local_quizanon', 'version')) {
             return;
         }
