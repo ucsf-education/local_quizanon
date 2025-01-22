@@ -335,7 +335,7 @@ class quizanon_grading_report extends quiz_grading_report {
                     ) as tcreated";
             $orderby = "tcreated";
         } else if ($orderby === 'usercode') {
-            $qubaids->from .= " JOIN {local_quizanon_usercodes} lqau ON lqau.userid = quiza.userid";
+            $qubaids->from .= " JOIN {local_quizanon_usercodes} lqau ON lqau.userid = quiza.userid and quiza.quiz = lqau.quizid";
             $orderby = 'lqau.code';
         }
         return $dm->load_questions_usages_where_question_in_state($qubaids, $summarystate,
