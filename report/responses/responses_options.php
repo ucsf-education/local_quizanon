@@ -32,6 +32,11 @@ class quizanon_responses_options extends quiz_responses_options {
      * @return moodle_url the URL.
      */
     public function get_url() {
-        return new moodle_url('/local/quizanon/report.php', $this->get_url_params());
+        $params = $this->get_url_params();
+        $tifirst = optional_param('tifirst', null, PARAM_ALPHA);
+        if (!empty($tifirst)) {
+            $params['tifirst'] = $tifirst;
+        }
+        return new moodle_url('/local/quizanon/report.php', $params);
     }
 }

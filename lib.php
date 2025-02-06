@@ -31,7 +31,8 @@ function local_quizanon_before_standard_top_of_body_html() {
 
     $pagename = $PAGE->pagetype;
     $coursemodule = $PAGE->cm;
-    if (empty($coursemodule) || $coursemodule->modname !== 'quiz') {
+    $pluginenabled = get_config('local_quizanon', 'enablequizanon');
+    if (empty($coursemodule) || $coursemodule->modname !== 'quiz' || empty($pluginenabled)) {
         return;
     }
     $urlparams = $PAGE->url->params();
