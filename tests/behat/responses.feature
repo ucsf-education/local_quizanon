@@ -10,8 +10,7 @@ Feature: Basic use of the Responses quiz_anon report
       | teacher  | The       | Teacher  |
       | student1 | Student   | One      |
       | student2 | Student   | Two      |
-    And the following config values are set as admin:
-      | enablequizanon   | 1 | local_quizanon |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname |
       | Course 1 | C1        |
