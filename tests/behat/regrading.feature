@@ -11,6 +11,8 @@ Feature: Regrading quiz attempts using the Grades anon report
       | student1 | Student   | One       |
       | student2 | Student   | Two       |
       | student3 | Student   | Three     |
+    And the following config values are set as admin:
+      | enablequizanon   | 1 | local_quizanon |
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |

@@ -7,6 +7,8 @@ Feature: Basic use of the Grades quizanon report
   Background:
     Given the "multilang" filter is "on"
     And the "multilang" filter applies to "content and headings"
+    And the following config values are set as admin:
+      | enablequizanon   | 1 | local_quizanon |
     And the following "custom profile fields" exist:
       | datatype | shortname | name  |
       | text     | fruit     | Fruit |
