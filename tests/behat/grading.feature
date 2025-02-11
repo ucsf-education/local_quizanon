@@ -13,6 +13,7 @@ Feature: Basic use of the Manual grading anon report
       | text     | frog       | Favourite frog |
     And the following config values are set as admin:
       | showuseridentity | username,idnumber,email,profile_field_frog |
+    And Quizanon plugin is enabled
     And the following "users" exist:
       | username | firstname | lastname | email                | idnumber |  profile_field_frog |
       | teacher1 | T1        | Teacher1 | teacher1@example.com | T1000    |                     |
