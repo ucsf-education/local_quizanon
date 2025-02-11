@@ -11,6 +11,7 @@ Feature: Regrading quiz attempts using the Grades anon report
       | student1 | Student   | One       |
       | student2 | Student   | Two       |
       | student3 | Student   | Three     |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
