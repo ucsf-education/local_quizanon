@@ -102,7 +102,7 @@ function local_quizanon_before_standard_top_of_body_html() {
 function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
     global $COURSE, $DB, $PAGE;
     $pluginenabled = get_config('local_quizanon', 'enablequizanon');
-    if ($PAGE->pagetype !== 'mod-quiz-edit' || empty($pluginenabled)) {
+    if (empty($pluginenabled)) {
         return;
     }
     if ($formwrapper instanceof mod_quiz_mod_form) {
@@ -136,7 +136,7 @@ function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
  * @return stdClass
  */
 function local_quizanon_coursemodule_edit_post_actions($data) {
-    global $DB, $USER, $PAGE;
+    global $DB, $USER;
 
     $quizid = $data->coursemodule;
 
