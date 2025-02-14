@@ -100,4 +100,13 @@ class behat_local_quizanon extends behat_question_base {
             }
         }
     }
+
+    /**
+     * Check if quizanon is enabled.
+     *
+     * @Then /^Quizanon plugin is enabled$/
+     */
+    public function quizanonpluginisenabled() {
+        set_config('enablequizanon', 1, 'local_quizanon');
+    }
 }
