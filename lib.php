@@ -137,7 +137,6 @@ function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
  */
 function local_quizanon_coursemodule_edit_post_actions($data) {
     global $DB, $USER;
-
     $quizid = $data->coursemodule;
 
     $arraydata = [
