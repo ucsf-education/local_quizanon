@@ -31,8 +31,7 @@ function local_quizanon_before_standard_top_of_body_html() {
 
     $pagename = $PAGE->pagetype;
     $coursemodule = $PAGE->cm;
-    $pluginenabled = get_config('local_quizanon', 'enablequizanon');
-    if (empty($coursemodule) || $coursemodule->modname !== 'quiz' || empty($pluginenabled)) {
+    if (empty($coursemodule) || $coursemodule->modname !== 'quiz') {
         return;
     }
     $urlparams = $PAGE->url->params();
@@ -51,8 +50,9 @@ function local_quizanon_before_standard_top_of_body_html() {
     }
 
     $mode = !empty($urlparams['mode']) ? $urlparams['mode'] : '';
+    $pluginenabled = get_config('local_quizanon', 'enablequizanon');
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');
-    $redirect = !empty($quizanonenabled) && !$userhasrole;
+    $redirect = !empty($quizanonenabled) && !$userhasrole && !empty($pluginenabled);
     switch($pagename) {
         case 'mod-quiz-report':
             $url = '/local/quizanon/report.php';
@@ -69,23 +69,22 @@ function local_quizanon_before_standard_top_of_body_html() {
             break;
         case 'local-quizanon-report':
             $url = '/mod/quiz/report.php';
-            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case 'local-quizanon-review':
             $url = '/mod/quiz/review.php';
-            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case "local-quizanon-reviewquestion":
             $url = '/mod/quiz/reviewquestion.php';
-            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         case "local-quizanon-comment":
             $url = '/mod/quiz/comment.php';
-            $redirect = empty($quizanonenabled) || $userhasrole;
             break;
         default:
             $redirect = false;
             break;
+    }
+    if (substr($pagename, 0, 5) === 'local') {
+        $redirect = empty($quizanonenabled) || empty($pluginenabled) || $userhasrole;
     }
     if ($redirect) {
         $moodleurl = new moodle_url($url, $urlparams);
@@ -100,7 +99,11 @@ function local_quizanon_before_standard_top_of_body_html() {
  * @param moodleform $mform
  */
 function local_quizanon_coursemodule_standard_elements($formwrapper, $mform) {
-    global $COURSE, $DB;
+    global $COURSE, $DB, $PAGE;
+    $pluginenabled = get_config('local_quizanon', 'enablequizanon');
+    if (empty($pluginenabled)) {
+        return;
+    }
     if ($formwrapper instanceof mod_quiz_mod_form) {
         $cm = $formwrapper->get_coursemodule();
         if (!empty($cm->id)) {
