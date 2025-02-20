@@ -8,6 +8,7 @@ Feature: Basic use of the local_quizanon reports
       | teacher1 | T1        | Teacher1 | teacher1@example.com |
       | student1 | S1        | Student1 | student1@example.com |
       | student2 | S2        | Student2 | student2@example.com |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |

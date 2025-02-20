@@ -9,6 +9,7 @@ Feature: Quiz anon regrade when not possible
       | username | firstname | lastname  |
       | teacher  | Mark      | Allwright |
       | student  | Student   | One       |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
