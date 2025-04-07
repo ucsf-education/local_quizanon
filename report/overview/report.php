@@ -24,10 +24,10 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
- require_once($CFG->dirroot . '/mod/quiz/report/overview/report.php');
- require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_form.php');
- require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_table.php');
- require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_options.php');
+require_once($CFG->dirroot . '/mod/quiz/report/overview/report.php');
+require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_form.php');
+require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_table.php');
+require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_options.php');
 
 /**
  * Quiz report subclass for the overview (grades) report.
@@ -49,14 +49,20 @@ class quizanon_overview_report extends quiz_overview_report {
      */
     public function display($quiz, $cm, $course) {
         global $DB, $PAGE;
+
+        // Initialize the report.
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
-                'overview', 'quizanon_overview_settings_form', $quiz, $cm, $course);
+            'overview',
+            'quizanon_overview_settings_form',
+            $quiz,
+            $cm,
+            $course
+        );
 
         $options = new quizanon_overview_options('overview', $quiz, $cm, $course);
 
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
-
         } else {
             $options->process_settings_from_params();
         }
@@ -65,36 +71,40 @@ class quizanon_overview_report extends quiz_overview_report {
 
         // Load the required questions.
         $questions = quiz_report_get_significant_questions($quiz);
-        // Prepare for downloading, if applicable.
-        $courseshortname = format_string($course->shortname, true,
-                ['context' => \context_course::instance($course->id)]);
-        $table = new quizanon_overview_table($quiz, $this->context, $this->qmsubselect,
-                $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
-        $filename = quiz_report_download_filename(get_string('overviewfilename', 'quiz_overview'),
-                $courseshortname, $quiz->name);
 
-        $table->is_downloading($options->download, $filename,
-                $courseshortname . ' ' . format_string($quiz->name, true));
+        // Prepare for downloading, if applicable.
+        $courseshortname = format_string($course->shortname, true, ['context' => \context_course::instance($course->id)]);
+        $table = new quizanon_overview_table(
+            $quiz,
+            $this->context,
+            $this->qmsubselect,
+            $options,
+            $groupstudentsjoins,
+            $studentsjoins,
+            $questions,
+            $options->get_url()
+        );
+        $filename = quiz_report_download_filename(
+            get_string('overviewfilename', 'quiz_overview'),
+            $courseshortname,
+            $quiz->name
+        );
+
+        $table->is_downloading(
+            $options->download,
+            $filename,
+            $courseshortname . ' ' . format_string($quiz->name, true)
+        );
         if ($table->is_downloading()) {
             raise_memory_limit(MEMORY_EXTRA);
         }
 
-        $this->hasgroupstudents = false;
-        if (!empty($groupstudentsjoins->joins)) {
-            $sql = "SELECT DISTINCT u.id
-                      FROM {user} u
-                    $groupstudentsjoins->joins
-                     WHERE $groupstudentsjoins->wheres";
-            $this->hasgroupstudents = $DB->record_exists_sql($sql, $groupstudentsjoins->params);
-        }
-        $hasstudents = false;
-        if (!empty($studentsjoins->joins)) {
-            $sql = "SELECT DISTINCT u.id
-                    FROM {user} u
-                    $studentsjoins->joins
-                    WHERE $studentsjoins->wheres";
-            $hasstudents = $DB->record_exists_sql($sql, $studentsjoins->params);
-        }
+        // Check for group students and overall students.
+        $this->hasgroupstudents = !empty($groupstudentsjoins->joins) &&
+            $DB->record_exists_sql("SELECT DISTINCT u.id FROM {user} u {$groupstudentsjoins->joins} WHERE {$groupstudentsjoins->wheres}", $groupstudentsjoins->params);
+
+        $hasstudents = !empty($studentsjoins->joins) &&
+            $DB->record_exists_sql("SELECT DISTINCT u.id FROM {user} u {$studentsjoins->joins} WHERE {$studentsjoins->wheres}", $studentsjoins->params);
 
         if ($options->attempts == self::ALL_WITH) {
             // This option is only available to users who can access all groups in
@@ -109,64 +119,24 @@ class quizanon_overview_report extends quiz_overview_report {
 
         // Start output.
         if (!$table->is_downloading()) {
-            // Only print headers if not asked to download data.
-            $this->print_standard_header_and_messages($cm, $course, $quiz,
-                    $options, $currentgroup, $hasquestions, $hasstudents);
-
-            // Print the display options.
+            $this->print_standard_header_and_messages($cm, $course, $quiz, $options, $currentgroup, $hasquestions, $hasstudents);
             $this->form->display();
         }
 
         $hasstudents = $hasstudents && (!$currentgroup || $this->hasgroupstudents);
         if ($hasquestions && ($hasstudents || $options->attempts == self::ALL_WITH)) {
-            // Construct the SQL.
             $table->setup_sql_queries($allowedjoins);
 
             if (!$table->is_downloading()) {
-                // Output the regrade buttons.
-                if (has_capability('mod/quiz:regrade', $this->context)) {
-                    $regradesneeded = $this->count_question_attempts_needing_regrade(
-                            $quiz, $groupstudentsjoins);
-                    if ($currentgroup) {
-                        $a = new \stdClass();
-                        $a->groupname = format_string(groups_get_group_name($currentgroup), true, [
-                            'context' => $this->context,
-                        ]);
-                        $a->coursestudents = get_string('participants');
-                        $a->countregradeneeded = $regradesneeded;
-                        $regradealldrydolabel =
-                                get_string('regradealldrydogroup', 'quiz_overview', $a);
-                        $regradealldrylabel =
-                                get_string('regradealldrygroup', 'quiz_overview', $a);
-                        $regradealllabel =
-                                get_string('regradeallgroup', 'quiz_overview', $a);
-                    } else {
-                        $regradealldrydolabel =
-                                get_string('regradealldrydo', 'quiz_overview', $regradesneeded);
-                        $regradealldrylabel =
-                                get_string('regradealldry', 'quiz_overview');
-                        $regradealllabel =
-                                get_string('regradeall', 'quiz_overview');
-                    }
-                    $displayurl = new \moodle_url($options->get_url(), ['sesskey' => sesskey()]);
-                    echo '<div class="regradebuttons">';
-                    echo '<form action="'.$displayurl->out_omit_querystring().'">';
-                    echo '<div>';
-                    echo \html_writer::input_hidden_params($displayurl);
-                    echo '<input type="submit" class="btn btn-secondary" name="regradeall" value="'.$regradealllabel.'"/>';
-                    echo '<input type="submit" class="btn btn-secondary ml-1" name="regradealldry" value="' .
-                            $regradealldrylabel . '"/>';
-                    if ($regradesneeded) {
-                        echo '<input type="submit" class="btn btn-secondary ml-1" name="regradealldrydo" value="' .
-                                $regradealldrydolabel . '"/>';
-                    }
-                    echo '</div>';
-                    echo '</form>';
-                    echo '</div>';
-                }
+                // Display regrade buttons using the updated method.
+                $this->display_commit_regrade_if_required($quiz, $groupstudentsjoins, $options);
+
                 // Print information on the grading method.
                 if ($strattempthighlight = quiz_report_highlighting_grading_method(
-                        $quiz, $this->qmsubselect, $options->onlygraded)) {
+                    $quiz,
+                    $this->qmsubselect,
+                    $options->onlygraded
+                )) {
                     echo '<div class="quizattemptcounts mt-3">' . $strattempthighlight . '</div>';
                 }
             }
@@ -180,15 +150,16 @@ class quizanon_overview_report extends quiz_overview_report {
                 $columns[] = $columnname;
                 $headers[] = $table->checkbox_col_header($columnname);
             }
-            $this->quizanon_add_user_columns($table, $columns, $headers);
 
+            $this->quizanon_add_user_columns($table, $columns, $headers);
             $this->add_state_column($columns, $headers);
             $this->add_time_columns($columns, $headers);
-
             $this->add_grade_columns($quiz, $options->usercanseegrades, $columns, $headers, false);
 
-            if (!$table->is_downloading() && has_capability('mod/quiz:regrade', $this->context) &&
-                    $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)) {
+            if (
+                !$table->is_downloading() && has_capability('mod/quiz:regrade', $this->context) &&
+                $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)
+            ) {
                 $columns[] = 'regraded';
                 $headers[] = get_string('regrade', 'quiz_overview');
             }
@@ -196,18 +167,15 @@ class quizanon_overview_report extends quiz_overview_report {
             if ($options->slotmarks) {
                 foreach ($questions as $slot => $question) {
                     $columns[] = 'qsgrade' . $slot;
-                    $header = get_string('qbrief', 'quiz', $question->number);
-                    if (!$table->is_downloading()) {
-                        $header .= '<br />';
-                    } else {
-                        $header .= ' ';
-                    }
-                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
+                    $header = get_string('qbrief', 'quiz', $question->displaynumber);
+                    $header .= (!$table->is_downloading() ? '<br />' : ' ') . '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
                     $headers[] = $header;
                 }
             }
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
+
+            // Add custom SQL for quizanon user codes.
             $table->sql->from .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
             $table->sql->params['quizid2'] = $quiz->id;
             $table->sql->fields .= ', qan.code as usercode';
@@ -216,27 +184,24 @@ class quizanon_overview_report extends quiz_overview_report {
                 $table->sql->where .= ' AND qan.code LIKE :ifirst';
                 $table->sql->params['ifirst'] = $ifirst . '%';
             }
+
             $table->set_attribute('class', 'generaltable generalbox grades');
             $table->out($options->pagesize, true);
         }
 
+        // Display grade distribution charts.
         if (!$table->is_downloading() && $options->usercanseegrades) {
             $output = $PAGE->get_renderer('mod_quiz');
             list($bands, $bandwidth) = self::get_bands_count_and_width($quiz);
             $labels = self::get_bands_labels($bands, $bandwidth, $quiz);
 
             if ($currentgroup && $this->hasgroupstudents) {
-                $sql = "SELECT qg.id
-                          FROM {quiz_grades} qg
-                          JOIN {user} u on u.id = qg.userid
-                        {$groupstudentsjoins->joins}
-                          WHERE qg.quiz = $quiz->id AND {$groupstudentsjoins->wheres}";
-                if ($DB->record_exists_sql($sql, $groupstudentsjoins->params)) {
+                $sql = "SELECT qg.id FROM {quiz_grades} qg JOIN {user} u ON u.id = qg.userid {$groupstudentsjoins->joins}
+                        WHERE qg.quiz = :quizid AND {$groupstudentsjoins->wheres}";                
+                if ($DB->record_exists_sql($sql, array_merge(['quizid' => $quiz->id], $groupstudentsjoins->params))) {
                     $data = quiz_report_grade_bands($bandwidth, $bands, $quiz->id, $groupstudentsjoins);
                     $chart = self::get_chart($labels, $data);
-                    $groupname = format_string(groups_get_group_name($currentgroup), true, [
-                        'context' => $this->context,
-                    ]);
+                    $groupname = format_string(groups_get_group_name($currentgroup), true, ['context' => $this->context]);
                     $graphname = get_string('overviewreportgraphgroup', 'quiz_overview', $groupname);
                     // Numerical range data should display in LTR even for RTL languages.
                     echo $output->chart($chart, $graphname, ['dir' => 'ltr']);
@@ -251,6 +216,7 @@ class quizanon_overview_report extends quiz_overview_report {
                 echo $output->chart($chart, $graphname, ['dir' => 'ltr']);
             }
         }
+
         return true;
     }
 
@@ -259,8 +225,10 @@ class quizanon_overview_report extends quiz_overview_report {
      * @return moodle_url the URL.
      */
     protected function get_base_url() {
-        return new moodle_url('/local/quizanon/report.php',
-                ['id' => $this->context->instanceid, 'mode' => $this->mode]);
+        return new moodle_url(
+            '/local/quizanon/report.php',
+            ['id' => $this->context->instanceid, 'mode' => $this->mode]
+        );
     }
 
     /**
@@ -298,7 +266,7 @@ class quizanon_overview_report extends quiz_overview_report {
                 } else {
                     $url = new \moodle_url('/mod/quiz/report.php', ['id' => $cmid, 'mode' => $report]);
                 }
-                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_'.$report);
+                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_' . $report);
             }
             $select = new single_select($baseurl, 'jump', $options, $reportmode, null, 'quiz-report-select');
             $select->method = 'post';
