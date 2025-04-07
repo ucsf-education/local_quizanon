@@ -115,7 +115,7 @@ class quizanon_overview_report extends quiz_overview_report {
                     $studentsjoins->joins
                     WHERE $studentsjoins->wheres";
             $hasstudents = $DB->record_exists_sql($sql, $studentsjoins->params);
-        }            
+        }
         if ($options->attempts == self::ALL_WITH) {
             // This option is only available to users who can access all groups in
             // groups mode, so setting allowed to empty (which means all quiz attempts
@@ -201,7 +201,7 @@ class quizanon_overview_report extends quiz_overview_report {
 
             $table->set_attribute('class', 'generaltable generalbox grades');
             $table->out($options->pagesize, true);
-            
+
             if ($canregrade && !$table->is_downloading()) {
                 $this->display_commit_regrade_if_required($quiz, $groupstudentsjoins, $options);
             }
