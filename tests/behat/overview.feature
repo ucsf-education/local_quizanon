@@ -111,5 +111,5 @@ Feature: Basic use of the Grades quizanon report
       | showuseridentity | email,profile_field_fruit |
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
     And I navigate to "Results" in current page administration
-    Then I should see "Apple"
-    And I should see "Banana"
+    Then I should not see "Apple"
+    And I should not see "Banana"

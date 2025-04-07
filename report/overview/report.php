@@ -100,12 +100,22 @@ class quizanon_overview_report extends quiz_overview_report {
         }
 
         // Check for group students and overall students.
-        $this->hasgroupstudents = !empty($groupstudentsjoins->joins) &&
-            $DB->record_exists_sql("SELECT DISTINCT u.id FROM {user} u {$groupstudentsjoins->joins} WHERE {$groupstudentsjoins->wheres}", $groupstudentsjoins->params);
-
-        $hasstudents = !empty($studentsjoins->joins) &&
-            $DB->record_exists_sql("SELECT DISTINCT u.id FROM {user} u {$studentsjoins->joins} WHERE {$studentsjoins->wheres}", $studentsjoins->params);
-
+        $this->hasgroupstudents = false;
+        if (!empty($groupstudentsjoins->joins)) {
+            $sql = "SELECT DISTINCT u.id
+                      FROM {user} u
+                    $groupstudentsjoins->joins
+                     WHERE $groupstudentsjoins->wheres";
+            $this->hasgroupstudents = $DB->record_exists_sql($sql, $groupstudentsjoins->params);
+        }
+        $hasstudents = false;
+        if (!empty($studentsjoins->joins)) {
+            $sql = "SELECT DISTINCT u.id
+                    FROM {user} u
+                    $studentsjoins->joins
+                    WHERE $studentsjoins->wheres";
+            $hasstudents = $DB->record_exists_sql($sql, $studentsjoins->params);
+        }            
         if ($options->attempts == self::ALL_WITH) {
             // This option is only available to users who can access all groups in
             // groups mode, so setting allowed to empty (which means all quiz attempts
@@ -156,10 +166,9 @@ class quizanon_overview_report extends quiz_overview_report {
             $this->add_time_columns($columns, $headers);
             $this->add_grade_columns($quiz, $options->usercanseegrades, $columns, $headers, false);
 
-            if (
-                !$table->is_downloading() && has_capability('mod/quiz:regrade', $this->context) &&
-                $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)
-            ) {
+            $canregrade = has_capability('mod/quiz:regrade', $this->context);
+            if (!$table->is_downloading() && $canregrade &&
+                    $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)) {
                 $columns[] = 'regraded';
                 $headers[] = get_string('regrade', 'quiz_overview');
             }
@@ -168,7 +177,12 @@ class quizanon_overview_report extends quiz_overview_report {
                 foreach ($questions as $slot => $question) {
                     $columns[] = 'qsgrade' . $slot;
                     $header = get_string('qbrief', 'quiz', $question->displaynumber);
-                    $header .= (!$table->is_downloading() ? '<br />' : ' ') . '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
+                    if (!$table->is_downloading()) {
+                        $header .= '<br />';
+                    } else {
+                        $header .= ' ';
+                    }
+                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
                     $headers[] = $header;
                 }
             }
@@ -187,6 +201,10 @@ class quizanon_overview_report extends quiz_overview_report {
 
             $table->set_attribute('class', 'generaltable generalbox grades');
             $table->out($options->pagesize, true);
+            
+            if ($canregrade && !$table->is_downloading()) {
+                $this->display_commit_regrade_if_required($quiz, $groupstudentsjoins, $options);
+            }
         }
 
         // Display grade distribution charts.
@@ -197,7 +215,7 @@ class quizanon_overview_report extends quiz_overview_report {
 
             if ($currentgroup && $this->hasgroupstudents) {
                 $sql = "SELECT qg.id FROM {quiz_grades} qg JOIN {user} u ON u.id = qg.userid {$groupstudentsjoins->joins}
-                        WHERE qg.quiz = :quizid AND {$groupstudentsjoins->wheres}";                
+                        WHERE qg.quiz = :quizid AND {$groupstudentsjoins->wheres}";
                 if ($DB->record_exists_sql($sql, array_merge(['quizid' => $quiz->id], $groupstudentsjoins->params))) {
                     $data = quiz_report_grade_bands($bandwidth, $bands, $quiz->id, $groupstudentsjoins);
                     $chart = self::get_chart($labels, $data);
