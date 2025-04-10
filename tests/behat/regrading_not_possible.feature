@@ -44,7 +44,8 @@ Feature: Quiz anon regrade when not possible
 
     # Try a regrade, and verify what happened is reported.
     When I am on the "Quiz for testing regrading" "mod_quiz > grades report" page
-    And I press "Regrade all"
+    And I press "Regrade attempts..."
+    And I click on "Regrade now" "button" in the "Regrade" "dialogue"
 
     Then I should see "Quiz for testing regrading"
     And I should see "The following questions could not be regraded in attempt 1"
