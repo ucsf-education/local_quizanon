@@ -258,10 +258,6 @@ class quizanon_responses_report extends quiz_responses_report {
             $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
-        if (!empty($CFG->enableplagiarism)) {
-            require_once($CFG->libdir . '/plagiarismlib.php');
-            echo plagiarism_update_status($course, $cm);
-        }
     }
 
     /**

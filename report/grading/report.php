@@ -409,10 +409,6 @@ class quizanon_grading_report extends quiz_grading_report {
             $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
-        if (!empty($CFG->enableplagiarism)) {
-            require_once($CFG->libdir . '/plagiarismlib.php');
-            echo plagiarism_update_status($course, $cm);
-        }
     }
 
     /**
