@@ -291,10 +291,6 @@ class quizanon_overview_report extends quiz_overview_report {
             $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
-        if (!empty($CFG->enableplagiarism)) {
-            require_once($CFG->libdir . '/plagiarismlib.php');
-            echo plagiarism_update_status($course, $cm);
-        }
     }
 
     /**
