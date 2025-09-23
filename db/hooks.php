@@ -15,24 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Seetting for the quizanon plugin.
+ * Hooks configuration for the Quiz Anonymization plugin
  *
  * @package    local_quizanon
- * @copyright  Moodle US
- * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
+ * @copyright  2024 UCSF Education IT
+ * @author     Leon U. Bailey <leon.bailey@ucsf.edu>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die;
 
-if ($hassiteconfig) {
-    $pluginname = get_string('pluginname', 'local_quizanon');
+defined('MOODLE_INTERNAL') || die();
 
-    $settings = new admin_settingpage('local_quizanon_settings', $pluginname);
-
-    $settings->add(new admin_setting_configcheckbox('local_quizanon/enablequizanon',
-        get_string('enablequizanon', 'local_quizanon'),
-        get_string('enablequizanon_desc', 'local_quizanon'),
-        0));
-
-    $ADMIN->add('localplugins', $settings);
-}
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_standard_top_of_body_html_generation::class,
+        'callback' => '\local_quizanon\hook_callbacks::before_standard_top_of_body_html',
+        'priority' => 0,
+    ],
+];

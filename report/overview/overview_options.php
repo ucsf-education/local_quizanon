@@ -13,7 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_options.php');
 
 /**
@@ -30,6 +32,11 @@ class quizanon_overview_options extends quiz_overview_options {
      * @return moodle_url the URL.
      */
     public function get_url() {
-        return new moodle_url('/local/quizanon/report.php', $this->get_url_params());
+        $params = $this->get_url_params();
+        $tifirst = optional_param('tifirst', null, PARAM_ALPHA);
+        if (!empty($tifirst)) {
+            $params['tifirst'] = $tifirst;
+        }
+        return new moodle_url('/local/quizanon/report.php', $params);
     }
 }

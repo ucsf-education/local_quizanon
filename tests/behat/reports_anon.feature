@@ -8,6 +8,7 @@ Feature: Basic use of the local_quizanon reports
       | teacher1 | T1        | Teacher1 | teacher1@example.com |
       | student1 | S1        | Student1 | student1@example.com |
       | student2 | S2        | Student2 | student2@example.com |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
@@ -54,8 +55,8 @@ Feature: Basic use of the local_quizanon reports
     And I should see "Student2"
 
   @javascript
-  Scenario: Teacher should see user's name in the grades report when set role is not editingteacher
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "teacher"
+  Scenario: Teacher should see user's name in the grades report when set role is editingteacher
+    Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
     And I navigate to "Results" in current page administration
     Then I should see "Student1"
@@ -63,7 +64,7 @@ Feature: Basic use of the local_quizanon reports
 
   @javascript
   Scenario: Teacher should not see user's name in the grades report
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
     And I navigate to "Results" in current page administration
     Then I should not see "Student1"
@@ -77,15 +78,15 @@ Feature: Basic use of the local_quizanon reports
     And I should see "Student2"
 
   @javascript
-  Scenario: Teacher should see user's name in the responses report when set role is not editingteacher
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "teacher"
+  Scenario: Teacher should see user's name in the responses report when set role is editingteacher
+    Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher1
     Then I should see "Student1"
     And I should see "Student2"
 
   @javascript
   Scenario: Teacher should not see user's name in the responses report
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher1
     Then I should not see "Student1"
     And I should not see "Student2"
@@ -99,8 +100,8 @@ Feature: Basic use of the local_quizanon reports
     And I should see "Student2"
 
   @javascript
-  Scenario: Teacher should see user's name in the grades report when set role is not editingteacher
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "teacher"
+  Scenario: Teacher should see user's name in the grades report when set role is editingteacher
+    Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
     And I click on "grade" "link" in the "Essay" "table_row"
     Then I should see "Student1"
@@ -108,7 +109,7 @@ Feature: Basic use of the local_quizanon reports
 
   @javascript
   Scenario: Teacher should not see user's name in the grades report
-    Given Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
     And I click on "grade" "link" in the "Essay" "table_row"
     Then I should not see "Student1"

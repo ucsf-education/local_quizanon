@@ -9,6 +9,7 @@ Feature: Quiz anon regrade when not possible
       | username | firstname | lastname  |
       | teacher  | Mark      | Allwright |
       | student  | Student   | One       |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
@@ -31,7 +32,7 @@ Feature: Quiz anon regrade when not possible
     And user "student" has attempted "Quiz for testing regrading" with responses:
       | slot | response |
       |   1  | B        |
-    And Quizanon plugin is enabled for quiz "Quiz for testing regrading" and role "editingteacher"
+    And Quizanon plugin is enabled for quiz "Quiz for testing regrading"
 
   Scenario: Try a regrade after the question has been edited to have a different number of choices
     # Edit the question so that V2 has the fourth choice removed.
@@ -43,7 +44,8 @@ Feature: Quiz anon regrade when not possible
 
     # Try a regrade, and verify what happened is reported.
     When I am on the "Quiz for testing regrading" "mod_quiz > grades report" page
-    And I press "Regrade all"
+    And I press "Regrade attempts..."
+    And I click on "Regrade now" "button" in the "Regrade" "dialogue"
 
     Then I should see "Quiz for testing regrading"
     And I should see "The following questions could not be regraded in attempt 1"

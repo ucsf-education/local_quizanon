@@ -62,7 +62,6 @@ class quizanon_responses_report extends quiz_responses_report {
 
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
                 'responses', 'quizanon_responses_settings_form', $quiz, $cm, $course);
-
         $options = new quizanon_responses_options('responses', $quiz, $cm, $course);
 
         if ($fromform = $this->form->get_data()) {
@@ -155,8 +154,7 @@ class quizanon_responses_report extends quiz_responses_report {
                 $headers[] = $table->checkbox_col_header($columnname);
             }
 
-            $columns[] = 'usercode';
-            $headers[] = get_string('usercode', 'local_quizanon');
+            $this->quizanon_add_user_columns($table, $columns, $headers);
             $this->add_state_column($columns, $headers);
 
             if ($table->is_downloading()) {
@@ -195,7 +193,14 @@ class quizanon_responses_report extends quiz_responses_report {
             $table->set_attribute('id', 'responses');
 
             $table->collapsible(true);
-
+            $table->sql->from .= " LEFT JOIN {local_quizanon_usercodes} qan ON qan.userid = u.id AND qan.quizid = :quizid2";
+            $table->sql->params['quizid2'] = $quiz->id;
+            $table->sql->fields .= ', qan.code as usercode';
+            $ifirst = optional_param('tifirst', '', PARAM_TEXT);
+            if (!empty($ifirst)) {
+                $table->sql->where .= ' AND qan.code LIKE :ifirst';
+                $table->sql->params['ifirst'] = $ifirst . '%';
+            }
             $table->out($options->pagesize, true);
         }
         return true;
@@ -253,9 +258,16 @@ class quizanon_responses_report extends quiz_responses_report {
             $select->class = 'mb-3 mt-1';
             echo $OUTPUT->render($select);
         }
-        if (!empty($CFG->enableplagiarism)) {
-            require_once($CFG->libdir . '/plagiarismlib.php');
-            echo plagiarism_update_status($course, $cm);
-        }
+    }
+
+    /**
+     * Add all the user-related columns to the $columns and $headers arrays.
+     * @param table_sql $table the table being constructed.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     */
+    public function quizanon_add_user_columns($table, &$columns, &$headers) {
+        $columns[] = 'usercode';
+        $headers[] = get_string('usercode', 'local_quizanon');
     }
 }

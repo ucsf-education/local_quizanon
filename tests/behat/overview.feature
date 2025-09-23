@@ -7,6 +7,7 @@ Feature: Basic use of the Grades quizanon report
   Background:
     Given the "multilang" filter is "on"
     And the "multilang" filter applies to "content and headings"
+    And Quizanon plugin is enabled
     And the following "custom profile fields" exist:
       | datatype | shortname | name  |
       | text     | fruit     | Fruit |
@@ -26,7 +27,7 @@ Feature: Basic use of the Grades quizanon report
       | student2 | C1     | student        |
       | student3 | C1     | student        |
     And the following "groups" exist:
-      | course | idnumber | name    |
+      | course | idnumber | name                                                                                             |
       | C1     | G1       | <span class="multilang" lang="en">English</span><span class="multilang" lang="es">Spanish</span> |
       | C1     | G2       | Group 2                                                                                          |
     And the following "group members" exist:
@@ -38,8 +39,8 @@ Feature: Basic use of the Grades quizanon report
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
     And the following "activities" exist:
-      | activity   | name   | intro              | course | idnumber | groupmode |
-      | quiz       | Quiz 1 | Quiz 1 description | C1     | quiz1    | 2         |
+      | activity | name   | intro              | course | idnumber | groupmode |
+      | quiz     | Quiz 1 | Quiz 1 description | C1     | quiz1    | 2         |
     And the following "questions" exist:
       | questioncategory | qtype       | name  | questiontext         |
       | Test questions   | description | Intro | Welcome to this quiz |
@@ -52,13 +53,13 @@ Feature: Basic use of the Grades quizanon report
       | TF2      | 1    | 3.0     |
     And user "student1" has attempted "Quiz 1" with responses:
       | slot | response |
-      |   2  | True     |
-      |   3  | False    |
+      | 2    | True     |
+      | 3    | False    |
     And user "student2" has attempted "Quiz 1" with responses:
       | slot | response |
-      |   2  | True     |
-      |   3  | True     |
-    And Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+      | 2    | True     |
+      | 3    | True     |
+    And Quizanon plugin is enabled for quiz "Quiz 1"
 
   @javascript
   Scenario: Using the Grades report
@@ -102,8 +103,6 @@ Feature: Basic use of the Grades quizanon report
 
     # Verify groups are displayed correctly.
     And I set the field "Visible groups" to "English"
-    And "Full regrade for group 'English'" "button" should exist
-    And "Dry run a full regrade for group 'English'" "button" should exist
     And I should see "Number of students in group 'English' achieving grade ranges"
 
   @javascript
