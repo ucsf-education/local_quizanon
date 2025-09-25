@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <XMLDB PATH="local/quizanon/db" VERSION="2024040900" COMMENT="XMLDB file for local_quizanon"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
     <TABLE NAME="local_quizanon" COMMENT="Store the config for quizanon">
@@ -33,8 +33,8 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
         <KEY NAME="quizid" TYPE="foreign" FIELDS="quizid" REFTABLE="quiz" REFFIELDS="id"/>
-        <KEY NAME="quizuser" TYPE="unique" FIELDS="quizid,userid"/>
-        <KEY NAME="quizusercode" TYPE="unique" FIELDS="quizid,code,userid"/>
+        <KEY NAME="quizuser" TYPE="unique" FIELDS="quizid, userid"/>
+        <KEY NAME="quizusercode" TYPE="unique" FIELDS="quizid, code, userid"/>
       </KEYS>
     </TABLE>
   </TABLES>
