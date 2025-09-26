@@ -36,6 +36,24 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class quizanon_grading_settings_form extends moodleform {
 
+    /** @var bool Whether to include automatically graded attempts. */
+    protected bool $includeauto;
+
+    /** @var array Hidden form options. */
+    protected array $hidden;
+
+    /** @var stdClass Counts of each type of quiz attempt. */
+    protected stdClass $counts;
+
+    /** @var bool Whether student names are displayed. */
+    protected bool $shownames;
+
+    /** @var bool Whether custom field values are displayed. */
+    protected bool $showcustomfields;
+
+    /** @var stdClass Context for the settings form. */
+    protected stdClass $context;
+
     /**
      * This is quizanon_grading_settings_form constructor.
      *
@@ -85,7 +103,8 @@ class quizanon_grading_settings_form extends moodleform {
 
         $orderoptions = [
             'random' => get_string('random', 'quiz_grading'),
-            'date' => get_string('date')
+            'date' => get_string('date'),
+            'usercode' => get_string('usercode', 'local_quizanon'),
         ];
         if ($this->shownames) {
             $orderoptions['studentfirstname'] = get_string('firstname');
@@ -111,5 +130,14 @@ class quizanon_grading_settings_form extends moodleform {
         }
 
         $mform->addElement('submit', 'submitbutton', get_string('changeoptions', 'quiz_grading'));
+
+        $mform->addElement('header', 'searchoption', get_string('search'));
+        $mform->addElement(
+            'text',
+            'anonsearch',
+            get_string('searchanonymousid', 'local_quizanon'),
+            ['size' => 6, 'maxlength' => 6]
+        );
+        $mform->setType('anonsearch', PARAM_ALPHANUM);
     }
 }

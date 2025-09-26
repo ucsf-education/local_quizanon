@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/quizanon/report/responses/last_responses_table.php');
-use quiz_attempt;
+use mod_quiz\quiz_attempt;
 
 /**
  * This is a table subclass for displaying the quiz responses report, showing first or all tries.
@@ -100,7 +100,7 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
                 $newtablerow = clone($attempt);
                 $newtablerow->lasttryforallparts = ($try == $maxtriesinanyslot);
                 if ($try !== $maxtriesinanyslot) {
-                    $newtablerow->state = quiz_attempt::IN_PROGRESS;
+                    $newtablerow->state = mod_quiz\quiz_attempt::IN_PROGRESS;
                 }
                 $newtablerow->try = $try;
                 $newrawdata[] = $newtablerow;

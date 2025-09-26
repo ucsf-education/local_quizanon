@@ -60,7 +60,7 @@ $summarydata = [];
 
 $summarydata['user'] = [
     'title'   => get_string('usercode', 'local_quizanon'),
-    'content' => $usercode
+    'content' => $usercode,
 ];
 
 // Quiz name.
@@ -91,8 +91,8 @@ if (data_submitted() && confirm_sesskey()) {
             'other' => [
                 'quizid' => $attemptobj->get_quizid(),
                 'attemptid' => $attemptobj->get_attemptid(),
-                'slot' => $slot
-            ]
+                'slot' => $slot,
+            ],
         ];
         $event = \mod_quiz\event\question_manually_graded::create($params);
         $event->trigger();
@@ -110,6 +110,7 @@ echo $output->review_summary_table($summarydata, 0);
 echo '<form method="post" class="mform" id="manualgradingform" action="' .
         $CFG->wwwroot . '/local/quizanon/comment.php">';
 echo $attemptobj->render_question_for_commenting($slot);
+// @codingStandardsIgnoreStart
 ?>
 <div>
     <input type="hidden" name="attempt" value="<?php echo $attemptobj->get_attemptid(); ?>" />
@@ -128,6 +129,7 @@ echo $attemptobj->render_question_for_commenting($slot);
     </div>
 </fieldset>
 <?php
+// @codingStandardsIgnoreEnd
 echo '</form>';
 $PAGE->requires->js_init_call('M.mod_quiz.init_comment_popup', null, false, quiz_get_js_module());
 

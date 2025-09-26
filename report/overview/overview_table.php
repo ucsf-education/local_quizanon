@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/overview/overview_table.php');
@@ -27,23 +28,6 @@ require_once($CFG->dirroot . '/local/quizanon/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_overview_table extends quiz_overview_table {
-
-    /**
-     * Generate the display of the user's full name column.
-     *
-     * @param stdClass $attempt the table row being output.
-     * @return string HTML content to go inside the td.
-     */
-    public function col_fullname($attempt) {
-        $html = \table_sql::col_fullname($attempt);
-        if ($this->is_downloading() || empty($attempt->attempt)) {
-            return $html;
-        }
-
-        return $html . html_writer::empty_tag('br') . html_writer::link(
-                new moodle_url('/local/quizanon/review.php', ['attempt' => $attempt->attempt]),
-                get_string('reviewattempt', 'quiz'), ['class' => 'reviewlink']);
-    }
 
     /**
      * Generate the display of the grade column.
@@ -139,5 +123,28 @@ class quizanon_overview_table extends quiz_overview_table {
      */
     public function col_usercode($attempt) {
         return local_anonquiz_get_usercode($attempt->userid, $this->quiz->id);
+    }
+
+    /**
+     * This function is not part of the public api.
+     */
+    public function print_initials_bar() {
+        global $OUTPUT;
+
+        $ifirst = $this->get_initial_first();
+
+        if (is_null($ifirst)) {
+            $ifirst = '';
+        }
+
+        if ((!empty($ifirst) || !empty($ilast) || $this->use_initials)) {
+            $prefixfirst = $this->request[TABLE_VAR_IFIRST];
+            echo $OUTPUT->initials_bar(
+                $ifirst,
+                'firstinitial',
+                get_string('usercode', 'local_quizanon'),
+                $prefixfirst,
+                $this->baseurl);
+        }
     }
 }

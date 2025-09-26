@@ -10,6 +10,7 @@ Feature: Basic use of the Responses quiz_anon report
       | teacher  | The       | Teacher  |
       | student1 | Student   | One      |
       | student2 | Student   | Two      |
+    And Quizanon plugin is enabled
     And the following "courses" exist:
       | fullname | shortname |
       | Course 1 | C1        |
@@ -30,7 +31,7 @@ Feature: Basic use of the Responses quiz_anon report
     And quiz "Quiz 1" contains the following questions:
       | question | page | maxmark |
       | NQ       | 1    | 3.0     |
-    And Quizanon plugin is enabled for quiz "Quiz 1" and role "editingteacher"
+    And Quizanon plugin is enabled for quiz "Quiz 1"
 
   @javascript
   Scenario: Report works when there are no attempts
