@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2025040101; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2025040102; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2024100700; // Requires this Moodle version.
 $plugin->component = 'local_quizanon'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0.1';
+$plugin->release = '1.0.2';
 $plugin->supported = [405, 405];
