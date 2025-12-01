@@ -34,8 +34,7 @@ use core_privacy\local\metadata\collection;
  * @author     Oscar Nadjar <oscar.nadjar@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider, \core_privacy\local\request\data_provider {
-
+class provider implements \core_privacy\local\request\data_provider, \core_privacy\local\metadata\provider {
     /**
      * Returns information about the user data stored in this component.
      *
@@ -46,7 +45,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
 
         $collection->add_database_table(
             'local_quizanon_usercodes',
-             [
+            [
                 'userid' => 'privacy:metadata:usercodes:userid',
              ],
             'privacy:metadata:local_quizanon_usercodes'

@@ -42,7 +42,6 @@ if ($id) {
     if (!$quiz = $DB->get_record('quiz', ['id' => $cm->instance])) {
         throw new \moodle_exception('invalidcoursemodule');
     }
-
 } else {
     if (!$quiz = $DB->get_record('quiz', ['id' => $q])) {
         throw new \moodle_exception('invalidquizid', 'quiz');

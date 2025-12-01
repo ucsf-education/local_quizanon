@@ -36,7 +36,6 @@ use mod_quiz\quiz_attempt;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_first_or_all_responses_table extends quizanon_last_responses_table {
-
     /**
      * The full question usage object for each try shown in report.
      *
@@ -54,14 +53,14 @@ class quizanon_first_or_all_responses_table extends quizanon_last_responses_tabl
      */
     protected function field_from_extra_data($tablerow, $slot, $field) {
         $questionattempt = $this->get_question_attempt($tablerow->usageid, $slot);
-        switch($field) {
-            case 'questionsummary' :
+        switch ($field) {
+            case 'questionsummary':
                 return $questionattempt->get_question_summary();
-            case 'responsesummary' :
+            case 'responsesummary':
                 return $this->get_summary_after_try($tablerow, $slot);
-            case 'rightanswer' :
+            case 'rightanswer':
                 return $questionattempt->get_right_answer_summary();
-            default :
+            default:
                 throw new coding_exception('Unknown question attempt field.');
         }
     }

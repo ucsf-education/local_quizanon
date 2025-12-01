@@ -33,7 +33,6 @@ require_once($CFG->dirroot . '/local/quizanon/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_grading_report extends quiz_grading_report {
-
     /**
      * Display the report.
      *
@@ -56,13 +55,17 @@ class quizanon_grading_report extends quiz_grading_report {
         if (!in_array($grade, ['all', 'needsgrading', 'autograded', 'manuallygraded'])) {
             $grade = null;
         }
-        $pagesize = optional_param('pagesize',
-                get_user_preferences('quiz_grading_pagesize', self::DEFAULT_PAGE_SIZE),
-                PARAM_INT);
+        $pagesize = optional_param(
+            'pagesize',
+            get_user_preferences('quiz_grading_pagesize', self::DEFAULT_PAGE_SIZE),
+            PARAM_INT
+        );
         $page = optional_param('page', 0, PARAM_INT);
-        $order = optional_param('order',
-                get_user_preferences('quiz_grading_order', self::DEFAULT_ORDER),
-                PARAM_ALPHAEXT);
+        $order = optional_param(
+            'order',
+            get_user_preferences('quiz_grading_order', self::DEFAULT_ORDER),
+            PARAM_ALPHAEXT
+        );
 
         // Assemble the options required to reload this page.
         $optparams = ['includeauto', 'page'];
@@ -131,8 +134,11 @@ class quizanon_grading_report extends quiz_grading_report {
         if ($this->currentgroup == self::NO_GROUPS_ALLOWED) {
             $this->userssql = [];
         } else {
-            $this->userssql = get_enrolled_sql($this->context,
-                    ['mod/quiz:reviewmyattempts', 'mod/quiz:attempt'], $this->currentgroup);
+            $this->userssql = get_enrolled_sql(
+                $this->context,
+                ['mod/quiz:reviewmyattempts', 'mod/quiz:attempt'],
+                $this->currentgroup
+            );
         }
 
         $hasquestions = quiz_has_questions($this->quiz->id);
@@ -164,8 +170,17 @@ class quizanon_grading_report extends quiz_grading_report {
             redirect($this->list_questions_url(), get_string('alldoneredirecting', 'quiz_grading'));
         }
 
-        $this->display_grading_interface($slot, $questionid, $grade,
-                $pagesize, $page, $shownames, $showcustomfields, $order, $counts);
+        $this->display_grading_interface(
+            $slot,
+            $questionid,
+            $grade,
+            $pagesize,
+            $page,
+            $shownames,
+            $showcustomfields,
+            $order,
+            $counts
+        );
         return true;
     }
 
@@ -182,8 +197,17 @@ class quizanon_grading_report extends quiz_grading_report {
      * @param string $order preferred order of attempts.
      * @param stdClass $counts object that stores the number of each type of attempt.
      */
-    protected function display_grading_interface($slot, $questionid, $grade,
-            $pagesize, $page, $shownames, $showcustomfields, $order, $counts) {
+    protected function display_grading_interface(
+        $slot,
+        $questionid,
+        $grade,
+        $pagesize,
+        $page,
+        $shownames,
+        $showcustomfields,
+        $order,
+        $counts
+    ) {
         global $PAGE;
 
         if ($pagesize * $page >= $counts->$grade) {
@@ -224,8 +248,14 @@ class quizanon_grading_report extends quiz_grading_report {
             }
         }
 
-        list($qubaids, $count) = $this->get_usage_ids_where_question_in_state(
-                $grade, $slot, $questionid, $order, $page, $pagesize);
+        [$qubaids, $count] = $this->get_usage_ids_where_question_in_state(
+            $grade,
+            $slot,
+            $questionid,
+            $order,
+            $page,
+            $pagesize
+        );
         $attempts = $this->load_attempts_by_usage_ids($qubaids);
 
         // Question info.
@@ -252,11 +282,11 @@ class quizanon_grading_report extends quiz_grading_report {
             $displayoptions->manualcomment = question_display_options::EDITABLE;
 
             $gradequestioncontent .= $this->renderer->render_grade_question(
-                    $quba,
-                    $slot,
-                    $displayoptions,
-                    $this->questions[$slot]->number,
-                    $this->get_question_heading($attempt, $shownames, $showcustomfields)
+                $quba,
+                $slot,
+                $displayoptions,
+                $this->questions[$slot]->number,
+                $this->get_question_heading($attempt, $shownames, $showcustomfields)
             );
         }
 
@@ -275,14 +305,14 @@ class quizanon_grading_report extends quiz_grading_report {
         ];
 
         echo $this->renderer->render_grading_interface(
-                $questioninfo,
-                $this->list_questions_url(),
-                $mform,
-                $paginginfo,
-                $pagingbar,
-                $this->grade_question_url($slot, $questionid, $grade, $page),
-                $hiddeninputs,
-                $gradequestioncontent
+            $questioninfo,
+            $this->list_questions_url(),
+            $mform,
+            $paginginfo,
+            $pagingbar,
+            $this->grade_question_url($slot, $questionid, $grade, $page),
+            $hiddeninputs,
+            $gradequestioncontent
         );
         $PAGE->requires->js_call_amd('local_quizanon/searchanon', 'init', []);
     }
@@ -305,8 +335,14 @@ class quizanon_grading_report extends quiz_grading_report {
      * @param int $pagesize implements paging of the results. null = all.
      * @return array with two elements, an array of usage ids, and a count of the total number.
      */
-    protected function get_usage_ids_where_question_in_state($summarystate, $slot,
-            $questionid = null, $orderby = 'random', $page = 0, $pagesize = null) {
+    protected function get_usage_ids_where_question_in_state(
+        $summarystate,
+        $slot,
+        $questionid = null,
+        $orderby = 'random',
+        $page = 0,
+        $pagesize = null
+    ) {
         $dm = new question_engine_data_mapper();
         $extraselect = '';
         if ($pagesize && $orderby != 'random') {
@@ -325,8 +361,11 @@ class quizanon_grading_report extends quiz_grading_report {
             $customfields[] = $field;
         }
         if ($orderby === 'date') {
-            list($statetest, $params) = $dm->in_summary_state_test(
-                    'manuallygraded', false, 'mangrstate');
+            [$statetest, $params] = $dm->in_summary_state_test(
+                'manuallygraded',
+                false,
+                'mangrstate'
+            );
             $extraselect = "(
                     SELECT MAX(sortqas.timecreated)
                     FROM {question_attempt_steps} sortqas
@@ -339,8 +378,17 @@ class quizanon_grading_report extends quiz_grading_report {
                 .= " JOIN {local_quizanon_usercodes} lqau ON lqau.userid = quiza.userid AND quiza.quiz = lqau.quizid";
             $orderby = 'lqau.code';
         }
-        return $dm->load_questions_usages_where_question_in_state($qubaids, $summarystate,
-                $slot, $questionid, $orderby, $params, $limitfrom, $pagesize, $extraselect);
+        return $dm->load_questions_usages_where_question_in_state(
+            $qubaids,
+            $summarystate,
+            $slot,
+            $questionid,
+            $orderby,
+            $params,
+            $limitfrom,
+            $pagesize,
+            $extraselect
+        );
     }
 
     /**
@@ -348,8 +396,10 @@ class quizanon_grading_report extends quiz_grading_report {
      * @return moodle_url the URL.
      */
     protected function base_url() {
-        return new moodle_url('/local/quizanon/report.php',
-                ['id' => $this->context->instanceid, 'mode' => 'grading']);
+        return new moodle_url(
+            '/local/quizanon/report.php',
+            ['id' => $this->context->instanceid, 'mode' => 'grading']
+        );
     }
 
     /**
@@ -401,7 +451,7 @@ class quizanon_grading_report extends quiz_grading_report {
                 } else {
                     $url = new \moodle_url('/mod/quiz/report.php', ['id' => $cmid, 'mode' => $report]);
                 }
-                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_'.$report);
+                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_' . $report);
             }
             $selected = new \moodle_url('/local/quizanon/report.php', ['id' => $cmid, 'mode' => $reportmode]);
             $select = new single_select($baseurl, 'jump', $options, $selected->out_as_local_url(false), null, 'quiz-report-select');

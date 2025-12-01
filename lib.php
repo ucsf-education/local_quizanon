@@ -53,7 +53,7 @@ function local_quizanon_before_standard_top_of_body_html() {
     $pluginenabled = get_config('local_quizanon', 'enablequizanon');
     $anonreportexists = is_readable($CFG->dirroot . '/local/quizanon/report/' . $mode . '/report.php');
     $redirect = !empty($quizanonenabled) && !$userhasrole && !empty($pluginenabled);
-    switch($pagename) {
+    switch ($pagename) {
         case 'mod-quiz-report':
             $url = '/local/quizanon/report.php';
             $redirect = $redirect && $anonreportexists;
