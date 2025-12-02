@@ -29,10 +29,12 @@ if ($hassiteconfig) {
 
     $settings = new admin_settingpage('local_quizanon_settings', $pluginname);
 
-    $settings->add(new admin_setting_configcheckbox('local_quizanon/enablequizanon',
+    $settings->add(new admin_setting_configcheckbox(
+        'local_quizanon/enablequizanon',
         get_string('enablequizanon', 'local_quizanon'),
         get_string('enablequizanon_desc', 'local_quizanon'),
-        0));
+        0
+    ));
 
     $ADMIN->add('localplugins', $settings);
 }

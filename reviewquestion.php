@@ -32,8 +32,10 @@ $slot = required_param('slot', PARAM_INT);
 $seq = optional_param('step', null, PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
 
-$baseurl = new moodle_url('/local/quizanon/reviewquestion.php',
-        ['attempt' => $attemptid, 'slot' => $slot]);
+$baseurl = new moodle_url(
+    '/local/quizanon/reviewquestion.php',
+    ['attempt' => $attemptid, 'slot' => $slot]
+);
 
 $currenturl = new moodle_url($baseurl);
 if (!is_null($seq)) {
@@ -66,11 +68,12 @@ if ($attemptobj->is_own_attempt()) {
         echo $output->review_question_not_allowed($attemptobj, get_string('cannotreviewopen', 'quiz'));
         die();
     } else if (!$options->attempt) {
-        echo $output->review_question_not_allowed($attemptobj,
-                $attemptobj->cannot_review_message());
+        echo $output->review_question_not_allowed(
+            $attemptobj,
+            $attemptobj->cannot_review_message()
+        );
         die();
     }
-
 } else if (!$attemptobj->is_review_allowed()) {
     throw new moodle_exception('noreviewattempt', 'quiz', $attemptobj->view_url());
 }
@@ -131,5 +134,10 @@ if (!empty($oldcommentlink)) {
     $displayoptions->manualcommentlink = $newcommentlink;
 }
 
-echo $output->review_question_page($attemptobj, $slot, $seq,
-        $displayoptions, $summarydata);
+echo $output->review_question_page(
+    $attemptobj,
+    $slot,
+    $seq,
+    $displayoptions,
+    $summarydata
+);

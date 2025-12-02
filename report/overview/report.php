@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/local/quizanon/report/overview/overview_options.p
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_overview_report extends quiz_overview_report {
-
     /**
      * Display the report.
      *
@@ -51,7 +50,7 @@ class quizanon_overview_report extends quiz_overview_report {
         global $DB, $PAGE;
 
         // Initialize the report.
-        list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
+        [$currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins] = $this->init(
             'overview',
             'quizanon_overview_settings_form',
             $quiz,
@@ -142,11 +141,13 @@ class quizanon_overview_report extends quiz_overview_report {
                 $this->display_commit_regrade_if_required($quiz, $groupstudentsjoins, $options);
 
                 // Print information on the grading method.
-                if ($strattempthighlight = quiz_report_highlighting_grading_method(
-                    $quiz,
-                    $this->qmsubselect,
-                    $options->onlygraded
-                )) {
+                if (
+                    $strattempthighlight = quiz_report_highlighting_grading_method(
+                        $quiz,
+                        $this->qmsubselect,
+                        $options->onlygraded
+                    )
+                ) {
                     echo '<div class="quizattemptcounts mt-3">' . $strattempthighlight . '</div>';
                 }
             }
@@ -167,8 +168,10 @@ class quizanon_overview_report extends quiz_overview_report {
             $this->add_grade_columns($quiz, $options->usercanseegrades, $columns, $headers, false);
 
             $canregrade = has_capability('mod/quiz:regrade', $this->context);
-            if (!$table->is_downloading() && $canregrade &&
-                    $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)) {
+            if (
+                !$table->is_downloading() && $canregrade &&
+                    $this->has_regraded_questions($table->sql->from, $table->sql->where, $table->sql->params)
+            ) {
                 $columns[] = 'regraded';
                 $headers[] = get_string('regrade', 'quiz_overview');
             }
@@ -210,7 +213,7 @@ class quizanon_overview_report extends quiz_overview_report {
         // Display grade distribution charts.
         if (!$table->is_downloading() && $options->usercanseegrades) {
             $output = $PAGE->get_renderer('mod_quiz');
-            list($bands, $bandwidth) = self::get_bands_count_and_width($quiz);
+            [$bands, $bandwidth] = self::get_bands_count_and_width($quiz);
             $labels = self::get_bands_labels($bands, $bandwidth, $quiz);
 
             if ($currentgroup && $this->hasgroupstudents) {

@@ -48,7 +48,6 @@ require_once($CFG->dirroot . '/local/quizanon/report/responses/responses_options
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_responses_report extends quiz_responses_report {
-
     /**
      * This function displays the quiz responses report.
      *
@@ -60,13 +59,17 @@ class quizanon_responses_report extends quiz_responses_report {
     public function display($quiz, $cm, $course) {
         global $OUTPUT, $DB;
 
-        list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
-                'responses', 'quizanon_responses_settings_form', $quiz, $cm, $course);
+        [$currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins] = $this->init(
+            'responses',
+            'quizanon_responses_settings_form',
+            $quiz,
+            $cm,
+            $course
+        );
         $options = new quizanon_responses_options('responses', $quiz, $cm, $course);
 
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
-
         } else {
             $options->process_settings_from_params();
         }
@@ -77,19 +80,36 @@ class quizanon_responses_report extends quiz_responses_report {
         $questions = quiz_report_get_significant_questions($quiz);
 
         // Prepare for downloading, if applicable.
-        $courseshortname = format_string($course->shortname, true,
-                ['context' => context_course::instance($course->id)]);
+        $courseshortname = format_string(
+            $course->shortname,
+            true,
+            ['context' => context_course::instance($course->id)]
+        );
         if ($options->whichtries === question_attempt::LAST_TRY) {
             $tableclassname = 'quizanon_last_responses_table';
         } else {
             $tableclassname = 'quizanon_first_or_all_responses_table';
         }
-        $table = new $tableclassname($quiz, $this->context, $this->qmsubselect,
-                $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
-        $filename = quiz_report_download_filename(get_string('responsesfilename', 'quiz_responses'),
-                $courseshortname, $quiz->name);
-        $table->is_downloading($options->download, $filename,
-                $courseshortname . ' ' . format_string($quiz->name, true));
+        $table = new $tableclassname(
+            $quiz,
+            $this->context,
+            $this->qmsubselect,
+            $options,
+            $groupstudentsjoins,
+            $studentsjoins,
+            $questions,
+            $options->get_url()
+        );
+        $filename = quiz_report_download_filename(
+            get_string('responsesfilename', 'quiz_responses'),
+            $courseshortname,
+            $quiz->name
+        );
+        $table->is_downloading(
+            $options->download,
+            $filename,
+            $courseshortname . ' ' . format_string($quiz->name, true)
+        );
         if ($table->is_downloading()) {
             raise_memory_limit(MEMORY_EXTRA);
         }
@@ -124,8 +144,15 @@ class quizanon_responses_report extends quiz_responses_report {
         // Start output.
         if (!$table->is_downloading()) {
             // Only print headers if not asked to download data.
-            $this->print_standard_header_and_messages($cm, $course, $quiz,
-                    $options, $currentgroup, $hasquestions, $hasstudents);
+            $this->print_standard_header_and_messages(
+                $cm,
+                $course,
+                $quiz,
+                $options,
+                $currentgroup,
+                $hasquestions,
+                $hasstudents
+            );
 
             // Print the display options.
             $this->form->display();
@@ -133,13 +160,17 @@ class quizanon_responses_report extends quiz_responses_report {
 
         $hasstudents = $hasstudents && (!$currentgroup || $this->hasgroupstudents);
         if ($hasquestions && ($hasstudents || $options->attempts == self::ALL_WITH)) {
-
             $table->setup_sql_queries($allowedjoins);
 
             if (!$table->is_downloading()) {
                 // Print information on the grading method.
-                if ($strattempthighlight = quiz_report_highlighting_grading_method(
-                        $quiz, $this->qmsubselect, $options->onlygraded)) {
+                if (
+                    $strattempthighlight = quiz_report_highlighting_grading_method(
+                        $quiz,
+                        $this->qmsubselect,
+                        $options->onlygraded
+                    )
+                ) {
                     echo '<div class="quizattemptcounts">' . $strattempthighlight . '</div>';
                 }
             }
@@ -211,8 +242,10 @@ class quizanon_responses_report extends quiz_responses_report {
      * @return moodle_url the URL.
      */
     protected function get_base_url() {
-        return new moodle_url('/local/quizanon/report.php',
-                ['id' => $this->context->instanceid, 'mode' => $this->mode]);
+        return new moodle_url(
+            '/local/quizanon/report.php',
+            ['id' => $this->context->instanceid, 'mode' => $this->mode]
+        );
     }
 
     /**
@@ -250,7 +283,7 @@ class quizanon_responses_report extends quiz_responses_report {
                 } else {
                     $url = new \moodle_url('/mod/quiz/report.php', ['id' => $cmid, 'mode' => $report]);
                 }
-                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_'.$report);
+                $options[$url->out_as_local_url(false)] = get_string($report, 'quiz_' . $report);
             }
             $selected = new \moodle_url('/local/quizanon/report.php', ['id' => $cmid, 'mode' => $reportmode]);
             $select = new single_select($baseurl, 'jump', $options, $selected->out_as_local_url(false), null, 'quiz-report-select');

@@ -35,7 +35,6 @@ require_once($CFG->libdir . '/formslib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_grading_settings_form extends moodleform {
-
     /** @var bool Whether to include automatically graded attempts. */
     protected bool $includeauto;
 
@@ -90,14 +89,25 @@ class quizanon_grading_settings_form extends moodleform {
             if ($type == 'autograded' && !$this->includeauto) {
                 continue;
             }
-            $gradeoptions[$type] = get_string('gradeattempts' . $type, 'quiz_grading',
-                    $this->counts->$type);
+            $gradeoptions[$type] = get_string(
+                'gradeattempts' . $type,
+                'quiz_grading',
+                $this->counts->$type
+            );
         }
-        $mform->addElement('select', 'grade', get_string('attemptstograde', 'quiz_grading'),
-                $gradeoptions);
+        $mform->addElement(
+            'select',
+            'grade',
+            get_string('attemptstograde', 'quiz_grading'),
+            $gradeoptions
+        );
 
-        $mform->addElement('text', 'pagesize', get_string('questionsperpage', 'quiz_grading'),
-                ['size' => 3]);
+        $mform->addElement(
+            'text',
+            'pagesize',
+            get_string('questionsperpage', 'quiz_grading'),
+            ['size' => 3]
+        );
         $mform->addRule('pagesize', null, 'positiveint', null, 'client');
         $mform->setType('pagesize', PARAM_INT);
 
@@ -117,8 +127,12 @@ class quizanon_grading_settings_form extends moodleform {
                 $orderoptions[s($field)] = \core_user\fields::get_display_name(s($field));
             }
         }
-        $mform->addElement('select', 'order', get_string('orderattemptsby', 'quiz_grading'),
-                $orderoptions);
+        $mform->addElement(
+            'select',
+            'order',
+            get_string('orderattemptsby', 'quiz_grading'),
+            $orderoptions
+        );
 
         foreach ($this->hidden as $name => $value) {
             $mform->addElement('hidden', $name, $value);

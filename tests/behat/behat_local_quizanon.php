@@ -37,7 +37,6 @@ require_once(__DIR__ . '/../../../../question/tests/behat/behat_question_base.ph
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_local_quizanon extends behat_question_base {
-
     /**
      * Enable quizanon on instance.
      *
@@ -94,7 +93,6 @@ class behat_local_quizanon extends behat_question_base {
         $quiz = $DB->get_record('quiz', ['name' => $quizname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
         if (!$quiz) {
-
             if ($DB->record_exists('local_quizanon', ['quizid' => $cm->id])) {
                 $DB->delete_records('local_quizanon', ['quizid' => $cm->id]);
             }
