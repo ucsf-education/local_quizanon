@@ -105,3 +105,14 @@ Feature: Basic use of the local_quizanon reports
     And I click on "grade" "link" in the "Essay" "table_row"
     Then I should not see "Student1"
     And I should not see "Student2"
+
+  # refs https://github.com/ucsf-education/local_quizanon/issues/30
+  Scenario: Teacher can access grades report with Anonymous ID sort order set
+    Given Quizanon plugin is enabled for quiz "Quiz 1"
+    And the following "user preferences" exist:
+      | user     | preference         | value    |
+      | teacher1 | quiz_grading_order | usercode |
+    And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
+    When I click on "grade" "link" in the "Essay" "table_row"
+    Then I should see "Grading attempts 1 to 2 of 2"
+    And I should see "Anonymous ID" in the "Order attempts by" "select"
