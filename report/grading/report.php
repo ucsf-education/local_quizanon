@@ -20,6 +20,8 @@ require_once($CFG->dirroot . '/local/quizanon/report/grading/gradingsettings_for
 require_once($CFG->dirroot . '/mod/quiz/report/grading/report.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
+use mod_quiz\quiz_attempt;
+
 /**
  * Quiz report to help teachers manually grade questions that need it.
  *
