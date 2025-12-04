@@ -20,6 +20,8 @@ require_once($CFG->dirroot . '/local/quizanon/report/grading/gradingsettings_for
 require_once($CFG->dirroot . '/mod/quiz/report/grading/report.php');
 require_once($CFG->dirroot . '/local/quizanon/lib.php');
 
+use mod_quiz\quiz_attempt;
+
 /**
  * Quiz report to help teachers manually grade questions that need it.
  *
@@ -343,6 +345,7 @@ class quizanon_grading_report extends quiz_grading_report {
         $page = 0,
         $pagesize = null
     ) {
+        global $DB;
         $dm = new question_engine_data_mapper();
         $extraselect = '';
         if ($pagesize && $orderby != 'random') {
@@ -374,6 +377,41 @@ class quizanon_grading_report extends quiz_grading_report {
                     ) as tcreated";
             $orderby = "tcreated";
         } else if ($orderby === 'usercode') {
+            // Get the question bank usage ids for all the question attempts for this question,
+            // in the default ("random") sort order.
+            // We'll have to run this query again further down with the correct sort order - but first,
+            // we need to ensure that all users that have attempted this question have an usercode record.
+            [$ids, $count] = $dm->load_questions_usages_where_question_in_state(
+                $qubaids,
+                $summarystate,
+                $slot,
+                $questionid,
+                'random',
+                $params
+            );
+            [$asql, $params] = $DB->get_in_or_equal($ids);
+            $params[] = quiz_attempt::FINISHED;
+            $params[] = $this->quiz->id;
+            // Retrieves the IDs for all users that have attempted the given quizzes.
+            $attemptsandusers = $DB->get_records_sql(
+                "SELECT quiza.id AS attemptid, u.id AS userid
+                FROM {quiz_attempts} quiza
+                JOIN {user} u ON u.id = quiza.userid
+                WHERE quiza.uniqueid $asql AND quiza.state = ? AND quiza.quiz = ?",
+                $params
+            );
+            $userids = [];
+            foreach ($attemptsandusers as $attemptanduser) {
+                $userids[] = $attemptanduser->userid;
+            }
+            $userids = array_values(array_unique($userids));
+            // Make a pass over all users that attempted this quiz and ensure they all have a user code.
+            // Loading user codes here will create them on the fly where missing.
+            foreach ($userids as $userid) {
+                local_anonquiz_get_usercode($userid, $this->quiz->id);
+            }
+
+            // With all user codes present, we can now join on the user code table and sort by usercode.
             $qubaids->from
                 .= " JOIN {local_quizanon_usercodes} lqau ON lqau.userid = quiza.userid AND quiza.quiz = lqau.quizid";
             $orderby = 'lqau.code';
