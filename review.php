@@ -82,12 +82,12 @@ if (!empty($oldcommentlink)) {
 if ($attemptobj->is_own_attempt()) {
     if (!$attemptobj->is_finished()) {
         redirect($attemptobj->attempt_url(null, $page));
-
     } else if (!$options->attempt) {
-        $accessmanager->back_to_view_page($PAGE->get_renderer('mod_quiz'),
-                $attemptobj->cannot_review_message());
+        $accessmanager->back_to_view_page(
+            $PAGE->get_renderer('mod_quiz'),
+            $attemptobj->cannot_review_message()
+        );
     }
-
 } else if (!$attemptobj->is_review_allowed()) {
     throw new moodle_exception('noreviewattempt', 'quiz', $attemptobj->view_url());
 }
@@ -100,8 +100,13 @@ if ($showall) {
 }
 
 // Save the flag states, if they are being changed.
-if ($options->flags == question_display_options::EDITABLE && optional_param('savingflags', false,
-        PARAM_BOOL)) {
+if (
+    $options->flags == question_display_options::EDITABLE && optional_param(
+        'savingflags',
+        false,
+        PARAM_BOOL
+    )
+) {
     require_sesskey();
     $attemptobj->save_question_flags();
     redirect($attemptobj->review_url(null, $page, $showall));
@@ -110,7 +115,6 @@ if ($options->flags == question_display_options::EDITABLE && optional_param('sav
 // Work out appropriate title and whether blocks should be shown.
 if ($attemptobj->is_own_preview()) {
     navigation_node::override_active_url($attemptobj->start_attempt_url());
-
 } else {
     if (empty($attemptobj->get_quiz()->showblocks) && !$attemptobj->is_preview_user()) {
         $PAGE->blocks->show_only_fake_blocks();
@@ -158,8 +162,11 @@ if (!$attemptobj->get_quiz()->showuserpicture && $attemptobj->get_userid() != $U
 }
 
 if ($attemptobj->has_capability('mod/quiz:viewreports')) {
-    $attemptlist = $attemptobj->links_to_other_attempts($attemptobj->review_url(null, $page,
-            $showall));
+    $attemptlist = $attemptobj->links_to_other_attempts($attemptobj->review_url(
+        null,
+        $page,
+        $showall
+    ));
     if ($attemptlist) {
         $summarydata['attemptlist'] = [
             'title'   => get_string('attempts', 'quiz'),
@@ -200,7 +207,6 @@ if (!empty($overtime)) {
 // Show marks (if the user is allowed to see marks at the moment).
 $grade = quiz_rescale_grade($attempt->sumgrades, $quiz, false);
 if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades($quiz)) {
-
     if ($attempt->state != mod_quiz\quiz_attempt::FINISHED) {
         // Cannot display grade.
         $empty = true;
@@ -209,7 +215,6 @@ if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades
             'title'   => get_string('gradenoun'),
             'content' => quiz_format_grade($quiz, $grade),
         ];
-
     } else {
         // Show raw marks only if they are different from the grade (like on the view page).
         if ($quiz->grade != $quiz->sumgrades) {
@@ -230,8 +235,11 @@ if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades
             // Show the percentage using the configured number of decimal places,
             // but without trailing zeroes.
             $a->percent = html_writer::tag('b', format_float(
-                    $attempt->sumgrades * 100 / $quiz->sumgrades,
-                    $quiz->decimalpoints, true, true));
+                $attempt->sumgrades * 100 / $quiz->sumgrades,
+                $quiz->decimalpoints,
+                true,
+                true
+            ));
             $formattedgrade = get_string('outofpercent', 'quiz', $a);
         } else {
             $formattedgrade = get_string('outof', 'quiz', $a);

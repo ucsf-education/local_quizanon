@@ -28,7 +28,6 @@ require_once($CFG->dirroot . '/local/quizanon/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quizanon_last_responses_table extends quiz_last_responses_table {
-
     /**
      * Render the grade column.
      *
@@ -63,8 +62,10 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
         }
 
         return $html . html_writer::empty_tag('br') . html_writer::link(
-                new moodle_url('/local/quizanon/review.php', ['attempt' => $attempt->attempt]),
-                get_string('reviewattempt', 'quiz'), ['class' => 'reviewlink']);
+            new moodle_url('/local/quizanon/review.php', ['attempt' => $attempt->attempt]),
+            get_string('reviewattempt', 'quiz'),
+            ['class' => 'reviewlink']
+        );
     }
 
     /**
@@ -79,8 +80,12 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
 
         $flag = '';
         if ($this->is_flagged($attempt->usageid, $slot)) {
-            $flag = $OUTPUT->pix_icon('i/flagged', get_string('flagged', 'question'),
-                    'moodle', ['class' => 'questionflag']);
+            $flag = $OUTPUT->pix_icon(
+                'i/flagged',
+                get_string('flagged', 'question'),
+                'moodle',
+                ['class' => 'questionflag']
+            );
         }
 
         $feedbackimg = '';
@@ -89,24 +94,34 @@ class quizanon_last_responses_table extends quiz_last_responses_table {
             $feedbackimg = $this->icon_for_fraction($this->slot_fraction($attempt, $slot));
         }
 
-        $output = html_writer::tag('span', $feedbackimg . html_writer::tag('span',
-                $data, ['class' => $state->get_state_class(true)]) . $flag, ['class' => 'que']);
+        $output = html_writer::tag('span', $feedbackimg . html_writer::tag(
+            'span',
+            $data,
+            ['class' => $state->get_state_class(true)]
+        ) . $flag, ['class' => 'que']);
 
         $reviewparams = ['attempt' => $attempt->attempt, 'slot' => $slot];
         if (isset($attempt->try)) {
             $reviewparams['step'] = $this->step_no_for_try($attempt->usageid, $slot, $attempt->try);
         }
         $url = new moodle_url('/local/quizanon/reviewquestion.php', $reviewparams);
-        $output = $OUTPUT->action_link($url, $output,
-                new popup_action('click', $url, 'reviewquestion',
-                        ['height' => 450, 'width' => 650]),
-                ['title' => get_string('reviewresponse', 'quiz')]);
+        $output = $OUTPUT->action_link(
+            $url,
+            $output,
+            new popup_action(
+                'click',
+                $url,
+                'reviewquestion',
+                ['height' => 450, 'width' => 650]
+            ),
+            ['title' => get_string('reviewresponse', 'quiz')]
+        );
 
         if (!empty($CFG->enableplagiarism)) {
             require_once($CFG->libdir . '/plagiarismlib.php');
             $output .= plagiarism_get_links([
                 'context' => $this->context->id,
-                'component' => 'qtype_'.$this->questions[$slot]->qtype,
+                'component' => 'qtype_' . $this->questions[$slot]->qtype,
                 'cmid' => $this->context->instanceid,
                 'area' => $attempt->usageid,
                 'itemid' => $slot,

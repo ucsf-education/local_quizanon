@@ -1,4 +1,4 @@
-@local @local_quizanon
+@local @local_quizanon @local_quizanon_reports @javascript
 Feature: Basic use of the local_quizanon reports
   In order to see if the local_quizanon plugin is working
 
@@ -46,7 +46,6 @@ Feature: Basic use of the local_quizanon reports
       |   3  | True     |
       |   4  | "This is a test essay" |
 
-  @javascript
   Scenario: Teacher should see user's name in the grades report
     Given Quizanon plugin is disabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
@@ -54,7 +53,6 @@ Feature: Basic use of the local_quizanon reports
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should see user's name in the grades report when set role is editingteacher
     Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
@@ -62,7 +60,6 @@ Feature: Basic use of the local_quizanon reports
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should not see user's name in the grades report
     Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "quiz activity" page logged in as teacher1
@@ -70,28 +67,24 @@ Feature: Basic use of the local_quizanon reports
     Then I should not see "Student1"
     And I should not see "Student2"
 
-  @javascript
   Scenario: Teacher should see user's name in the responses report
     Given Quizanon plugin is disabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher1
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should see user's name in the responses report when set role is editingteacher
     Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher1
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should not see user's name in the responses report
     Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher1
     Then I should not see "Student1"
     And I should not see "Student2"
 
-  @javascript
   Scenario: Teacher should see user's name in the grades report
     Given Quizanon plugin is disabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
@@ -99,7 +92,6 @@ Feature: Basic use of the local_quizanon reports
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should see user's name in the grades report when set role is editingteacher
     Given "editingteacher" is excluded from quizanon for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
@@ -107,10 +99,20 @@ Feature: Basic use of the local_quizanon reports
     Then I should see "Student1"
     And I should see "Student2"
 
-  @javascript
   Scenario: Teacher should not see user's name in the grades report
     Given Quizanon plugin is enabled for quiz "Quiz 1"
     And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
     And I click on "grade" "link" in the "Essay" "table_row"
     Then I should not see "Student1"
     And I should not see "Student2"
+
+  # refs https://github.com/ucsf-education/local_quizanon/issues/30
+  Scenario: Teacher can access grades report with Anonymous ID sort order set
+    Given Quizanon plugin is enabled for quiz "Quiz 1"
+    And the following "user preferences" exist:
+      | user     | preference         | value    |
+      | teacher1 | quiz_grading_order | usercode |
+    And I am on the "Quiz 1" "mod_quiz > Manual grading report" page logged in as teacher1
+    When I click on "grade" "link" in the "Essay" "table_row"
+    Then I should see "Grading attempts 1 to 2 of 2"
+    And I should see "Anonymous ID" in the "Order attempts by" "select"
