@@ -45,6 +45,7 @@ export const init = () => {
                     }
                 });
                 searchButton.addEventListener('click', async function() {
+                    event.preventDefault();
                     usercode = inputElement.value;
                     let errorcontainer = document.getElementById('error-search-anon');
                     if (!usercode) {
