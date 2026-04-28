@@ -65,13 +65,13 @@ export const init = () => {
                     let userElement = Array.from(document.querySelectorAll('h4')).find(el => el.textContent.includes(usercode));
                     if (userElement) {
                         errorcontainer.attributes.setNamedItem(document.createAttribute('hidden'));
-                        userElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        userElement.scrollIntoView({behavior: 'smooth', block: 'center'});
                         userElement.style.backgroundColor = 'yellow';
                         setTimeout(() => {
                             userElement.style.backgroundColor = '';
                         }, 2000);
                     } else {
-                        errorcontainer.innerHTML =  await getString('searchinputnotfound', 'local_quizanon');
+                        errorcontainer.innerHTML = await getString('searchinputnotfound', 'local_quizanon');
                         if (errorcontainer.attributes.getNamedItem('hidden')) {
                             errorcontainer.attributes.removeNamedItem('hidden');
                         }
