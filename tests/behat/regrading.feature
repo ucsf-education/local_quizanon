@@ -50,16 +50,15 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I navigate to "Results" in current page administration
     And I press "Regrade attempts..."
     And I click on "Regrade now" "button" in the "Regrade" "dialogue"
-
-        # Note, the order is not defined, so we can only check part of the message.
-        # Also, nothing has changed in the quiz, so the regrade won't alter any scores,
-        # but this is still a useful test that the regrade process completes without errors.
+    # Note, the order is not defined, so we can only check part of the message.
+    # Also, nothing has changed in the quiz, so the regrade won't alter any scores,
+    # but this is still a useful test that the regrade process completes without errors.
     Then I should see "Quiz for testing regrading"
     And I should see "Finished regrading (2/2)"
     And I should see "Regrade completed"
     And I press "Continue"
 
-        # These next tests just serve to check we got back to the report.
+    # These next tests just serve to check we got back to the report.
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
 
@@ -74,7 +73,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Regrade completed"
     And I press "Continue"
 
-        # These next tests just serve to check we got back to the report.
+    # These next tests just serve to check we got back to the report.
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
 
@@ -139,16 +138,15 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I follow "Attempts: 2"
     And I press "Regrade attempts..."
     And I click on "Dry run" "button" in the "Regrade" "dialogue"
-        # Note, the order is not defined, so we can only check part of the message.
+    # Note, the order is not defined, so we can only check part of the message.
     Then I should see "Quiz for testing regrading"
     And I should see "Finished regrading (2/2)"
     And I should see "Regrade completed"
     And I press "Continue"
-
     And "100.00" row "Regrade" column of "attempts" table should not contain "Needed"
     And "Needed" row "Regrade" column of "attempts" table should contain "Needed"
-        # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
-        # At this point, it is showing what would change.
+    # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
+    # At this point, it is showing what would change.
     And "Needed" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
     And "Needed" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     And I press "Regrade attempts..."
@@ -157,10 +155,10 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Finished regrading (2/2)"
     And I should see "Regrade completed"
     And I press "Continue"
-        # These next tests just serve to check we got back to the report.
+    # These next tests just serve to check we got back to the report.
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
-        # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
+    # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
     And "Done" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
     And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
 
@@ -174,15 +172,15 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I follow "Attempts: 2"
     And I press "Regrade attempts..."
     And I click on "Dry run" "button" in the "Regrade" "dialogue"
-        # Note, the order is not defined, so we can only check part of the message.
+    # Note, the order is not defined, so we can only check part of the message.
     And I should see "Quiz for testing regrading"
     And I should see "Finished regrading (2/2)"
     And I should see "Regrade completed"
     And I press "Continue"
     And "100.00" row "Regrade" column of "attempts" table should not contain "Needed"
     And "Needed" row "Regrade" column of "attempts" table should contain "Needed"
-        # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
-        # At this point, it is showing what would change.
+    # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
+    # At this point, it is showing what would change.
     And "Needed" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
     And "Needed" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     Then I should see "The last dry run of a regrade found that the regrade would change the marks for 1 questions in 1 attempts."
@@ -192,10 +190,10 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Regrade completed"
     And I press "Continue"
 
-        # These next tests just serve to check we got back to the report.
+    # These next tests just serve to check we got back to the report.
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
-        # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
+    # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
     And "Done" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
     And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     And I should not see "The last dry run of a regrade found that the regrade would change the marks for 1 questions in 1 attempts."
@@ -241,7 +239,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I click on "Yes" "button"
     And I am on the "Quiz for testing regrading" "mod_quiz > edit" page
     And I should see "(latest)" in the "TF" "list_item"
-        # Create multiple question versions.
+    # Create multiple question versions.
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page
     And I choose "Edit question" action for "TF" in the question bank
     And I set the field "Correct answer" to "True"
@@ -256,7 +254,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "v1"
     And I should see "v2"
     And I should see "v3 (latest)"
-        # Set version that is going to be attempted to an older one.
+    # Set version that is going to be attempted to an older one.
     And I set the field "version" in the "TF" "list_item" to "v1"
     And user "student3" has attempted "Quiz for testing regrading" with responses:
       | slot | response |
@@ -279,7 +277,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I click on "mod-quiz-report-overview-report-selectall-attempts" "checkbox"
     And I click on "Delete selected attempts" "button"
     And I click on "Yes" "button"
-        # Create multiple question versions.
+    # Create multiple question versions.
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page
     And I choose "Delete" action for "SA" in the question bank
     And I press "Delete"
