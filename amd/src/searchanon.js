@@ -41,7 +41,7 @@ export const init = () => {
                 inputElement.addEventListener('keypress', (event) => {
                     if (event.key === 'Enter') {
                         event.preventDefault();
-                        document.getElementById('searchbutton-anon').click();
+                        searchButton.click();
                     }
                 });
                 searchButton.addEventListener('click', async function() {
