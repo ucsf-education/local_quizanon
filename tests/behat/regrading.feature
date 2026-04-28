@@ -21,12 +21,12 @@ Feature: Regrading quiz attempts using the Grades anon report
       | student1 | C1     | student        |
       | student2 | C1     | student        |
       | student3 | C1     | student        |
-    And the following "question categories" exist:
-      | contextlevel | reference | name           |
-      | Course       | C1        | Test questions |
     And the following "activities" exist:
       | activity | name                       | course | idnumber |
       | quiz     | Quiz for testing regrading | C1     | quiz1    |
+    And the following "question categories" exist:
+      | contextlevel    | reference | name           |
+      | Activity module | quiz1     | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype       | name |
       | Test questions   | truefalse   | TF   |
@@ -211,6 +211,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Overall number of students achieving grade ranges"
     And "Student One" row "Regrade" column of "attempts" table should not contain "Needed"
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page
+    And I apply question bank filter "Category" with value "Test questions"
     And I choose "Edit question" action for "TF" in the question bank
     And I set the field "Correct answer" to "False"
     And I press "id_submitbutton"
@@ -241,6 +242,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "(latest)" in the "TF" "list_item"
     # Create multiple question versions.
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page
+    And I apply question bank filter "Category" with value "Test questions"
     And I choose "Edit question" action for "TF" in the question bank
     And I set the field "Correct answer" to "True"
     And I press "id_submitbutton"
@@ -279,6 +281,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I click on "Yes" "button"
     # Create multiple question versions.
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page
+    And I apply question bank filter "Category" with value "Test questions"
     And I choose "Delete" action for "SA" in the question bank
     And I press "Delete"
     And I am on the "Quiz for testing regrading" "mod_quiz > edit" page
@@ -288,6 +291,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I click on "Yes" "button" in the "Confirm" "dialogue"
     And I click on "Add" "link"
     And I follow "a random question"
+    And I apply question bank filter "Category" with value "Test questions"
     And I press "Add random question"
     And I am on the "Quiz for testing regrading" "quiz activity" page logged in as student3
     And I click on "Attempt quiz" "button"
@@ -297,6 +301,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I press "Submit all and finish"
     And I click on "Submit" "button" in the "Submit all your answers and finish?" "dialogue"
     And I am on the "Quiz for testing regrading" "mod_quiz > question bank" page logged in as teacher
+    And I apply question bank filter "Category" with value "Test questions"
     And I choose "Edit question" action for "TF" in the question bank
     And I set the field "Correct answer" to "False"
     And I press "id_submitbutton"
