@@ -50,21 +50,21 @@ export const init = () => {
                     let errorcontainer = document.getElementById('error-search-anon');
                     if (!usercode) {
                         errorcontainer.innerHTML = await getString('searchinputempty', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                         return;
                     }
                     if (!/^[a-z0-9]{6}$/i.test(usercode)) {
                         errorcontainer.innerHTML = await getString('searchinputinvalid', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                         return;
                     }
                     let userElement = Array.from(document.querySelectorAll('h4')).find(el => el.textContent.includes(usercode));
                     if (userElement) {
-                        errorcontainer.attributes.setNamedItem(document.createAttribute('hidden'));
+                        errorcontainer.style.display = 'none';
                         userElement.scrollIntoView({behavior: 'smooth', block: 'center'});
                         userElement.style.backgroundColor = 'yellow';
                         setTimeout(() => {
@@ -72,8 +72,8 @@ export const init = () => {
                         }, 2000);
                     } else {
                         errorcontainer.innerHTML = await getString('searchinputnotfound', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                     }
                 });
