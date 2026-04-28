@@ -25,13 +25,13 @@ import Templates from 'core/templates';
 import {get_string as getString} from 'core/str';
 
 export const init = () => {
-    var searchInput = document.getElementById('id_anonsearch');
+    let searchInput = document.getElementById('id_anonsearch');
     searchInput.setAttribute('hidden', 'hidden');
     let searchButton;
     let inputElement;
     let usercode;
     if (searchInput) {
-        Templates.render('local_quizanon/searchbar', {searchInput: searchInput})
+        Templates.render('local_quizanon/searchbar', {searchInput})
             .then((html) => {
                 let newSearchInput = document.createElement('div');
                 searchInput.parentElement.appendChild(newSearchInput);
