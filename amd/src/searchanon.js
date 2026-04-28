@@ -77,6 +77,7 @@ export const init = () => {
                         }
                     }
                 });
+                return true;
             }).catch((error) => window.console.error(error));
     }
 };
