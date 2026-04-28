@@ -61,8 +61,8 @@ Feature: Basic use of the Responses quiz_anon report
     And I set the field "Attempts from" to "enrolled users who have, or do not have, a quiz attempt"
     And I set the field "Which tries" to "All tries"
     And I press "Show report"
-    And "Finished" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "responses" table should contain "33.33"
-    And "Finished" row "Response 1Sort by Response 1 Ascending" column of "responses" table should contain "3.14"
+    And "Finished" row "Grade/100.00" column of "responses" table should contain "33.33"
+    And "Finished" row "Response 1" column of "responses" table should contain "3.14"
 
   @javascript
   Scenario: Report does not allow strange combinations of options

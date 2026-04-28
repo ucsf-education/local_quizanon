@@ -95,10 +95,10 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Finished regrading (2/2)"
     And I should see "Regrade completed"
     And I press "Continue"
-    And "Done" row "Q. 1/50.00Sort by Q. 1/50.00 Ascending" column of "attempts" table should contain "50.00/0.00"
-    And "Done" row "Q. 1/50.00Sort by Q. 1/50.00 Ascending" column of "attempts" table should contain "50.00/0.00"
-    And "Done" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "100.00/50.00"
-    And "Done" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/40.00"
+    And "Done" row "Q. 1/50.00" column of "attempts" table should contain "50.00/0.00"
+    And "Done" row "Q. 1/50.00" column of "attempts" table should contain "50.00/0.00"
+    And "Done" row "Grade/100.00" column of "attempts" table should contain "100.00/50.00"
+    And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/40.00"
 
   Scenario: Regrade selected attempts and selected questions.
     Given I am on the "Quiz for testing regrading" "mod_quiz > edit" page logged in as teacher
@@ -126,8 +126,8 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Finished regrading (1/1)"
     And I should see "Regrade completed"
     And I press "Continue"
-    And "Done" row "Q. 1/50.00Sort by Q. 1/50.00 Ascending" column of "attempts" table should contain "50.00/0.00"
-    And "Done" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/40.00"
+    And "Done" row "Q. 1/50.00" column of "attempts" table should contain "50.00/0.00"
+    And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/40.00"
 
   Scenario: Dry-run all attempts, then regrade all attempts.
     Given I am on the "Quiz for testing regrading" "mod_quiz > edit" page logged in as teacher
@@ -149,8 +149,8 @@ Feature: Regrading quiz attempts using the Grades anon report
     And "Needed" row "Regrade" column of "attempts" table should contain "Needed"
         # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
         # At this point, it is showing what would change.
-    And "Needed" row "Q. 2/50.00Sort by Q. 2/50.00 Ascending" column of "attempts" table should contain "40.00/25.00"
-    And "Needed" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/75.00"
+    And "Needed" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
+    And "Needed" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     And I press "Regrade attempts..."
     And I click on "Regrade now" "button" in the "Regrade" "dialogue"
     And I should see "Quiz for testing regrading"
@@ -161,8 +161,8 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
         # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
-    And "Done" row "Q. 2/50.00Sort by Q. 2/50.00 Ascending" column of "attempts" table should contain "40.00/25.00"
-    And "Done" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/75.00"
+    And "Done" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
+    And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
 
   Scenario: Dry-run a full regrade, then regrade the commit regrade.
     Given I am on the "Quiz for testing regrading" "mod_quiz > edit" page logged in as teacher
@@ -183,8 +183,8 @@ Feature: Regrading quiz attempts using the Grades anon report
     And "Needed" row "Regrade" column of "attempts" table should contain "Needed"
         # In the following, the first number is strike-through, and the second is not, but Behat can't see that.
         # At this point, it is showing what would change.
-    And "Needed" row "Q. 2/50.00Sort by Q. 2/50.00 Ascending" column of "attempts" table should contain "40.00/25.00"
-    And "Needed" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/75.00"
+    And "Needed" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
+    And "Needed" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     Then I should see "The last dry run of a regrade found that the regrade would change the marks for 1 questions in 1 attempts."
     And I press "Commit regrade"
     And I should see "Quiz for testing regrading"
@@ -196,8 +196,8 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Quiz for testing regrading"
     And I should see "Overall number of students achieving grade ranges"
         # Now, both old-score strike-through and new score plain, are still shown, but now it indicates what did change.
-    And "Done" row "Q. 2/50.00Sort by Q. 2/50.00 Ascending" column of "attempts" table should contain "40.00/25.00"
-    And "Done" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "attempts" table should contain "90.00/75.00"
+    And "Done" row "Q. 2/50.00" column of "attempts" table should contain "40.00/25.00"
+    And "Done" row "Grade/100.00" column of "attempts" table should contain "90.00/75.00"
     And I should not see "The last dry run of a regrade found that the regrade would change the marks for 1 questions in 1 attempts."
 
   Scenario: Regrade all attempts works against quiz selected question version
@@ -230,7 +230,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Regrade completed"
     And I press "Continue"
     Then "50.00" row "Regrade" column of "attempts" table should contain "Done"
-    And "Done" row "Q. 1/50.00Sort by Q. 1/50.00 Ascending" column of "attempts" table should contain "50.00/0.00"
+    And "Done" row "Q. 1/50.00" column of "attempts" table should contain "50.00/0.00"
     And "Incorrect" "icon" should appear before "50.00/0.00" "text"
 
   Scenario: Regrade all attempts works against quiz selected latest question version
@@ -270,7 +270,7 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I should see "Finished regrading (1/1)"
     And I should see "Regrade completed"
     And I press "Continue"
-    Then "Finished" row "Q. 1/50.00Sort by Q. 1/50.00 Ascending" column of "attempts" table should contain "50.00/0.00"
+    Then "Finished" row "Q. 1/50.00" column of "attempts" table should contain "50.00/0.00"
     And "Incorrect" "icon" should appear before "50.00/0.00" "text"
 
   Scenario: Regrade attempts should always regrade against latest random question version
@@ -303,12 +303,12 @@ Feature: Regrading quiz attempts using the Grades anon report
     And I set the field "Correct answer" to "False"
     And I press "id_submitbutton"
     And I navigate to "Results" in current page administration
-    And "Finished" row "Q. 1/100.00Sort by Q. 1/100.00 Ascending" column of "attempts" table should contain "100.00"
+    And "Finished" row "Q. 1/100.00" column of "attempts" table should contain "100.00"
     And "Correct" "icon" should be visible
     And I press "Regrade attempts..."
     And I click on "Regrade now" "button" in the "Regrade" "dialogue"
     And I should see "Finished regrading (1/1)"
     And I should see "Regrade completed"
     And I press "Continue"
-    Then "Finished" row "Q. 1/100.00Sort by Q. 1/100.00 Ascending" column of "attempts" table should contain "100.00/0.00"
+    Then "Finished" row "Q. 1/100.00" column of "attempts" table should contain "100.00/0.00"
     And "Incorrect" "icon" should be visible
