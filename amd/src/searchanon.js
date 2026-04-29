@@ -36,6 +36,13 @@ export const init = () => {
                 let newSearchInput = document.createElement('div');
                 searchInput.parentElement.appendChild(newSearchInput);
                 newSearchInput.innerHTML = html;
+
+                // Re-wire the original form element's label to point at the new search input element.
+                let searchLabel = document.getElementById('id_anonsearch_label');
+                if (searchLabel) {
+                    searchLabel.htmlFor = 'searchinput-anon';
+                }
+
                 searchButton = document.getElementById('searchbutton-anon');
                 inputElement = document.getElementById('searchinput-anon');
                 inputElement.addEventListener('keypress', (event) => {
