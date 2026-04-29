@@ -38,7 +38,7 @@ Feature: Basic use of the Responses quiz_anon report
     When I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher
     Then I should see "Attempts: 0"
     And I should see "Nothing to display"
-    And I set the field "Attempts from" to "enrolled users who have not attempted the quiz"
+    And I set the field "Attempts from" to "enrolled users who do not have a quiz attempt"
 
   @javascript
   Scenario: Report works when there are attempts
@@ -58,15 +58,15 @@ Feature: Basic use of the Responses quiz_anon report
     Then I should see "Attempts: 1"
     And I should not see "Student One"
     And I should not see "Student Two"
-    And I set the field "Attempts from" to "enrolled users who have, or have not, attempted the quiz"
+    And I set the field "Attempts from" to "enrolled users who have, or do not have, a quiz attempt"
     And I set the field "Which tries" to "All tries"
     And I press "Show report"
-    And "Finished" row "Grade/100.00Sort by Grade/100.00 Ascending" column of "responses" table should contain "33.33"
-    And "Finished" row "Response 1Sort by Response 1 Ascending" column of "responses" table should contain "3.14"
+    And "Finished" row "Grade/100.00" column of "responses" table should contain "33.33"
+    And "Finished" row "Response 1" column of "responses" table should contain "3.14"
 
   @javascript
   Scenario: Report does not allow strange combinations of options
     Given I am on the "Quiz 1" "mod_quiz > Responses report" page logged in as teacher
     And the "Which tries" "select" should be enabled
-    When I set the field "Attempts from" to "enrolled users who have not attempted the quiz"
+    When I set the field "Attempts from" to "enrolled users who do not have a quiz attempt"
     Then the "Which tries" "select" should be disabled

@@ -25,57 +25,65 @@ import Templates from 'core/templates';
 import {get_string as getString} from 'core/str';
 
 export const init = () => {
-    var searchInput = document.getElementById('id_anonsearch');
-    searchInput.setAttribute('hidden', 'hidden');
+    let searchInput = document.getElementById('id_anonsearch');
     let searchButton;
     let inputElement;
     let usercode;
     if (searchInput) {
-        Templates.render('local_quizanon/searchbar', {searchInput: searchInput})
+        Templates.render('local_quizanon/searchbar', {searchInput})
             .then((html) => {
                 let newSearchInput = document.createElement('div');
                 searchInput.parentElement.appendChild(newSearchInput);
                 newSearchInput.innerHTML = html;
+
+                // Re-wire the original form element's label to point at the new search input element.
+                let searchLabel = document.getElementById('id_anonsearch_label');
+                if (searchLabel) {
+                    searchLabel.htmlFor = 'searchinput-anon';
+                }
+
                 searchButton = document.getElementById('searchbutton-anon');
                 inputElement = document.getElementById('searchinput-anon');
                 inputElement.addEventListener('keypress', (event) => {
                     if (event.key === 'Enter') {
                         event.preventDefault();
-                        document.getElementById('searchbutton-anon').click();
+                        searchButton.click();
                     }
                 });
                 searchButton.addEventListener('click', async function() {
+                    event.preventDefault();
                     usercode = inputElement.value;
                     let errorcontainer = document.getElementById('error-search-anon');
                     if (!usercode) {
                         errorcontainer.innerHTML = await getString('searchinputempty', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                         return;
                     }
                     if (!/^[a-z0-9]{6}$/i.test(usercode)) {
                         errorcontainer.innerHTML = await getString('searchinputinvalid', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                         return;
                     }
                     let userElement = Array.from(document.querySelectorAll('h4')).find(el => el.textContent.includes(usercode));
                     if (userElement) {
-                        errorcontainer.attributes.setNamedItem(document.createAttribute('hidden'));
-                        userElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        errorcontainer.style.display = 'none';
+                        userElement.scrollIntoView({behavior: 'smooth', block: 'center'});
                         userElement.style.backgroundColor = 'yellow';
                         setTimeout(() => {
                             userElement.style.backgroundColor = '';
                         }, 2000);
                     } else {
-                        errorcontainer.innerHTML =  await getString('searchinputnotfound', 'local_quizanon');
-                        if (errorcontainer.attributes.getNamedItem('hidden')) {
-                            errorcontainer.attributes.removeNamedItem('hidden');
+                        errorcontainer.innerHTML = await getString('searchinputnotfound', 'local_quizanon');
+                        if ('block' !== errorcontainer.style.display) {
+                            errorcontainer.style.display = 'block';
                         }
                     }
                 });
-        });
+                return true;
+            }).catch((error) => window.console.error(error));
     }
 };

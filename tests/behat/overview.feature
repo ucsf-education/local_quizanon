@@ -79,13 +79,13 @@ Feature: Basic use of the Grades quizanon report
     And I should see "100.00"
 
     # Check changing the form parameters
-    And I set the field "Attempts from" to "enrolled users who have not attempted the quiz"
+    And I set the field "Attempts from" to "enrolled users who do not have a quiz attempt"
     And I press "Show report"
     # Note: teachers should not appear in the report.
     # Check student3's grade
     And I should see "-"
 
-    And I set the field "Attempts from" to "enrolled users who have, or have not, attempted the quiz"
+    And I set the field "Attempts from" to "enrolled users who have, or do not have, a quiz attempt"
     And I press "Show report"
     # Check student1's grade
     And I should see "25.00"
@@ -94,7 +94,7 @@ Feature: Basic use of the Grades quizanon report
     # Check student3's grade
     And I should see "-"
 
-    And I set the field "Attempts from" to "all users who have attempted the quiz"
+    And I set the field "Attempts from" to "all users who have a quiz attempt"
     And I press "Show report"
     # Check student1's grade
     And I should see "25.00"
