@@ -26,7 +26,6 @@ import {get_string as getString} from 'core/str';
 
 export const init = () => {
     let searchInput = document.getElementById('id_anonsearch');
-    searchInput.setAttribute('hidden', 'hidden');
     let searchButton;
     let inputElement;
     let usercode;

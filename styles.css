@@ -5,3 +5,7 @@
 .local-quizanon-gradesettings-form-search-container .input-group {
     width: fit-content;
 }
+
+fieldset#id_searchoption input#id_anonsearch {
+    display: none;
+}
